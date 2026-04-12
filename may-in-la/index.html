@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>May in LA</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #F5F0E8;
+    --terracotta: #C4653A;
+    --ocean: #2A5B6C;
+    --night: #1A1A2E;
+    --gold: #D4A853;
+    --blush: #E8C4B8;
+    --cream: #FDF8F0;
+    --sage: #8B9E82;
+    --charcoal: #2D2D2D;
+    --warm-white: #FAF7F2;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    background: linear-gradient(165deg, var(--night) 0%, #1e3a4a 35%, var(--ocean) 55%, var(--terracotta) 85%, var(--gold) 100%);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    animation: fadeUp 1.2s ease-out;
+  }
+
+  .hero-date {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(4rem, 12vw, 9rem);
+    line-height: 0.9;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 .accent {
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hero-sub {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: var(--blush);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  .hero-details {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-detail {
+    text-align: center;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hero-detail strong {
+    display: block;
+    color: var(--cream);
+    font-size: 1rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.4);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 30px;
+    background: rgba(255,255,255,0.3);
+    margin: 0.5rem auto 0;
+  }
+
+  /* ─── MAIN CONTENT ─── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ─── DAY SECTIONS ─── */
+  .day-section {
+    padding: 5rem 0 3rem;
+    position: relative;
+  }
+
+  .day-section + .day-section {
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .day-header {
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .day-label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 0.5rem;
+  }
+
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    color: var(--night);
+    line-height: 1.1;
+  }
+
+  .day-title .light {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ocean);
+  }
+
+  .day-subtitle {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--sage);
+    margin-top: 0.5rem;
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--terracotta), var(--blush), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease-out both;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.5rem;
+    top: 0.6rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 2px var(--terracotta);
+  }
+
+  .timeline-time {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: var(--terracotta);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--night);
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-body {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #555;
+  }
+
+  .timeline-body strong {
+    color: var(--charcoal);
+    font-weight: 600;
+  }
+
+  /* ─── INFO CARDS ─── */
+  .info-card {
+    background: var(--warm-white);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+    padding: 1.5rem 1.75rem;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+  }
+
+  .info-card.hotel::before { background: var(--ocean); }
+  .info-card.transport::before { background: var(--sage); }
+  .info-card.food::before { background: var(--terracotta); }
+  .info-card.activity::before { background: var(--gold); }
+  .info-card.action::before { background: #C44D56; }
+
+  .info-card .card-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .info-card.hotel .card-label { color: var(--ocean); }
+  .info-card.transport .card-label { color: var(--sage); }
+  .info-card.food .card-label { color: var(--terracotta); }
+  .info-card.activity .card-label { color: var(--gold); }
+  .info-card.action .card-label { color: #C44D56; }
+
+  .info-card .card-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--night);
+    margin-bottom: 0.4rem;
+  }
+
+  .info-card .card-body {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: #666;
+  }
+
+  .info-card .card-body a {
+    color: var(--ocean);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .info-card .card-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .info-card .meta-item {
+    font-size: 0.8rem;
+    color: #888;
+  }
+
+  .info-card .meta-item strong {
+    color: var(--charcoal);
+    display: block;
+    font-size: 0.9rem;
+  }
+
+  /* ─── OPTION PILLS ─── */
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .option-pill {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    background: rgba(42, 91, 108, 0.08);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--ocean);
+    font-weight: 500;
+  }
+
+  .option-pill.pick {
+    background: var(--terracotta);
+    color: white;
+  }
+
+  .option-pill.pick::before {
+    content: '★ ';
+    font-size: 0.7rem;
+  }
+
+  /* ─── LOGISTICS BANNER ─── */
+  .logistics-banner {
+    background: var(--night);
+    color: var(--cream);
+    padding: 4rem 0;
+    margin: 3rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logistics-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(196, 101, 58, 0.15));
+  }
+
+  .logistics-banner .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .logistics-banner h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+  }
+
+  .logistics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .logistics-item {
+    padding: 1.25rem;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .logistics-item h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .logistics-item p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .logistics-item p strong {
+    color: var(--cream);
+  }
+
+  /* ─── ACTION ITEMS ─── */
+  .action-section {
+    background: linear-gradient(135deg, #fdf2f0, #faf7f2);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 3rem 0;
+    border: 1px solid rgba(196, 101, 58, 0.12);
+  }
+
+  .action-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--night);
+    margin-bottom: 0.5rem;
+  }
+
+  .action-section .action-sub {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    color: var(--sage);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .action-list {
+    list-style: none;
+    counter-reset: action-counter;
+  }
+
+  .action-list li {
+    counter-increment: action-counter;
+    padding: 0.75rem 0 0.75rem 2.5rem;
+    position: relative;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #555;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .action-list li:last-child { border-bottom: none; }
+
+  .action-list li::before {
+    content: counter(action-counter);
+    position: absolute;
+    left: 0;
+    top: 0.75rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    background: var(--terracotta);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .action-list li strong {
+    color: var(--charcoal);
+  }
+
+  .priority {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  .priority.now {
+    background: #C44D56;
+    color: white;
+  }
+
+  .priority.soon {
+    background: var(--gold);
+    color: var(--night);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    color: #aaa;
+    font-size: 0.8rem;
+    font-style: italic;
+    font-family: 'Libre Baskerville', serif;
+  }
+
+  footer .hearts {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-style: normal;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    .hero-details { gap: 1.5rem; }
+    .timeline { padding-left: 2rem; }
+    .timeline-item::before { left: -2rem; }
+    .action-section { padding: 1.5rem; }
+    .logistics-grid { grid-template-columns: 1fr; }
+    .day-section { padding: 3rem 0 2rem; }
+    .info-card .card-meta { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-date">May 8 – 11, 2026</p>
+    <h1>May <span class="accent">in</span> LA</h1>
+    <p class="hero-sub">Sequins, sunscreen &amp; stand-up — a long weekend of dress shopping, Korean spa days, and Casey's Netflix comedy show at the Forum.</p>
+    <div class="hero-details">
+      <div class="hero-detail">Crew<strong>Cait, Max, James &amp; Amanda</strong></div>
+      <div class="hero-detail">Nights<strong>3 nights, 2 hotels</strong></div>
+      <div class="hero-detail">The Show<strong>Netflix Is a Joke Fest</strong></div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ═══════════════ LOGISTICS ═══════════════ -->
+<div class="logistics-banner">
+  <div class="container">
+    <h2>The Setup</h2>
+    <div class="logistics-grid">
+      <div class="logistics-item">
+        <h3>Hotel — Fri &amp; Sat</h3>
+        <p><strong>Sandbourne Santa Monica, Autograph Collection</strong><br>
+        1740 Ocean Ave, Santa Monica<br>
+        Beachfront boutique hotel by designer Gulla Jónsdóttir. Heated pool, Marelle restaurant, beach cruiser bikes, balcony rooms with Pacific views.<br><br>
+        <strong>$467/night</strong> cash &nbsp;|&nbsp; <strong>167k points</strong> for 2 nights<br>
+        Valet parking $72/day. Check suite availability for 4 guests.</p>
+      </div>
+      <div class="logistics-item">
+        <h3>Hotel — Sunday</h3>
+        <p><strong>The Westin Los Angeles Airport</strong><br>
+        Right next door to the LAX ConRAC rental car facility — walk the car back Monday morning. Crash pad for the early flight.<br><br>
+        <strong>31k points</strong> for 1 night<br>
+        Drop bags after Getty Villa, before heading to the Forum.</p>
+      </div>
+      <div class="logistics-item">
+        <h3>Rental Car</h3>
+        <p><strong>Budget — Fastbreak/FastLane</strong><br>
+        Full-size or intermediate SUV for 4 + luggage. Pickup Fri ~10 PM at LAX ConRAC, return Mon ~5 AM.<br><br>
+        Book direct on budget.com with Fastbreak number to skip the counter.</p>
+      </div>
+      <div class="logistics-item">
+        <h3>The Show</h3>
+        <p><strong>The Roast of Kevin Hart</strong><br>
+        Hosted by Shane Gillis<br>
+        Kia Forum, Inglewood<br>
+        Sunday, May 10 — Doors 4:00 PM, Show 7:00 PM<br><br>
+        Netflix Is a Joke Festival closing weekend. Casey is producing this one — she's sending details to us soon!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════ FRIDAY ═══════════════ -->
+<section class="day-section">
+  <div class="day-header">
+    <p class="day-label">Day One — Friday, May 8</p>
+    <h2 class="day-title">Touch <span class="light">Down</span></h2>
+    <p class="day-subtitle">Arrival night — get settled, get beachside.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">~9:30 – 10:00 PM</div>
+      <div class="timeline-title">Arrive LAX</div>
+      <div class="timeline-body">
+        Flights already booked. Head to the lower arrivals level, take the shuttle to the new ConRAC facility. Pick up the Budget rental — Fastbreak members skip the counter line.
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">~10:30 PM</div>
+      <div class="timeline-title">Check in — Sandbourne Santa Monica</div>
+      <div class="timeline-body">
+        ~20 min drive from LAX up Lincoln Blvd. Valet the car, check in, settle into beachfront vibes. Marelle restaurant serves late if you're hungry, or grab a nightcap at the Sunset Lounge rooftop.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SATURDAY ═══════════════ -->
+<section class="day-section">
+  <div class="day-header">
+    <p class="day-label">Day Two — Saturday, May 9</p>
+    <h2 class="day-title">Dresses, Scrubs <span class="light">&amp; Galbi</span></h2>
+    <p class="day-subtitle">Dress shopping, Korean spa with Amanda, dinner with the crew in KTown.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">Morning</div>
+      <div class="timeline-title">Formal Dress Shopping</div>
+      <div class="timeline-body">
+        Head to DTLA or mid-city for formal event dress shopping (~30 min from Santa Monica). Call ahead to confirm Saturday hours and whether appointments are needed.
+      </div>
+      <div class="info-card activity">
+        <div class="card-label">Dress Shop Options</div>
+        <div class="card-body">
+          <div class="options">
+            <span class="option-pill pick">CoutureShopLA — DTLA</span>
+            <span class="option-pill">Lili Bridals</span>
+            <span class="option-pill">LA Fashion District (Santee St)</span>
+          </div>
+          <p style="margin-top: 0.75rem;"><strong>CoutureShopLA</strong> (532 E 11th St) is the top pick — specializes in evening gowns, red carpet dresses, and formal event wear. Staff is highly reviewed for helping find the right fit. The Fashion District on Santee Street (9th–14th) is great if you want to browse many shops in one walk.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">Afternoon</div>
+      <div class="timeline-title">Korean Spa Day — Amanda Time</div>
+      <div class="timeline-body">
+        The main event of the afternoon. Budget 3–4 hours for the full experience — soak, scrub, sauna, and decompress. Both top picks are in Koreatown, ~25 min from Santa Monica.
+      </div>
+      <div class="info-card activity">
+        <div class="card-label">Option 1 — Wellness Retreat Vibes</div>
+        <div class="card-title">Olympic Spa</div>
+        <div class="card-body">
+          <p>Women-only spa that combines the best of a luxury day spa with traditional Korean wellness. Intimate, uncrowded (appointment or membership required). Features a halotherapy salt room, Japanese charcoal room, jade healing lounge, outdoor veranda with complimentary teas and snacks. Body scrub treatments are among the best in the city. No jjimjilbang or restaurant — this is pure, quiet spa immersion.</p>
+          <div class="card-meta">
+            <div class="meta-item">Type<strong>Women-only</strong></div>
+            <div class="meta-item">Vibe<strong>Luxury / intimate / quiet</strong></div>
+            <div class="meta-item">Book<strong>Call ahead — required</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card activity" style="margin-top: 0.75rem;">
+        <div class="card-label">Option 2 — The Full Korean Mega-Spa Experience</div>
+        <div class="card-title">Wi Spa</div>
+        <div class="card-body">
+          <p>The granddaddy of KTown spas — four floors spanning women's and men's wet rooms, a co-ed jjimjilbang with heated specialty rooms, a rooftop terrace, full Korean restaurant, and a kids zone. Open 24/7, $40 admission. You and Amanda do the gender-separated tubs, scrubs, and saunas, then meet up in the communal jjimjilbang upstairs. The scale is impressive and the rooftop is a nice touch.</p>
+          <p style="margin-top: 0.5rem; font-style: italic; color: #888;">Vibes caveat: Wi Spa is bigger, louder, and busier — especially on Saturdays. TVs are everywhere, including in the saunas, often blasting news or Korean dramas. It's more communal hangout than tranquil retreat. If you want spectacle and the iconic KTown mega-spa experience, this is it. If you want to actually decompress, Olympic is the move.</p>
+          <div class="card-meta">
+            <div class="meta-item">Type<strong>Co-ed (separated wet rooms)</strong></div>
+            <div class="meta-item">Vibe<strong>Massive / social / bustling</strong></div>
+            <div class="meta-item">Book<strong>Walk-in, 24/7</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card activity" style="margin-top: 0.75rem;">
+        <div class="card-label">Alternative</div>
+        <div class="card-title">Spa Palace</div>
+        <div class="card-body">
+          <p>Co-ed option if Max and James want in. Open 24/7, Himalayan salt room, excellent scrubs, good on-site restaurant. Large jjimjilbang with mostly muted TVs — calmer than Wi Spa. 48-hour cancellation policy for booked treatments.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">Evening</div>
+      <div class="timeline-title">Dinner in Koreatown — All Four</div>
+      <div class="timeline-body">
+        Reunite with Max and James for a memorable KTown dinner. Book a reservation now — Saturday nights fill up fast.
+      </div>
+      <div class="info-card food">
+        <div class="card-label">Dinner Recommendations</div>
+        <div class="card-body">
+          <div class="options">
+            <span class="option-pill pick">Quarters — KBBQ, MICHELIN Guide</span>
+            <span class="option-pill">Park's BBQ — the gold standard</span>
+            <span class="option-pill">Chosun Galbee — stunning patio</span>
+            <span class="option-pill">Guelaguetza — Oaxacan</span>
+            <span class="option-pill">The Prince — iconic bar</span>
+          </div>
+          <p style="margin-top: 0.75rem;"><strong>Quarters</strong> — MICHELIN Guide featured. Quarter-pound portions let you sample a wide range of cuts (galbi, pork jowl, Wagyu brisket). Full cocktail bar, cheese fondue side, and a lively group-friendly energy. Perfect format for 4 people who want to try everything.</p>
+          <p style="margin-top: 0.5rem;"><strong>Park's BBQ</strong> — The purist pick. USDA Prime and Kobe-style beef, widely considered the best KBBQ in LA. The $70 galbi short rib explains itself in one bite. Valet available.</p>
+          <p style="margin-top: 0.5rem;"><strong>Chosun Galbee</strong> — The most atmospherically memorable option. Granite tabletops, koi ponds, and a huge outdoor patio that feels like a rainforest. Upscale KBBQ.</p>
+          <p style="margin-top: 0.5rem;">Book on <strong>Resy</strong> or <strong>OpenTable</strong>. Saturday KTown KBBQ waits can hit 60–90 min at peak (7–9 PM) — reserve or arrive early.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">Late Night</div>
+      <div class="timeline-title">Back to Santa Monica</div>
+      <div class="timeline-body">
+        ~25 min drive back to the Sandbourne. Or extend the night with karaoke in KTown — it's an unspoken rule of a night out in Koreatown that you may end up in a private noraebang room.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SUNDAY ═══════════════ -->
+<section class="day-section">
+  <div class="day-header">
+    <p class="day-label">Day Three — Sunday, May 10</p>
+    <h2 class="day-title">Antiquities <span class="light">to Comedy</span></h2>
+    <p class="day-subtitle">Getty Villa, Pacific brunch, hotel swap, and the main event.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">9:30 AM</div>
+      <div class="timeline-title">Check Out — Sandbourne</div>
+      <div class="timeline-body">
+        Pack up, bags in the car. You're heading north on PCH — the Getty Villa is only 15 minutes up the coast from Santa Monica.
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">10:00 AM – 12:30 PM</div>
+      <div class="timeline-title">Getty Villa</div>
+      <div class="timeline-body">
+        A recreation of an ancient Roman country home housing Greek, Roman, and Etruscan antiquities dating back to 6,500 BC. The gardens alone are worth the trip. Currently showing <em>The Book of the Dead</em> exhibition through November 2026.
+      </div>
+      <div class="info-card activity">
+        <div class="card-label">Must Know</div>
+        <div class="card-body">
+          <p><strong>Admission is free but timed-entry reservation is required</strong> — you cannot walk in without one. Book at <a href="https://www.getty.edu/visit/villa/">getty.edu</a> as soon as possible. Sunday slots fill up weeks ahead. Parking is $20 (credit card only). Plan 2–3 hours. The Villa entrance is accessible from <strong>northbound PCH only</strong>.</p>
+        </div>
+        <div class="card-meta">
+          <div class="meta-item">Hours<strong>10 AM – 5 PM (closed Tuesdays)</strong></div>
+          <div class="meta-item">Parking<strong>$20 before 3 PM</strong></div>
+          <div class="meta-item">Duration<strong>2–3 hours</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">~12:30 – 1:30 PM</div>
+      <div class="timeline-title">Brunch</div>
+      <div class="timeline-body">
+        You're right in Pacific Palisades / Malibu territory — perfect for a coastal brunch before heading south.
+      </div>
+      <div class="info-card food">
+        <div class="card-label">Brunch Options</div>
+        <div class="card-body">
+          <div class="options">
+            <span class="option-pill pick">Geoffrey's Malibu — ocean views</span>
+            <span class="option-pill">Sweet Maple — Palisades</span>
+            <span class="option-pill">Cafe Vida — Mediterranean</span>
+            <span class="option-pill">Palisades Garden Cafe</span>
+          </div>
+          <p style="margin-top: 0.75rem;"><strong>Geoffrey's Malibu</strong> is the splurge pick — patio overlooking the Pacific, dolphins common, excellent food. A bit further up PCH but worth it. <strong>Sweet Maple</strong> is great if you want something closer and more casual in the Palisades Village.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">~2:15 PM</div>
+      <div class="timeline-title">Hotel Swap — Westin LAX</div>
+      <div class="timeline-body">
+        ~25 min drive south from Pacific Palisades. Check in, drop bags in the room — this is just a crash pad for the early Monday flight. Quick and painless.
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">~3:30 PM</div>
+      <div class="timeline-title">Pre-Show Dinner</div>
+      <div class="timeline-body">
+        The Forum is ~10 min from the LAX area. Doors at 4, show at 7 — no need to arrive until at least 5. Grab a relaxed dinner before heading over.
+      </div>
+      <div class="info-card food">
+        <div class="card-label">Pre-Show Dining</div>
+        <div class="card-body">
+          <div class="options">
+            <span class="option-pill pick">Martin's Cocina y Cantina</span>
+            <span class="option-pill">Cork &amp; Batter — 3-story rooftop</span>
+            <span class="option-pill">Post &amp; Beam</span>
+            <span class="option-pill">Sunday Gravy — fresh pasta</span>
+          </div>
+          <p style="margin-top: 0.75rem;"><strong>Martin's Cocina y Cantina</strong> — Modern Mexican with live mariachi, great margaritas, perfect pre-show energy. <strong>Cork &amp; Batter</strong> is right by the Forum with a rooftop — most convenient option.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">~5:00 PM → 7:00 PM Show</div>
+      <div class="timeline-title">🎤 The Roast of Kevin Hart</div>
+      <div class="timeline-body">
+        <strong>Kia Forum, 3900 W Manchester Blvd, Inglewood</strong><br>
+        Doors at 4:00 PM, show at 7:00 PM — aim to arrive by 5 at the earliest.<br>
+        Netflix Is a Joke Festival — hosted by Shane Gillis. Casey is producing this one for Netflix. She's sending details to us soon. The closing event of the largest comedy festival in history. Enjoy every second.
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">Late Evening</div>
+      <div class="timeline-title">Back to Westin LAX</div>
+      <div class="timeline-body">
+        Short drive back to the hotel. Set those alarms — tomorrow is early.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ MONDAY ═══════════════ -->
+<section class="day-section">
+  <div class="day-header">
+    <p class="day-label">Day Four — Monday, May 11</p>
+    <h2 class="day-title">Fly <span class="light">Home</span></h2>
+    <p class="day-subtitle">Back to Seattle. Back to reality.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-time">~4:45 AM</div>
+      <div class="timeline-title">Return Rental Car</div>
+      <div class="timeline-body">
+        Quick drive to LAX ConRAC facility. Fastbreak members can skip the return counter — park and go. Shuttle (or eventually SkyLink) to terminal.
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-time">7:00 AM</div>
+      <div class="timeline-title">Flight → SEA ✈</div>
+      <div class="timeline-body">
+        Home by ~9:30 AM Pacific. Probably still laughing about the roast.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ACTION ITEMS ═══════════════ -->
+<div class="action-section">
+  <h2>Book Now Checklist</h2>
+  <p class="action-sub">Time-sensitive items first — some of these will sell out.</p>
+  <div class="info-card hotel" style="margin-bottom: 1.5rem;">
+    <div class="card-label">Points Budget</div>
+    <div class="card-body">
+      <p><strong>Sandbourne (2 nights):</strong> 167,000 &nbsp;+&nbsp; <strong>Westin LAX (1 night):</strong> 31,000 &nbsp;=&nbsp; <strong>198,000 points total</strong></p>
+
+    </div>
+  </div>
+  <ol class="action-list">
+    <li><strong>Getty Villa timed-entry tickets</strong> — free but required. Sunday May 10, earliest slot. Book at getty.edu <span class="priority now">Book Now</span></li>
+    <li><strong>Sandbourne Santa Monica</strong> — 2 nights on Bonvoy points (May 8–10). 167k points total. Call property about suite upgrade pricing for 4 guests. <span class="priority now">Book Now</span></li>
+    <li><strong>Westin Los Angeles Airport</strong> — 1 night on points (May 10). 31k points. Next door to ConRAC rental car return. <span class="priority now">Book Now</span></li>
+    <li><strong>Budget rental car</strong> — Full-size SUV, LAX pickup Fri 10 PM → return Mon 5 AM. Book at budget.com with Fastbreak number. <span class="priority now">Book Now</span></li>
+    <li><strong>Olympic Spa appointments</strong> — Saturday afternoon, 2 guests. Call to book body scrub packages. <span class="priority now">Book Now</span></li>
+    <li><strong>Saturday dinner reservation</strong> — Quarters, Park's BBQ, or Chosun Galbee. Resy / OpenTable. Saturday KTown KBBQ fills fast — book or arrive before 6 PM. <span class="priority soon">Book Soon</span></li>
+    <li><strong>Sunday pre-show dinner reservation</strong> — Martin's Cocina y Cantina or Cork &amp; Batter. Early seating ~3 PM. <span class="priority soon">Book Soon</span></li>
+    <li><strong>Dress shops</strong> — Call CoutureShopLA and/or Lili Bridals to confirm Saturday hours and whether an appointment is needed. <span class="priority soon">Book Soon</span></li>
+  </ol>
+</div>
+
+<!-- ═══════════════ DRIVE TIMES ═══════════════ -->
+<section class="day-section" style="padding-top: 2rem;">
+  <div class="day-header">
+    <p class="day-label">Reference</p>
+    <h2 class="day-title" style="font-size: 2rem;">Drive Times <span class="light">from Sandbourne</span></h2>
+  </div>
+
+  <div class="info-card transport">
+    <div class="card-label">Approximate Drive Times (No Major Traffic)</div>
+    <div class="card-body">
+      <p><strong>→ Koreatown:</strong> 25–30 min &nbsp;|&nbsp; <strong>→ DTLA / Fashion District:</strong> 30 min</p>
+      <p><strong>→ Getty Villa (PCH north):</strong> 15 min &nbsp;|&nbsp; <strong>→ Kia Forum / Inglewood:</strong> 25 min</p>
+      <p><strong>→ LAX:</strong> 20 min &nbsp;|&nbsp; <strong>→ Westin LAX to Forum:</strong> 10 min</p>
+      <p style="margin-top: 0.5rem; font-style: italic; color: #999;">Saturday traffic note: KTown runs on the 10 Fwy. Expect 35–40 min if leaving Santa Monica after 10 AM.</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- end container -->
+
+<footer>
+  <div class="hearts">🌴</div>
+  Sequins, sunscreen &amp; stand-up<br>
+  May 8–11, 2026
+</footer>
+
+</body>
+</html>

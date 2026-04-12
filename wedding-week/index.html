@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Max & Cait — Wedding Week</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #9CAF88;
+    --sage-light: #B5C4A5;
+    --sage-muted: #C8D4BC;
+    --olive: #5C6B4F;
+    --olive-deep: #3E4A35;
+    --coral: #D4836B;
+    --coral-light: #E2A08E;
+    --coral-soft: #EDCABF;
+    --cream: #F7F3ED;
+    --cream-warm: #F0E9DF;
+    --cream-dark: #E8DFD2;
+    --text: #3A3632;
+    --text-light: #6B6560;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.7;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(170deg, var(--cream) 0%, var(--cream-warm) 40%, var(--sage-muted) 100%);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--coral-soft) 0%, transparent 70%);
+    opacity: 0.5;
+    animation: float 12s ease-in-out infinite;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--sage-light) 0%, transparent 70%);
+    opacity: 0.4;
+    animation: float 15s ease-in-out infinite reverse;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -20px) scale(1.05); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 1.2s ease-out;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-ampersand {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: var(--coral);
+    letter-spacing: 0.05em;
+    margin: 0.3rem 0;
+    animation: fadeUp 1.2s ease-out 0.2s both;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    letter-spacing: 0.04em;
+    color: var(--olive-deep);
+    line-height: 1.05;
+  }
+
+  .hero-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+    font-size: 0.85rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-top: 1.5rem;
+    animation: fadeUp 1.2s ease-out 0.4s both;
+  }
+
+  .hero-location {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--sage);
+    margin-top: 0.5rem;
+    animation: fadeUp 1.2s ease-out 0.5s both;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--coral);
+    margin: 2rem auto;
+    animation: fadeUp 1.2s ease-out 0.6s both;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    z-index: 1;
+    animation: fadeUp 1.2s ease-out 0.8s both, bobble 3s ease-in-out infinite;
+  }
+
+  @keyframes bobble {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  .hero-scroll span {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 1.2rem;
+  }
+
+  /* ── Navigation ── */
+  .day-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream);
+    border-bottom: 1px solid var(--cream-dark);
+    padding: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    backdrop-filter: blur(10px);
+  }
+
+  .day-nav::-webkit-scrollbar { display: none; }
+
+  .day-nav-inner {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    min-width: max-content;
+    margin: 0 auto;
+  }
+
+  .day-nav a {
+    display: block;
+    padding: 1rem 1.3rem;
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .day-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--coral);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .day-nav a:hover { color: var(--olive-deep); }
+  .day-nav a:hover::after { width: 60%; }
+
+  /* ── Main Content ── */
+  .content {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── Day Sections ── */
+  .day-section {
+    padding: 5rem 0 3rem;
+    border-bottom: 1px solid var(--cream-dark);
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .day-section:last-child { border-bottom: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .day-header {
+    margin-bottom: 3rem;
+    position: relative;
+  }
+
+  .day-label {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 0.4rem;
+  }
+
+  .day-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--olive-deep);
+    line-height: 1.2;
+  }
+
+  .day-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--sage);
+  }
+
+  /* ── Timeline Blocks ── */
+  .timeline-block {
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .timeline-block::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    bottom: -1.5rem;
+    width: 1px;
+    background: var(--sage-muted);
+  }
+
+  .timeline-block:last-child::before { bottom: 0; }
+
+  .timeline-block::after {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 0.5rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 2px solid var(--sage);
+  }
+
+  .block-time {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--coral);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  .block-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.35rem;
+    color: var(--olive-deep);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .block-text {
+    color: var(--text-light);
+    font-size: 0.92rem;
+    margin-bottom: 0.6rem;
+  }
+
+  /* ── Venue Cards ── */
+  .venue-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-left: 3px solid var(--sage);
+    box-shadow: 0 2px 15px rgba(92, 107, 79, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .venue-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(92, 107, 79, 0.1);
+  }
+
+  .venue-card.coral-accent { border-left-color: var(--coral); }
+  .venue-card.olive-accent { border-left-color: var(--olive); }
+
+  .venue-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--olive-deep);
+    margin-bottom: 0.3rem;
+  }
+
+  .venue-meta {
+    font-size: 0.78rem;
+    color: var(--sage);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+  }
+
+  .venue-details {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    line-height: 1.7;
+  }
+
+  .venue-details ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .venue-details li {
+    padding: 0.15rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .venue-details li::before {
+    content: '·';
+    position: absolute;
+    left: 0.3rem;
+    color: var(--sage);
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  /* ── Tags ── */
+  .tag {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 0.4rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .tag-dog {
+    background: var(--sage-muted);
+    color: var(--olive-deep);
+  }
+
+  .tag-book {
+    background: var(--coral-soft);
+    color: var(--coral);
+  }
+
+  .tag-ferry {
+    background: var(--cream-dark);
+    color: var(--text-light);
+  }
+
+  /* ── Tip Callouts ── */
+  .tip {
+    background: var(--cream-warm);
+    border-radius: 10px;
+    padding: 1.1rem 1.3rem;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+    color: var(--text-light);
+    position: relative;
+    padding-left: 2.8rem;
+  }
+
+  .tip::before {
+    content: '✦';
+    position: absolute;
+    left: 1.1rem;
+    top: 1.1rem;
+    color: var(--coral);
+    font-size: 0.85rem;
+  }
+
+  .tip strong { color: var(--olive-deep); font-weight: 500; }
+
+  /* ── Options Grid ── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .options-grid { grid-template-columns: 1fr; }
+  }
+
+  .option-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.2rem;
+    border-top: 3px solid var(--sage-muted);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  }
+
+  .option-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: var(--olive-deep);
+    margin-bottom: 0.4rem;
+  }
+
+  .option-card p {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  /* ── Checklist ── */
+  .checklist-section {
+    padding: 4rem 0;
+  }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--cream-dark);
+    gap: 1rem;
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .priority {
+    flex-shrink: 0;
+    width: 48px;
+    height: 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.15rem;
+  }
+
+  .priority-high {
+    background: var(--coral-soft);
+    color: var(--coral);
+  }
+
+  .priority-med {
+    background: #F5E6C8;
+    color: #B8943E;
+  }
+
+  .priority-low {
+    background: var(--sage-muted);
+    color: var(--olive);
+  }
+
+  .checklist-item {
+    flex: 1;
+  }
+
+  .checklist-item strong {
+    font-weight: 500;
+    color: var(--olive-deep);
+    display: block;
+    font-size: 0.95rem;
+  }
+
+  .checklist-item span {
+    font-size: 0.82rem;
+    color: var(--text-light);
+  }
+
+  /* ── Section Dividers ── */
+  .section-ornament {
+    text-align: center;
+    padding: 1.5rem 0;
+    color: var(--sage-muted);
+    font-size: 1.2rem;
+    letter-spacing: 0.8em;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    background: linear-gradient(0deg, var(--sage-muted) 0%, var(--cream) 100%);
+  }
+
+  .footer-emoji {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--olive-deep);
+  }
+
+  .footer p {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    margin-top: 0.5rem;
+    letter-spacing: 0.15em;
+  }
+
+  /* ── Wedding Emoji ── */
+  .ceremony-highlight {
+    background: linear-gradient(135deg, var(--cream-warm) 0%, white 50%, var(--coral-soft) 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    margin: 1.5rem 0;
+    border: 1px solid var(--coral-soft);
+  }
+
+  .ceremony-highlight .time-badge {
+    display: inline-block;
+    background: var(--coral);
+    color: white;
+    padding: 0.35rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .ceremony-highlight h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: var(--olive-deep);
+  }
+
+  .ceremony-highlight p {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    margin-top: 0.3rem;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+  }
+
+  /* ── Ferry Info Box ── */
+  .ferry-box {
+    background: white;
+    border-radius: 12px;
+    padding: 1.3rem 1.5rem;
+    margin: 1rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  }
+
+  .ferry-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .ferry-info h4 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--olive-deep);
+    margin-bottom: 0.2rem;
+  }
+
+  .ferry-info p {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .content { padding: 0 1.2rem; }
+    .timeline-block { padding-left: 2rem; }
+    .day-section { padding: 3.5rem 0 2rem; }
+    .venue-card { padding: 1.2rem; }
+    .day-nav a { padding: 0.8rem 0.9rem; font-size: 0.62rem; }
+  }
+
+  /* ── Venue Photos ── */
+  .venue-photo {
+    width: 100%;
+    border-radius: 12px;
+    margin: 1rem 0;
+    overflow: hidden;
+    position: relative;
+    max-height: 260px;
+  }
+
+  .venue-photo img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.9) brightness(0.97);
+    transition: filter 0.4s ease, transform 0.6s ease;
+  }
+
+  .venue-photo:hover img {
+    filter: saturate(1) brightness(1);
+    transform: scale(1.02);
+  }
+
+  .venue-photo .photo-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem 1rem 0.8rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.45));
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.02em;
+  }
+
+  .venue-card .venue-photo {
+    margin: -1.5rem -1.5rem 1rem -1.5rem;
+    width: calc(100% + 3rem);
+    border-radius: 12px 12px 0 0;
+    max-height: 200px;
+  }
+
+  .venue-card .venue-photo img {
+    height: 200px;
+    border-radius: 12px 12px 0 0;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Max</h1>
+    <div class="hero-ampersand">&</div>
+    <h1>Cait</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-subtitle">Wedding Week Itinerary</p>
+    <p class="hero-location">Port Townsend & Whidbey Island · June 15–20, 2026</p>
+  </div>
+  <div class="hero-scroll">
+    scroll
+    <span>↓</span>
+  </div>
+</section>
+
+<!-- ═══════ NAV ═══════ -->
+<nav class="day-nav">
+  <div class="day-nav-inner">
+    <a href="#monday">Mon 6/15</a>
+    <a href="#tuesday">Tue 6/16</a>
+    <a href="#wednesday">Wed 6/17</a>
+    <a href="#thursday">Thu 6/18</a>
+    <a href="#friday">Fri 6/19</a>
+    <a href="#saturday">Sat 6/20</a>
+    <a href="#checklist">Checklist</a>
+  </div>
+</nav>
+
+<div class="content">
+
+<!-- ═══════ MONDAY ═══════ -->
+<section class="day-section" id="monday">
+  <div class="day-header">
+    <div class="day-label">Monday, June 15</div>
+    <h2 class="day-title">Monday — <em>Arrivals</em></h2>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Afternoon / Evening</div>
+    <div class="block-title">Family Arrives</div>
+    <p class="block-text">
+      Cait's family: parents Chris & Marsheila fly in from NC and stay with sister Amanda and her husband James (local). Max's family: dad Tony (Poppa Cap) arriving from FL, sister Casey arriving from LA.
+    </p>
+
+    <div class="venue-card">
+      <div class="venue-photo">
+        <img src="https://populusseattle.com/app/uploads/2025/05/PopulusSeattle_EntryStairs1-1024x683.jpg" alt="Populus Seattle lobby">
+        <div class="photo-caption">Populus Seattle, Pioneer Square</div>
+      </div>
+      <div class="venue-name">Populus Seattle <span class="tag tag-book">Book Now</span></div>
+      <div class="venue-meta">100 S King St, Pioneer Square · <a href="https://populusseattle.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">populusseattle.com</a></div>
+      <div class="venue-details">
+        <ul>
+          <li>Carbon-positive boutique hotel in a restored 1907 warehouse</li>
+          <li>Biophilic design, natural materials, Pacific NW storytelling</li>
+          <li>Salt Harvest restaurant on-site, Firn rooftop bar</li>
+          <li>Book rooms for Casey and Poppa Cap, Monday night</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="block-text">
+      Everyone settles in after travel. Maybe a quick nightcap at Firn, the rooftop bar upstairs at Populus, if Casey and Poppa Cap are up for it.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════ TUESDAY ═══════ -->
+<section class="day-section" id="tuesday">
+  <div class="day-header">
+    <div class="day-label">Tuesday, June 16</div>
+    <h2 class="day-title">Tuesday — <em>Girls' Day in Port Townsend</em></h2>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Morning</div>
+    <div class="block-title">Ferry to Port Townsend</div>
+    <p class="block-text">Drive to Colman Dock downtown (~20 min from West Seattle), catch the ferry to Bainbridge Island (~35 min crossing), then drive to Port Townsend (~1 hr). About 2.5 hours total.</p>
+
+    <div class="tip">
+      <strong>Ferry tip:</strong> No reservations on this route. Arrive 30-45 min before your target sailing. Summer schedule starts June 14. Grab Molly Moon's ice cream at the Colman Dock terminal while you wait.
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Early Afternoon</div>
+    <div class="block-title">Check into Hotel</div>
+
+    <div class="venue-card">
+      <div class="venue-photo">
+        <img src="https://lirp.cdn-website.com/f6a577e5/dms3rep/multi/opt/Bishop_Hotel_Brooke_Fitts164-640w.jpg" alt="The Bishop Hotel, Port Townsend">
+        <div class="photo-caption">The Bishop Hotel, Port Townsend</div>
+      </div>
+      <div class="venue-name">The Bishop Hotel <span class="tag tag-dog">Dog Friendly</span> <span class="tag tag-book">Book ASAP</span></div>
+      <div class="venue-meta">Downtown Port Townsend · One block from the water · <a href="https://www.thebishophotel.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">thebishophotel.com</a></div>
+      <div class="venue-details">
+        <ul>
+          <li>16 fireplace suites with peninsula and downtown views</li>
+          <li>L'Occitane bath products, Turkish towels</li>
+          <li>Award-winning gardens, organic wine bar & cafe on-site</li>
+          <li>Izadora's nail salon is <em>inside the hotel</em> — perfect for girls' day</li>
+          <li>Dog fee: $25/night · Beds, toys, treats provided</li>
+          <li>Call ahead to request a dog-friendly room</li>
+        </ul>
+      </div>
+
+      <div class="tip">
+        <strong>Room plan:</strong> Suite #18 or #20 (Water View King, 3rd floor) for Cait & Max as the honeymoon suite. Amanda & James + Lucy, Mustang & Lola in Suite #11 (Deluxe King, dog-friendly, 2nd floor). Additional suites for Chris & Marsheila, Poppa Cap, and Casey. Call to book a block.
+      </div>
+    </div>
+
+    <div class="venue-card" style="border-left-color: var(--cream-dark);">
+      <div class="venue-name">Runner-up: The Swan Hotel</div>
+      <div class="venue-meta">Point Hudson Marina · Waterfront · <a href="https://theswanhotel.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">theswanhotel.com</a></div>
+      <div class="venue-details">
+        <ul>
+          <li>Boutique hotel right on the marina</li>
+          <li>Dog-friendly ground floor rooms + one dog-friendly cottage</li>
+          <li>$30/pet/night · Treats, beds, bowls provided</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Afternoon</div>
+    <div class="block-title">Girls' Day — Cait, Amanda, Marsheila & Casey</div>
+
+    <div class="venue-card coral-accent">
+      <div class="venue-photo">
+        <img src="https://soakonthesound.com/wp-content/uploads/2022/09/S_S.jpg" alt="Soak on the Sound, Port Townsend">
+        <div class="photo-caption">Soak on the Sound</div>
+      </div>
+      <div class="venue-name">Soak on the Sound <span class="tag tag-book">Book Now</span></div>
+      <div class="venue-meta">242 Monroe St · (360) 385-4100 · <a href="https://soakonthesound.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">soakonthesound.com</a></div>
+      <div class="venue-details">
+        <ul>
+          <li>Private heated salt water soaking tub</li>
+          <li>Finnish steam sauna + relaxation lounge</li>
+          <li>Add-ons: chocolate truffles, cider, deep-tissue massage</li>
+          <li>Group / girls' trip bookings available — book for 4</li>
+          <li>Open Tuesday 3pm–9pm</li>
+          <li>Email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5b28343a30363a353a3c3e291b3c363a323775383436">[email&#160;protected]</a> · Allow 24-48 hr response</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="block-text" style="margin-top: 0.8rem;">
+      <strong>Optional add-ons:</strong> Manicures at Izadora's (in The Bishop), facials at Glow Natural Skin Care (244 Monroe, next door to Soak), stroll Water Street shops and galleries.
+    </p>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Afternoon</div>
+    <div class="block-title">Boys' Outing — Max, Chris, James, & Poppa Cap</div>
+    <p class="block-text">
+      While the girls are at the spa, the guys take Lucy, Mustang, and Lola out for the afternoon.
+    </p>
+
+    <div class="options-grid">
+      <div class="option-card">
+        <h4>Fort Worden State Park</h4>
+        <p>1.5 miles from downtown. Miles of trails, beach walks, old military bunkers to explore, and Point Wilson Lighthouse. Dogs on leash. Great for wearing out the pups.</p>
+      </div>
+      <div class="option-card">
+        <h4>Chetzemoka Park</h4>
+        <p>Quiet waterfront park with grassy lawns, gardens, and beach access. Named after a S'Klallam chief. There's an off-leash dog park inside the park too, so Lucy, Mustang, and Lola can run.</p>
+      </div>
+    </div>
+
+    <div class="venue-card">
+      <div class="venue-name">Jefferson County Sportsmen's Association</div>
+      <div class="venue-meta">112 Gun Club Rd, Port Townsend · <a href="https://jeffersoncountysportsmen.org/" target="_blank" style="color: var(--sage); text-decoration: underline;">jeffersoncountysportsmen.org</a></div>
+      <div class="venue-details">
+        <ul>
+          <li>Outdoor shooting facility just south of town, operating since 1962</li>
+          <li>Trap shooting, handgun, rifle, and archery</li>
+          <li>Open to non-members during select public hours</li>
+          <li>Check their calendar before driving out</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Evening</div>
+    <div class="block-title">Casual Pre-Wedding Dinner</div>
+    <p class="block-text">
+      <strong>Khu Larb Thai</strong> (225 Adams St) or <strong>Alchemy Bistro & Wine Bar</strong> (842 Washington St) for something lighter before the big day. Everyone together for the first group dinner.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════ WEDNESDAY ═══════ -->
+<section class="day-section" id="wednesday">
+  <div class="day-header">
+    <div class="day-label">Wednesday, June 17</div>
+    <h2 class="day-title">Wednesday — <em>The Wedding</em></h2>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Morning</div>
+    <div class="block-title">Leisurely Start</div>
+    <p class="block-text">
+      Everyone grabs breakfast on their own. Blue Moose Cafe on Water Street is a local favorite. Get ready at the hotel.
+    </p>
+  </div>
+
+  <div class="timeline-block">
+    <div class="venue-photo">
+      <img src="https://www.myportangeles.com/images/chetzemokaparkPT.jpg" alt="Chetzemoka Park, Port Townsend">
+      <div class="photo-caption">Chetzemoka Park, Port Townsend</div>
+    </div>
+    <div class="ceremony-highlight">
+      <div class="time-badge">Early Afternoon</div>
+      <h3>The Ceremony</h3>
+      <p>Chetzemoka Park gazebo or the courthouse lawn · Port Townsend</p>
+    </div>
+
+    <p class="block-text" style="margin-top: 1rem;">
+      Short and sweet. Vows and officiation in the park with the family, then straight to celebrating. The whole point of the week is getting both families together in a beautiful place, so we're keeping the ceremony quick and saving the real time for dinner, drinks, and each other.
+    </p>
+
+    <div class="tip">
+      <strong>Venue options:</strong> The gazebo at Chetzemoka Park or the lawn of the Jefferson County Courthouse. Both are beautiful, open-air, and perfect for a group of 8 with no reservation needed. If a courthouse officiation date opens back up, even better.
+    </div>
+
+    <div class="venue-photo" style="margin-top: 0.5rem;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Jefferson_County_Courthouse_in_Port_Townsend%2C_WA.jpg" alt="Jefferson County Courthouse, Port Townsend">
+      <div class="photo-caption">Jefferson County Courthouse, est. 1892</div>
+    </div>
+
+    <div class="tip">
+      <strong>After the ceremony:</strong> Swing by the Jefferson County Auditor's Office (1820 Jefferson St, open Mon–Fri 8:30am–4pm) to file the signed marriage license. Quick stop on the way to photos and champagne.
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Afternoon</div>
+    <div class="block-title">Wander & Photos</div>
+    <p class="block-text">
+      Take some family photos along the waterfront or among the Victorian homes in the uptown district. Grab a champagne toast at Bishop Block wine bar, then take it easy before dinner. Plenty of time to explore downtown together.
+    </p>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Evening</div>
+    <div class="block-title">Wedding Dinner</div>
+
+    <div class="venue-card coral-accent">
+      <div class="venue-name">Finistère <span class="tag tag-book">Book ASAP</span></div>
+      <div class="venue-meta">1025 Lawrence St · (360) 344-8127 · <a href="https://www.restaurantfinistere.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">restaurantfinistere.com</a> · <a href="https://resy.com/cities/seattle-wa/venues/finistere" target="_blank" style="color: var(--coral); text-decoration: underline;">Reserve on Resy</a></div>
+      <div class="venue-details">
+        <ul>
+          <li>Chef-driven, Brittany-inspired with Pacific NW roots</li>
+          <li>Locally sourced seafood, house-made pasta, incredible bread</li>
+          <li>Standouts: scallops, duck egg raviolo, fried oysters, smash burger</li>
+          <li>Open Wed–Sat · Happy hour 3–5pm · Dinner 5–8pm</li>
+          <li>Small restaurant — only ~14 tables across two rooms</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>Party of 8:</strong> Cait, Max, Chris, Marsheila, Amanda, James, Poppa Cap, and Casey. Mention the wedding when you reserve and ask about seating the group together.
+    </div>
+
+    <p class="block-text" style="margin-top: 0.6rem;">
+      <strong>Backup:</strong> Alchemy Bistro & Wine Bar (842 Washington St) — intimate, Italian-leaning, excellent cocktails, live music some nights. Open Wednesdays.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════ THURSDAY ═══════ -->
+<section class="day-section" id="thursday">
+  <div class="day-header">
+    <div class="day-label">Thursday, June 18</div>
+    <h2 class="day-title">Thursday — <em>To Whidbey Island</em></h2>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Morning</div>
+    <div class="block-title">Farewell Port Townsend</div>
+    <p class="block-text">
+      Check out by 11am. Grab one last coffee at Better Living Through Coffee, then everyone piles into the cars and heads to the PT ferry terminal.
+    </p>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Late Morning</div>
+    <div class="block-title">Ferry to Whidbey</div>
+
+    <div class="ferry-box">
+      <div class="ferry-icon">⛴</div>
+      <div class="ferry-info">
+        <h4>Port Townsend → Coupeville (Keystone)</h4>
+        <p>~35 minute crossing. <strong>Reservations available and highly recommended</strong> for mid-June. Book at <a href="https://wsdot.wa.gov/ferries" target="_blank" style="color: var(--sage); text-decoration: underline;">wsdot.wa.gov/ferries</a>. Arrive 30 min before sailing.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Midday</div>
+    <div class="block-title">Coupeville & Price Sculpture Forest</div>
+    <p class="block-text">
+      The ferry drops you right in the heart of Whidbey. Explore historic Front Street in Coupeville, grab Penn Cove mussels at a local spot, and stop by Whidbey Pies.
+    </p>
+
+    <div class="venue-card">
+      <div class="venue-photo">
+        <img src="https://sculptureforest.org/wp-content/uploads/2020/11/Gary-Gunderson-Pentillium-with-sun-and-4-year-old-daughter-Hanna-Nalani-at-Price-Sculpture-Forest-photo-by-Stacey-Glass-1280x1707.jpeg" alt="Price Sculpture Forest, Coupeville">
+        <div class="photo-caption">Price Sculpture Forest</div>
+      </div>
+      <div class="venue-name">Price Sculpture Forest</div>
+      <div class="venue-meta">678 Parker Rd, Coupeville · Free · <a href="https://sculptureforest.org/" target="_blank" style="color: var(--sage); text-decoration: underline;">sculptureforest.org</a></div>
+      <div class="venue-details">
+        <ul>
+          <li>16-acre outdoor sculpture park in a century-old forest</li>
+          <li>Two trail loops with 27+ sculptures hidden among the trees</li>
+          <li>Free self-guided audio tour on your phone (no app needed)</li>
+          <li>Walkable from downtown Coupeville (1.5 mi path) or short drive</li>
+          <li>Open daily 8am to sunset or 7pm</li>
+          <li>Amazing photo ops with sculptures, moss, and old-growth canopy</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>No dogs allowed</strong> at the Sculpture Forest. Lucy, Mustang, and Lola can hang in the car while everyone explores. It's a quick visit.
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">4:00 PM</div>
+    <div class="block-title">Check into Captain Whidbey</div>
+
+    <div class="venue-card olive-accent">
+      <div class="venue-photo">
+        <img src="https://images.squarespace-cdn.com/content/v1/5c95416cf4e531389b88abd6/1564526753656-TAC2F6QNAEZX1FKV3O2H/CaptainWhidbeyMK_106.jpg?format=2500w" alt="Captain Whidbey Inn on Penn Cove">
+        <div class="photo-caption">Captain Whidbey Inn, est. 1907</div>
+      </div>
+      <div class="venue-name">Captain Whidbey <span class="tag tag-dog">Dog Friendly</span></div>
+      <div class="venue-meta">2072 W Captain Whidbey Inn Rd, Coupeville · (360) 678-4097 · <a href="https://www.captainwhidbey.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">captainwhidbey.com</a></div>
+      <div class="venue-details">
+        <ul>
+          <li>Historic 1907 log inn perched on Penn Cove</li>
+          <li>On-site restaurant, bar, complimentary bikes (first hour free)</li>
+          <li>Fire pits with s'mores on Fridays & Saturdays</li>
+          <li>Dog fee: $50/night · Call ahead for dog-friendly rooms for Lucy, Mustang & Lola</li>
+          <li>Book rooms for the whole crew</li>
+          <li>Thin walls in historic lodge — cabins are more secluded</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>Full circle:</strong> Whidbey Island was Cait and Max's first trip away together back in 2021, and they stayed at Captain Whidbey that weekend. Nice to bring everyone back here for the week.
+    </div>
+
+    <div class="venue-photo" style="margin-top: 0.5rem;">
+      <img src="https://i.imgur.com/yhHJrfU.jpeg" alt="Cait and Max at Captain Whidbey, 2021">
+      <div class="photo-caption">Cait & Max, Captain Whidbey, 2021</div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Evening</div>
+    <div class="block-title">Dinner at Captain Whidbey</div>
+    <p class="block-text">
+      Eat at the on-site restaurant — Penn Cove mussels are the move. Afterward, drinks by the fire pit, stargazing from the dock.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════ FRIDAY ═══════ -->
+<section class="day-section" id="friday">
+  <div class="day-header">
+    <div class="day-label">Friday, June 19</div>
+    <h2 class="day-title">Friday — <em>Whidbey Adventure</em></h2>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Morning</div>
+    <div class="block-title">Ebey's Landing Bluff Trail</div>
+    <div class="venue-photo">
+      <img src="https://www.wta.org/site_images/hikes/ebeys-landing-by-shahid-durrani.jpg/@@download/image/Ebey%20Landing.%20Photo%20by%20M%26M%20Outdoors.jpeg" alt="Ebey's Landing Bluff Trail, Whidbey Island">
+      <div class="photo-caption">Ebey's Landing Bluff Trail</div>
+    </div>
+    <p class="block-text">
+      The signature Whidbey hike — 3.5 to 5.2 miles depending on your route. Coastal bluffs 200+ feet above Puget Sound with views of the Olympic Mountains, Port Townsend across the water, and Mt. Rainier on a clear day. Dogs welcome on leash.
+    </p>
+    <div class="tip">
+      <strong>Trailhead tip:</strong> Start from Prairie Overlook (Sunnyside Cemetery) for the full experience. Discover Pass required. Check tides if doing the beach loop — avoid high tide. ~15 min drive from Captain Whidbey.
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Afternoon</div>
+    <div class="block-title">Pick Your Adventure</div>
+
+    <div class="options-grid">
+      <div class="option-card" style="border-top-color: var(--sage);">
+        <h4>🐕 For the Dogs</h4>
+        <p><strong>Double Bluff Beach</strong> — 2-mile off-leash beach, Mt. Rainier views (~35 min south). Or <strong>Greenbank Farm</strong> — 3 miles off-leash trails plus pie, cheese, and wine shops (~20 min south). Lucy, Mustang & Lola paradise.</p>
+      </div>
+      <div class="option-card" style="border-top-color: var(--coral);">
+        <h4>🥂 For the Humans</h4>
+        <p><strong>Spoiled Dog Winery</strong> — dog-friendly outdoor tasting. Or explore <strong>Langley</strong> — charming village with boutiques and the Saltwater Fish House (pet-friendly patio). Kayak from Captain Whidbey's dock.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Evening</div>
+    <div class="block-title">Last Night on the Island</div>
+    <p class="block-text">
+      Dinner at Captain Whidbey restaurant or drive into Coupeville. S'mores at the lodge fire pit — staff-tended on Friday evenings.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════ SATURDAY ═══════ -->
+<section class="day-section" id="saturday">
+  <div class="day-header">
+    <div class="day-label">Saturday, June 20</div>
+    <h2 class="day-title">Saturday — <em>Homeward</em></h2>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Morning</div>
+    <div class="block-title">Deception Pass State Park</div>
+    <div class="venue-photo">
+      <img src="https://stateofwatourism.com/wp-content/uploads/2023/09/Sujata-Jana-EyeEm-via-Getty-Images-1333x1000.jpg" alt="Deception Pass Bridge, Whidbey Island">
+      <div class="photo-caption">Deception Pass Bridge</div>
+    </div>
+    <p class="block-text">
+      Check out of Captain Whidbey and drive north on SR-20 (~25 min). Deception Pass is on the way home. Discover Pass required ($30/year or $10/day). Dogs allowed on leash throughout.
+    </p>
+
+    <div class="options-grid">
+      <div class="option-card">
+        <h4>Deception Pass Bridge</h4>
+        <p>Walk across the iconic bridge, 180 ft above swirling waters. Sidewalks on both sides with sweeping views.</p>
+      </div>
+      <div class="option-card">
+        <h4>Sand Dunes Trail</h4>
+        <p>0.8-mile paved interpretive loop at West Beach. 800+ year old Douglas fir, observation deck, Rosario Strait views. Note: ~150 ft of NE corner washed out as of Jan 2026.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Late Morning</div>
+    <div class="block-title">Drive Home via Deception Pass Bridge & I-5</div>
+
+    <div class="tip">
+      <strong>Route home:</strong> Cross Deception Pass Bridge north to Fidalgo Island, then hop on I-5 south from Burlington/Mt. Vernon. About 1.5 to 2 hours to West Seattle depending on traffic. No ferries needed.
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Rest of Weekend</div>
+    <div class="block-title">Quality Time with Family</div>
+    <p class="block-text">
+      Chris & Marsheila stay through the weekend for Amanda's birthday dinner on Sunday, then fly back to NC on Monday. Poppa Cap and Casey may head out over the weekend or Monday depending on flights. Enjoy the last stretch together in West Seattle. Brunch, show everyone around the neighborhood, decompress from an incredible week.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════ CHECKLIST ═══════ -->
+<section class="day-section checklist-section" id="checklist">
+  <div class="day-header">
+    <div class="day-label">Action Items</div>
+    <h2 class="day-title">Booking <em>Checklist</em></h2>
+  </div>
+
+  <ul class="checklist">
+    <li>
+      <div class="priority priority-high">ASAP</div>
+      <div class="checklist-item">
+        <strong>Finistère dinner reservation</strong>
+        <span>Party of 8, Wednesday June 17. Mention it's a wedding dinner. Call (360) 344-8127 or book via Resy.</span>
+      </div>
+    </li>
+    <li>
+      <div class="priority priority-high">ASAP</div>
+      <div class="checklist-item">
+        <strong>The Bishop Hotel — book room block</strong>
+        <span>Suite #18 or #20 (honeymoon) for Cait & Max. Dog-friendly suite for Amanda & James + Lucy, Mustang & Lola. Plus rooms for Chris & Marsheila, Poppa Cap, and Casey. Tues June 16 & Wed June 17.</span>
+      </div>
+    </li>
+    <li>
+      <div class="priority priority-high">ASAP</div>
+      <div class="checklist-item">
+        <strong>Captain Whidbey — dog-friendly cabin</strong>
+        <span>Rooms for the whole crew. Call (360) 678-4097 for dog-friendly room availability. Thurs June 18 & Fri June 19.</span>
+      </div>
+    </li>
+    <li>
+      <div class="priority priority-high">ASAP</div>
+      <div class="checklist-item">
+        <strong>Populus Seattle — Monday night</strong>
+        <span>Rooms for Casey and Poppa Cap. Monday June 15. populusseattle.com</span>
+      </div>
+    </li>
+    <li>
+      <div class="priority priority-high">ASAP</div>
+      <div class="checklist-item">
+        <strong>Soak on the Sound — group of 4</strong>
+        <span>Cait, Amanda, Marsheila, and Casey. Email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="582b373933353936393f3d2a183f35393134763b3735">[email&#160;protected]</a>. Allow 24-48 hr response time.</span>
+      </div>
+    </li>
+    <li>
+      <div class="priority priority-med">Soon</div>
+      <div class="checklist-item">
+        <strong>PT → Coupeville ferry reservation</strong>
+        <span>Thursday June 18. Book at wsdot.wa.gov/ferries. Popular mid-June crossing.</span>
+      </div>
+    </li>
+    <li>
+      <div class="priority priority-med">Soon</div>
+      <div class="checklist-item">
+        <strong>Marriage license</strong>
+        <span>Confirm Jefferson County Superior Court requirements and timing.</span>
+      </div>
+    </li>
+    <li>
+      <div class="priority priority-low">Before trip</div>
+      <div class="checklist-item">
+        <strong>Discover Pass</strong>
+        <span>$30/year at parks.wa.gov or REI. Needed for Deception Pas

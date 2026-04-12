@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAIT — Ops Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --peach: #FCEADE;
+    --peach-deep: #F5D0B5;
+    --coral: #F2A07B;
+    --coral-warm: #E8896A;
+    --blush: #FDF5F0;
+    --cream: #FFF9F5;
+    --magenta: #C2185B;
+    --magenta-glow: #E91E80;
+    --magenta-soft: rgba(194, 24, 91, 0.08);
+    --chartreuse: #8CB800;
+    --chartreuse-bright: #A5D610;
+    --chartreuse-soft: rgba(140, 184, 0, 0.1);
+    --text: #2D1F1A;
+    --text-mid: #7A5F52;
+    --text-dim: #B89E92;
+    --text-faint: #D9C8BE;
+    --border: rgba(45, 31, 26, 0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Chakra Petch', monospace;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(rgba(194, 24, 91, 0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(194, 24, 91, 0.018) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .orb-1 {
+    top: -15%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(242, 160, 123, 0.25) 0%, transparent 65%);
+  }
+
+  .orb-2 {
+    bottom: -20%;
+    left: -15%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(194, 24, 91, 0.08) 0%, transparent 65%);
+  }
+
+  .orb-3 {
+    top: 40%;
+    right: 20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(140, 184, 0, 0.06) 0%, transparent 65%);
+  }
+
+  .shell {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  .topbar-brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--magenta);
+  }
+
+  .topbar-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--chartreuse);
+    box-shadow: 0 0 8px rgba(140, 184, 0, 0.5);
+    animation: blink 3s ease-in-out infinite;
+  }
+
+  .hero {
+    flex: 0;
+    margin-bottom: 4rem;
+    animation: fadeUp 1s ease-out 0.2s both;
+  }
+
+  .hero-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--coral-warm);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 0.95;
+    color: var(--text);
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 .glow {
+    color: var(--magenta);
+    text-shadow: 0 0 50px rgba(194, 24, 91, 0.12);
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    max-width: 500px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .missions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    flex: 1;
+  }
+
+  .mission-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 2.5rem;
+    background: var(--blush);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    animation: fadeUp 0.8s ease-out both;
+    box-shadow: 0 1px 3px rgba(45, 31, 26, 0.03);
+  }
+
+  .mission-card:nth-child(1) { animation-delay: 0.4s; }
+  .mission-card:nth-child(2) { animation-delay: 0.55s; }
+
+  .mission-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 12px;
+  }
+
+  .mission-card:nth-child(1)::before {
+    background: linear-gradient(135deg, rgba(194, 24, 91, 0.04), transparent 50%);
+  }
+
+  .mission-card:nth-child(2)::before {
+    background: linear-gradient(135deg, rgba(140, 184, 0, 0.05), transparent 50%);
+  }
+
+  .mission-card:hover::before { opacity: 1; }
+
+  .mission-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 48px rgba(45, 31, 26, 0.08);
+  }
+
+  .mission-card:nth-child(1):hover {
+    border-color: rgba(194, 24, 91, 0.2);
+    box-shadow: 0 16px 48px rgba(194, 24, 91, 0.06);
+  }
+
+  .mission-card:nth-child(2):hover {
+    border-color: rgba(140, 184, 0, 0.25);
+    box-shadow: 0 16px 48px rgba(140, 184, 0, 0.05);
+  }
+
+  .mission-index {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--chartreuse-bright);
+    transition: color 0.4s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mission-card:nth-child(1):hover .mission-index { color: var(--magenta); }
+  .mission-card:nth-child(2):hover .mission-index { color: var(--chartreuse); }
+
+  .mission-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .mission-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .mission-card:nth-child(1) .mission-tag { color: var(--magenta); }
+  .mission-card:nth-child(2) .mission-tag { color: var(--chartreuse); }
+
+  .tag-line {
+    width: 16px;
+    height: 1px;
+  }
+
+  .mission-card:nth-child(1) .tag-line { background: var(--magenta); }
+  .mission-card:nth-child(2) .tag-line { background: var(--chartreuse); }
+
+  .mission-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    transition: color 0.3s ease;
+  }
+
+  .mission-card:nth-child(1):hover .mission-title { color: var(--magenta); }
+  .mission-card:nth-child(2):hover .mission-title { color: var(--chartreuse); }
+
+  .mission-meta {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    font-weight: 300;
+  }
+
+  .mission-meta span {
+    margin: 0 0.3rem;
+    color: var(--text-faint);
+  }
+
+  .mission-arrow {
+    position: relative;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--text-dim);
+    transition: all 0.4s ease;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .mission-card:nth-child(1):hover .mission-arrow {
+    border-color: var(--magenta);
+    color: var(--magenta);
+    background: rgba(194, 24, 91, 0.06);
+    box-shadow: 0 0 20px rgba(194, 24, 91, 0.1);
+  }
+
+  .mission-card:nth-child(2):hover .mission-arrow {
+    border-color: var(--chartreuse);
+    color: var(--chartreuse);
+    background: rgba(140, 184, 0, 0.06);
+    box-shadow: 0 0 20px rgba(140, 184, 0, 0.1);
+  }
+
+  .footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeIn 1s ease-out 0.8s both;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-left {
+    font-size: 0.65rem;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .footer-right {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .footer-stat { text-align: right; }
+
+  .footer-stat-value {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-mid);
+  }
+
+  .footer-stat-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  @media (max-width: 640px) {
+    .shell { padding: 1.5rem 1.25rem 3rem; }
+    .mission-card {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 1.5rem;
+    }
+    .mission-index { font-size: 2rem; }
+    .mission-arrow { display: none; }
+    .footer { flex-direction: column; align-items: flex-start; }
+    .footer-right { gap: 2rem; }
+    .footer-stat { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<div class="shell">
+
+  <div class="topbar">
+    <div class="topbar-brand">Cait // Ops</div>
+    <div class="topbar-status">
+      <div class="status-dot"></div>
+      Systems Online
+    </div>
+  </div>
+
+  <div class="hero">
+    <p class="hero-label">Mission Control — 2026</p>
+    <h1>Trip <span class="glow">Intel</span></h1>
+    <p class="hero-desc">Active itineraries and operational plans. Select a mission to access full briefing details.</p>
+  </div>
+
+  <div class="missions">
+
+    <a href="./may-in-la/" class="mission-card">
+      <div class="mission-index">01</div>
+      <div class="mission-content">
+        <div class="mission-tag"><span class="tag-line"></span>Los Angeles</div>
+        <div class="mission-title">May in LA</div>
+        <div class="mission-meta">May 8–11 <span>·</span> Dress shopping, Korean spa, Netflix Is a Joke Fest <span>·</span> 4 crew</div>
+      </div>
+      <div class="mission-arrow">→</div>
+    </a>
+
+    <a href="./wedding-week/" class="mission-card">
+      <div class="mission-index">02</div>
+      <div class="mission-content">
+        <div class="mission-tag"><span class="tag-line"></span>Pacific Northwest</div>
+        <div class="mission-title">Wedding Week</div>
+        <div class="mission-meta">June 15–20 <span>·</span> Port Townsend & Whidbey Island <span>·</span> Max & Cait</div>
+      </div>
+      <div class="mission-arrow">→</div>
+    </a>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">Cait & Max — 2026 Ops Board</div>
+    <div class="footer-right">
+      <div class="footer-stat">
+        <div class="footer-stat-value">2</div>
+        <div class="footer-stat-label">Active Missions</div>
+      </div>
+      <div class="footer-stat">
+        <div class="footer-stat-value">9</div>
+        <div class="footer-stat-label">Total Days</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
