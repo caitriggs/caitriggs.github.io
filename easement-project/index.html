@@ -1,1 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easement Replanting & Grub Treatment Schedule</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --soil: #2C1F14;
+    --bark: #4A3728;
+    --moss: #4B5E40;
+    --sage: #7A8C6E;
+    --fern: #9BAF8A;
+    --cream: #F5F0E8;
+    --parchment: #EDE5D4;
+    --rust: #A85C38;
+    --clay: #C47A4E;
+    --straw: #D4B483;
+    --sky: #8AADB5;
+    --warning: #B85C2C;
+  }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--soil);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .page-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* Header */
+  .header {
+    border-bottom: 2px solid var(--bark);
+    padding-bottom: 28px;
+    margin-bottom: 40px;
+  }
+
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 10px;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(26px, 5vw, 40px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--soil);
+    margin-bottom: 12px;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--moss);
+  }
+
+  .header-meta {
+    font-size: 13px;
+    color: var(--bark);
+    font-family: 'DM Mono', monospace;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  /* Context box */
+  .context-box {
+    background: var(--parchment);
+    border-left: 4px solid var(--moss);
+    padding: 20px 24px;
+    margin-bottom: 40px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .context-box strong {
+    font-weight: 500;
+    color: var(--bark);
+  }
+
+  /* Year label */
+  .year-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 6px;
+    padding-left: 2px;
+  }
+
+  /* Phase blocks */
+  .phase {
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .phase-header {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    align-items: center;
+    gap: 0;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .phase-date {
+    background: var(--bark);
+    color: var(--cream);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    padding: 14px 16px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+  }
+
+  .phase-title-area {
+    padding: 14px 20px;
+    background: var(--parchment);
+    border-top: 1px solid #ddd5c4;
+    border-bottom: 1px solid #ddd5c4;
+  }
+
+  .phase-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .phase-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--soil);
+    line-height: 1.2;
+  }
+
+  .phase-toggle {
+    background: var(--parchment);
+    border-top: 1px solid #ddd5c4;
+    border-bottom: 1px solid #ddd5c4;
+    border-right: 1px solid #ddd5c4;
+    padding: 14px 18px;
+    font-size: 18px;
+    color: var(--sage);
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+  }
+
+  .phase-header:hover .phase-toggle { color: var(--rust); }
+
+  .phase-body {
+    display: none;
+    padding: 20px 24px 24px;
+    border: 1px solid #ddd5c4;
+    border-top: none;
+    background: white;
+  }
+
+  .phase-body.open { display: block; }
+
+  /* Category color coding */
+  .phase.cat-diagnose .phase-date { background: var(--sky); color: var(--soil); }
+  .phase.cat-diagnose .phase-label { color: var(--sky); }
+
+  .phase.cat-treat .phase-date { background: var(--rust); }
+  .phase.cat-treat .phase-label { color: var(--rust); }
+
+  .phase.cat-prep .phase-date { background: var(--bark); }
+  .phase.cat-prep .phase-label { color: var(--bark); }
+
+  .phase.cat-plant .phase-date { background: var(--moss); }
+  .phase.cat-plant .phase-label { color: var(--moss); }
+
+  .phase.cat-maintain .phase-date { background: var(--sage); }
+  .phase.cat-maintain .phase-label { color: var(--sage); }
+
+  /* Step list inside phase */
+  .steps {
+    list-style: none;
+    margin-top: 4px;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0ebe0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--straw);
+    font-weight: 500;
+    padding-top: 2px;
+  }
+
+  .step-text strong {
+    font-weight: 500;
+    color: var(--soil);
+  }
+
+  /* Product tags */
+  .product-tag {
+    display: inline-block;
+    background: var(--parchment);
+    border: 1px solid var(--straw);
+    color: var(--bark);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 2px;
+    margin: 2px 2px 0 0;
+    white-space: nowrap;
+  }
+
+  .product-tag.where {
+    background: #e8f0e4;
+    border-color: var(--fern);
+    color: var(--moss);
+  }
+
+  .product-tag.warning {
+    background: #fbeee8;
+    border-color: var(--clay);
+    color: var(--warning);
+  }
+
+  /* Notes */
+  .phase-note {
+    margin-top: 14px;
+    padding: 12px 16px;
+    background: var(--parchment);
+    border-left: 3px solid var(--straw);
+    font-size: 13px;
+    color: var(--bark);
+    line-height: 1.6;
+  }
+
+  .phase-note strong { font-weight: 500; color: var(--soil); }
+
+  /* Cost table */
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 13px;
+  }
+
+  .cost-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--parchment);
+    border-bottom: 2px solid var(--straw);
+    color: var(--bark);
+  }
+
+  .cost-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #ede5d4;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .cost-table tr:last-child td { border-bottom: none; }
+
+  .cost-total td {
+    font-weight: 500;
+    border-top: 2px solid var(--bark);
+    background: var(--parchment);
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--bark);
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd5c4;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--sage);
+    line-height: 1.8;
+  }
+
+  .source-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--sage);
+    border-bottom: 1px dashed var(--sage);
+    text-decoration: none;
+    margin-top: 6px;
+    margin-right: 8px;
+    letter-spacing: 0.03em;
+  }
+  .source-tag:hover { color: var(--moss); border-bottom-color: var(--moss); }
+  .source-line {
+    margin-top: 8px;
+    display: block;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 520px) {
+    .phase-header { grid-template-columns: 80px 1fr 36px; }
+    .phase-date { font-size: 10px; padding: 10px 10px; min-height: 56px; }
+    .phase-title { font-size: 15px; }
+    .header-meta { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <header class="header">
+    <div class="header-eyebrow">Shared Easement Project &mdash; West Seattle</div>
+    <h1>Grub Treatment &amp; <em>Replanting</em> Schedule</h1>
+    <div class="header-meta">
+      <span>Spring 2026 &rarr; Spring 2027</span>
+      <span>Prepared April 2026</span>
+      <span>Shared with neighbors</span>
+    </div>
+  </header>
+
+  <div class="context-box">
+    <strong>Background:</strong> We lost mature birch trees (as tall as our townhomes) to wood-boring beetle damage over 1&ndash;2 years, dying top-down one at a time. Following a $15,000 easement replanting, we subsequently lost a Japanese Stewartia and all of our blue fescue grass. The exact cause of those losses is not fully confirmed, but likely involves some combination of: <strong>soil-dwelling beetle grubs</strong> eating plant roots (European chafer and/or other scarab species common in West Seattle), <strong>inadequate watering</strong> during the Stewartia&rsquo;s establishment period, and/or <strong>poor drainage</strong> at the planting site. Grub species have not been formally identified &mdash; Phase 1 of this schedule confirms what we&rsquo;re dealing with before we treat.<br><br>
+    <strong>Key principle:</strong> Diagnose first, then treat the soil before spending another dollar on plants. The Swanson Nursery rep confirmed this sequencing and specifically recommended testing drainage at the Stewartia site.
+    <span class="source-line">
+      <a class="source-tag" href="https://www.westseattlenursery.com/blog/white-grubs-amp-beetles-in-our-lawns-whats-here-now-whats-new-and-how-to-manage-them" target="_blank">&#8599; WSN: White Grubs &amp; Beetles in Our Lawns (Feb 2025)</a>
+      <a class="source-tag" href="https://www.westseattlenursery.com/blog/why-are-crows-raccoons-and-squirrels-eating-our-lawns-what-to-do-about-european-chafers" target="_blank">&#8599; WSN: European Chafer Grubs (Mar 2025)</a>
+      <a class="source-tag" href="#" style="cursor:default;">&#8599; Swanson Nursery in-person consultation, April 2026</a>
+    </span>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--sky)"></div> Diagnose</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--rust)"></div> Treat</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--bark)"></div> Prep</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--moss)"></div> Plant</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--sage)"></div> Maintain</div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="year-label">2026</div>
+
+  <div class="phase cat-diagnose">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">April&nbsp;2026</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Step 1 &mdash; Diagnose</div>
+        <div class="phase-title">Confirm grubs &amp; test soil drainage</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body open">
+      <ul class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div class="step-text"><strong>Grub check:</strong> At the edge of any dead grass patch, cut three sides of a 12&quot;&times;12&quot; square of turf like a flap. Peel it back and count C-shaped white larvae with brown heads in the top 2&ndash;3 inches of soil. 10 or more per square foot confirms active infestation.
+            <span class="source-line"><a class="source-tag" href="https://www.westseattlenursery.com/blog/why-are-crows-raccoons-and-squirrels-eating-our-lawns-what-to-do-about-european-chafers" target="_blank">&#8599; WSN: European Chafer Grubs</a><a class="source-tag" href="https://pnwhandbooks.org/insect/hort/turfgrass/turfgrass-white-grub" target="_blank">&#8599; PNW Pest Management Handbook: White Grub</a></span>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div class="step-text"><strong>Drainage (percolation) test</strong> at the exact spot where the Stewartia died. Dig a hole 12&quot; wide &times; 12&quot; deep. Fill with water and let drain overnight. Refill the next morning. Measure water level drop every hour for 3 hours. <strong>Target: 1&ndash;3 inches per hour.</strong> Under 1 inch = drainage problem that needs fixing before replanting.
+            <span class="source-line"><a class="source-tag" href="#" style="cursor:default;">&#8599; Swanson Nursery in-person recommendation, April 2026</a><a class="source-tag" href="https://todayshomeowner.com/lawn-garden/guides/diy-soil-drainage-perk-test-for-your-yard/" target="_blank">&#8599; Today's Homeowner: DIY Soil Drainage Perk Test</a></span>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div class="step-text"><strong>Report findings to neighbors</strong> and decide whether drainage amendment (compost/raised soil) is needed before we replant in late May. Share results of both tests before proceeding.</div>
+        </li>
+      </ul>
+      <div class="phase-note"><strong>Cost this phase:</strong> $0 &mdash; DIY diagnostics only. No product purchases yet.</div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase cat-treat">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">April&ndash;May&nbsp;2026</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Step 2 &mdash; Treat</div>
+        <div class="phase-title">First grub treatment: kill spring larvae before pupation</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body">
+      <ul class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div class="step-text"><strong>Purchase GrubGONE!</strong> (Bacillus thuringiensis galleriae / Btg). This is the West Seattle Nursery-recommended bio-insecticide effective against all grub life stages. Safe for pollinators, pets, and beneficial insects.
+            <br><br>
+            <span class="product-tag">GrubGONE! by Green Earth Ag &amp; Turf</span>
+            <span class="product-tag where">Buy at: West Seattle Nursery</span>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div class="step-text"><strong>Water the area thoroughly</strong> the day before application so soil is moist but not waterlogged. Dry soil prevents penetration.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div class="step-text"><strong>Mix and apply per label.</strong> Dissolve in water in a hose-end sprayer or watering can. Apply evenly over all affected areas, bare patches, and anywhere turf feels loose or spongy. Cover the full easement area.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">04</span>
+          <div class="step-text"><strong>Water in immediately after application</strong> to drive the treatment 2&ndash;3 inches into the soil where grubs are actively feeding.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">05</span>
+          <div class="step-text"><strong>Repeat every 2&ndash;4 weeks through May</strong> before grubs pupate into adult beetles. This is the last window to reduce this year's generation before they emerge and lay new eggs.</div>
+        </li>
+      </ul>
+      <div class="phase-note"><strong>Why this timing matters:</strong> Grubs are rising from overwintering now and actively feeding at the root zone. After they pupate in late May, soil treatment has little effect until the next egg hatch cycle in July.
+        <span class="source-line"><a class="source-tag" href="https://www.westseattlenursery.com/blog/white-grubs-amp-beetles-in-our-lawns-whats-here-now-whats-new-and-how-to-manage-them" target="_blank">&#8599; WSN: White Grubs &amp; Beetles in Our Lawns (Feb 2025)</a><a class="source-tag" href="https://www.westseattlenursery.com/blog/why-are-crows-raccoons-and-squirrels-eating-our-lawns-what-to-do-about-european-chafers" target="_blank">&#8599; WSN: European Chafer Grubs (Mar 2025)</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase cat-treat">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">May&nbsp;2026</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Step 3 &mdash; Treat</div>
+        <div class="phase-title">Adult beetle deterrence: foliar neem spray</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body">
+      <ul class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div class="step-text"><strong>Purchase neem oil concentrate</strong> (look for &ldquo;azadirachtin&rdquo; or &ldquo;clarified hydrophobic extract of neem oil&rdquo; on the label).
+            <br><br>
+            <span class="product-tag">Bonide Neem Oil Concentrate</span>
+            <span class="product-tag">or similar azadirachtin product</span>
+            <span class="product-tag where">Buy at: WSN, hardware store, or Amazon</span>
+            <br><br>
+            <span class="product-tag warning">NOT a soil treatment &mdash; foliar only</span>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div class="step-text"><strong>Mix:</strong> 2 tablespoons neem oil concentrate per 1 gallon water, plus a few drops of dish soap as emulsifier. Use a pump sprayer.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div class="step-text"><strong>Spray in the evening only</strong> &mdash; never in direct sun or when bees are active. Coat foliage of nearby shrubs, plants, and ground cover. This deters adult beetles from feeding and laying eggs on plant surfaces.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">04</span>
+          <div class="step-text"><strong>Repeat every 7&ndash;14 days</strong> through July during adult flight season.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">05</span>
+          <div class="step-text"><strong>Do not mow below 3 inches.</strong> Closely cropped turf is more attractive to egg-laying female beetles.
+            <span class="source-line"><a class="source-tag" href="https://www.westseattlenursery.com/blog/white-grubs-amp-beetles-in-our-lawns-whats-here-now-whats-new-and-how-to-manage-them" target="_blank">&#8599; WSN: White Grubs &amp; Beetles in Our Lawns (Feb 2025)</a></span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase cat-prep">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">Late May&nbsp;2026</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Step 4 &mdash; Prep</div>
+        <div class="phase-title">Soil amendment &amp; pre-planting prep</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body">
+      <ul class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div class="step-text"><strong>If drainage test from April failed</strong> (under 1 inch/hour): amend soil at the Stewartia planting site with compost mixed to 12&quot; depth, or build up soil level slightly to improve drainage before planting.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div class="step-text"><strong>Clear dead plant material.</strong> Remove all dead blue fescue and any dead ground cover. Do not compost grub-damaged material &mdash; bag and dispose of it.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div class="step-text"><strong>Apply first round of mulch (4&ndash;5 bags)</strong> across the easement area after clearing dead plant material and before planting. Spread 2&ndash;3 inches deep over all bare soil. Keep 6 inches away from any existing plant stems and the Stewartia trunk once planted. This suppresses weeds, retains moisture, and moderates soil temperature during the treatment and planting period.
+            <br><br>
+            <span class="product-tag">Wood chip or shredded bark mulch &mdash; 4&ndash;5 bags</span>
+            <span class="product-tag where">Buy at: WSN, Swanson, or Home Depot</span>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">04</span>
+          <div class="step-text"><strong>Call West Seattle Nursery</strong> (206) 935-9276 to confirm Stewartia and Carex testacea are in stock and hold if possible. Review Swanson pricing as a comparison: Stewartia 6ft B&amp;B = $124.99, Carex 1-gal = $19.99 each.</div>
+        </li>
+      </ul>
+      <div class="phase-note"><strong>Do not purchase plants yet.</strong> Wait until nematode treatment (July) is complete before replanting ground cover. The Stewartia can go in now if drainage is confirmed acceptable.</div>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase cat-plant">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">Late May &ndash; Early June&nbsp;2026</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Step 5 &mdash; Plant</div>
+        <div class="phase-title">Replant Japanese Stewartia only</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body">
+      <ul class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div class="step-text"><strong>Purchase 1 Japanese Stewartia</strong> (6ft, balled and burlap) from Swanson Nursery. Keep receipt &mdash; Swanson guarantees all plants for their lifetime.
+            <br><br>
+            <span class="product-tag">Japanese Stewartia 6ft B&amp;B &mdash; $124.99</span>
+            <span class="product-tag">Planting service (optional) &mdash; $125.00</span>
+            <span class="product-tag where">Swanson Nursery</span>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div class="step-text"><strong>Plant in the amended hole</strong> at the same location, confirming drainage is acceptable first. Water deeply at planting and once weekly thereafter during dry periods.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div class="step-text"><strong>Apply 2&ndash;3 inches of wood chip mulch</strong> around the base to the drip line, keeping it 6 inches away from the trunk. This moderates soil temperature and retains moisture, reducing transplant stress.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">04</span>
+          <div class="step-text"><strong>Do NOT plant ground cover yet.</strong> Hold off on Carex/fescue replacement until after the July nematode treatment eliminates grubs from the root zone.</div>
+        </li>
+      </ul>
+      <div class="phase-note"><strong>Note on beetle risk:</strong> Japanese Stewartia is not a host species for bronze birch borer. The prior Stewartia death was likely site-stress related (drainage, root competition, grub damage), not beetle attack. Fixing those conditions is the priority.
+        <span class="source-line"><a class="source-tag" href="https://extension.oregonstate.edu/catalog/pub/em-9189-homeowner-guide-managing-bronze-birch-borer" target="_blank">&#8599; OSU Extension: Homeowner Guide to Managing Bronze Birch Borer</a><a class="source-tag" href="#" style="cursor:default;">&#8599; Swanson Nursery in-person consultation, April 2026</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 6 -->
+  <div class="phase cat-treat">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">June&ndash;July&nbsp;2026</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Step 6 &mdash; Treat</div>
+        <div class="phase-title">Critical window: beneficial nematodes for new egg hatch</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body">
+      <ul class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div class="step-text"><strong>Adult beetles are laying eggs now.</strong> This is the single most effective treatment window of the year. Call WSN to confirm live nematodes are in stock before heading in. They sell out in season.
+            <br><br>
+            <span class="product-tag">Beneficial Nematodes &mdash; Heterorhabditis bacteriophora (Hb) strain</span>
+            <span class="product-tag where">Buy at: West Seattle Nursery &mdash; refrigerated, ask staff</span>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div class="step-text"><strong>Buy fresh and refrigerate until same-day use.</strong> Do not freeze. Use within 2&ndash;3 days of purchase.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div class="step-text"><strong>Water the entire treatment area deeply</strong> the day before application. Moist soil is essential &mdash; nematodes cannot travel through dry soil.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">04</span>
+          <div class="step-text"><strong>Mix nematodes</strong> in a bucket of cool (not hot) water per package instructions. Stir gently. Pour into a hose-end sprayer, watering can, or pump sprayer with filter screen removed.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">05</span>
+          <div class="step-text"><strong>Apply in the evening or on a cloudy day.</strong> UV light kills nematodes. Cover the entire easement area including around the Stewartia root zone.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">06</span>
+          <div class="step-text"><strong>Water the area again immediately</strong> after application to drive nematodes 2&ndash;3 inches into the soil.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">07</span>
+          <div class="step-text"><strong>Keep soil moist</strong> by watering twice per week for 3 weeks after application. If soil dries out, nematodes die. This is non-negotiable.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">08</span>
+          <div class="step-text"><strong>Repeat nematode application in late July.</strong> Two applications in this window are significantly more effective than one. Plan to coordinate with neighbors for a joint purchase.</div>
+        </li>
+      </ul>
+      <div class="phase-note"><strong>Expected result:</strong> 60&ndash;70% reduction in grub population. This is the biological standard for nematode treatment on European chafer in Western Washington.
+        <span class="source-line"><a class="source-tag" href="https://inharmony.com/yikes-chafer-beetle-invades-washington/" target="_blank">&#8599; In Harmony Sustainable Landscapes: Chafer Beetle Invades Washington</a><a class="source-tag" href="https://www.westseattlenursery.com/blog/why-are-crows-raccoons-and-squirrels-eating-our-lawns-what-to-do-about-european-chafers" target="_blank">&#8599; WSN: European Chafer Grubs (Mar 2025)</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 7 -->
+  <div class="phase cat-plant">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">Late July &ndash; August&nbsp;2026</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Step 7 &mdash; Plant</div>
+        <div class="phase-title">Replant ground cover: Carex testacea &amp; alternatives</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body">
+      <ul class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div class="step-text"><strong>After nematode treatment is complete</strong> (minimum 3 weeks post-application), the soil is safe to replant. Purchase ground cover from Swanson or West Seattle Nursery.
+            <br><br>
+            <span class="product-tag">Carex testacea &mdash; 1-gal $19.99 ea (Swanson)</span>
+            <span class="product-tag">Ice Plant 4&quot; container &mdash; $6.99&ndash;$8.99 (Swanson)</span>
+            <span class="product-tag where">Keep all receipts &mdash; Swanson lifetime guarantee</span>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div class="step-text"><strong>Ask WSN about Carex testacea resilience</strong> and whether it is suited to the ground-level beds (not just the raised bed where it's currently surviving). They know West Seattle soil conditions specifically.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div class="step-text"><strong>Plant in the evening or on a cool overcast day</strong> to reduce transplant stress. Water immediately and keep consistently moist for the first 3&ndash;4 weeks.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">04</span>
+          <div class="step-text"><strong>Apply GrubGONE! again</strong> around new plantings as a curative pass for any new generation of grubs hatching in late summer.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 8 -->
+  <div class="phase cat-treat">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">Aug &ndash; Oct&nbsp;2026</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Step 8 &mdash; Treat</div>
+        <div class="phase-title">Fall curative: protect new plantings through winter</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body">
+      <ul class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div class="step-text"><strong>Apply a third GrubGONE! treatment</strong> in August/September targeting the new generation of grubs before they grow large enough to cause serious root damage. Same application method as Phase 2.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div class="step-text"><strong>Scout the lawn again in September.</strong> Dig several 12&quot;&times;12&quot; squares across the easement area and count grubs. If numbers are still high (10+ per sq ft), consider a professional spray service with soil penetrant &mdash; ask WSN for referrals.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div class="step-text"><strong>Top up mulch before winter (3&ndash;4 bags).</strong> By October, the first round will have broken down slightly. Refresh to 2&ndash;3 inches across the full easement area, especially around the Stewartia root zone, to insulate roots through winter. Again, keep 6 inches clear of the trunk.
+            <br><br>
+            <span class="product-tag">Shredded bark mulch &mdash; 3&ndash;4 bags</span>
+            <span class="product-tag where">Buy at: WSN, Swanson, or Home Depot</span>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">04</span>
+          <div class="step-text"><strong>Monitor Stewartia through fall.</strong> Ensure it's getting deep weekly watering during any dry stretches. Apply additional mulch before winter if needed (4&quot; maximum, away from trunk).</div>
+        </li>
+      </ul>
+      <div class="phase-note"><strong>Wildlife note:</strong> If you see crows or raccoons actively digging up the lawn in fall, grubs are still present in meaningful numbers. This is a signal to retreat, not a sign of treatment failure &mdash; it means the population is reduced but not eliminated. Continue the cycle next spring.
+        <span class="source-line"><a class="source-tag" href="https://www.seattletimes.com/seattle-news/environment/move-over-murder-hornets-theres-a-new-bug-in-town-and-its-coming-for-your-lawn/" target="_blank">&#8599; Seattle Times: European Chafer &amp; West Seattle</a><a class="source-tag" href="https://www.lawntuneups.com/seattle-european-chafer-beetles/" target="_blank">&#8599; Aerating Thatching Co: European Chafer in Seattle</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 9 -->
+  <div class="phase cat-maintain">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">Spring&nbsp;2027</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Step 9 &mdash; Maintain</div>
+        <div class="phase-title">Year two: repeat treatment cycle &amp; assess plantings</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body">
+      <ul class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div class="step-text"><strong>April:</strong> Scout for grubs again. Repeat GrubGONE! spring application as preventive maintenance.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div class="step-text"><strong>June&ndash;July:</strong> Repeat nematode treatment. This is an annual cycle for as long as European chafer is present in the neighborhood (indefinitely, per WSN).</div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div class="step-text"><strong>Assess Stewartia and Carex.</strong> If the Stewartia shows any signs of stress, contact Swanson and invoke the lifetime guarantee. Keep your original receipt.</div>
+        </li>
+        <li class="step">
+          <span class="step-num">04</span>
+          <div class="step-text"><strong>Consider long-term ground cover strategy</strong> with WSN. If Carex continues to underperform in ground-level beds, ask about replacing sections with a pollinator garden or native ground covers that are naturally grub-resistant (WSN's own recommendation).</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Cost Summary -->
+  <div class="phase cat-prep" style="margin-top:32px;">
+    <div class="phase-header" onclick="toggle(this)">
+      <div class="phase-date">Cost Summary</div>
+      <div class="phase-title-area">
+        <div class="phase-label">Shared between neighbors</div>
+        <div class="phase-title">Estimated 2026 treatment &amp; replanting costs</div>
+      </div>
+      <div class="phase-toggle">+</div>
+    </div>
+    <div class="phase-body">
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>When</th>
+            <th>Est. Cost</th>
+            <th>Where</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GrubGONE! (Btg), 2&ndash;3 applications</td>
+            <td>Apr, May, Aug&ndash;Oct</td>
+            <td>~$40&ndash;$60</td>
+            <td>West Seattle Nursery</td>
+          </tr>
+          <tr>
+            <td>Neem oil concentrate</td>
+            <td>May&ndash;July</td>
+            <td>~$15&ndash;$25</td>
+            <td>WSN / hardware store</td>
+          </tr>
+          <tr>
+            <td>Beneficial nematodes (2 applications)</td>
+            <td>June, July</td>
+            <td>~$40&ndash;$70</td>
+            <td>West Seattle Nursery</td>
+          </tr>
+          <tr>
+            <td>Mulch, round 1 (4&ndash;5 bags)</td>
+            <td>Late May</td>
+            <td>~$25&ndash;$40</td>
+            <td>WSN / Swanson / Home Depot</td>
+          </tr>
+          <tr>
+            <td>Mulch, round 2 &mdash; winter top-up (3&ndash;4 bags)</td>
+            <td>Oct</td>
+            <td>~$20&ndash;$32</td>
+            <td>WSN / Swanson / Home Depot</td>
+          </tr>
+          <tr>
+            <td>Compost/soil amendment (if drainage fails)</td>
+            <td>Late May</td>
+            <td>~$30&ndash;$50</td>
+            <td>Either nursery</td>
+          </tr>
+          <tr>
+            <td>Japanese Stewartia 6ft B&amp;B</td>
+            <td>Late May</td>
+            <td>$124.99</td>
+            <td>Swanson Nursery</td>
+          </tr>
+          <tr>
+            <td>Stewartia planting service (optional, DIY saves this)</td>
+            <td>Late May</td>
+            <td>$125.00</td>
+            <td>Swanson Nursery</td>
+          </tr>
+          <tr>
+            <td>Carex testacea 1-gal &times; 5</td>
+            <td>Late July</td>
+            <td>~$99.95</td>
+            <td>Swanson Nursery</td>
+          </tr>
+          <tr>
+            <td>Ground cover planting service (optional)</td>
+            <td>Late July</td>
+            <td>$100/plant or DIY</td>
+            <td>Swanson Nursery</td>
+          </tr>
+          <tr class="cost-total">
+            <td colspan="2"><strong>Estimated total (DIY planting)</strong></td>
+            <td><strong>~$395&ndash;$510</strong></td>
+            <td></td>
+          </tr>
+          <tr class="cost-total">
+            <td colspan="2"><strong>Estimated total (full Swanson planting service)</strong></td>
+            <td><strong>~$620&ndash;$780</strong></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="phase-note" style="margin-top:16px;"><strong>Swanson lifetime guarantee:</strong> All plants purchased from Swanson are guaranteed for their lifetime. If anything dies, bring your receipt for replacement or store credit. Keep every receipt from this point forward.</div>
+    </div>
+  </div>
+
+</div><!-- end page-wrap -->
+
+<div class="page-wrap" style="padding-top:0;">
+  <div class="footer">
+    <strong style="color:var(--bark); font-family:'DM Sans',sans-serif; font-weight:500; font-size:13px;">Sources</strong><br><br>
+    <a class="source-tag" href="https://www.westseattlenursery.com/blog/white-grubs-amp-beetles-in-our-lawns-whats-here-now-whats-new-and-how-to-manage-them" target="_blank">&#8599; WSN: White Grubs &amp; Beetles in Our Lawns (Feb 2025)</a>
+    <a class="source-tag" href="https://www.westseattlenursery.com/blog/why-are-crows-raccoons-and-squirrels-eating-our-lawns-what-to-do-about-european-chafers" target="_blank">&#8599; WSN: Why Are Crows &amp; Raccoons Eating Our Lawns? (Mar 2025)</a>
+    <a class="source-tag" href="https://pnwhandbooks.org/insect/hort/turfgrass/turfgrass-white-grub" target="_blank">&#8599; PNW Pest Management Handbook: Turfgrass White Grub</a>
+    <a class="source-tag" href="https://extension.oregonstate.edu/catalog/pub/em-9189-homeowner-guide-managing-bronze-birch-borer" target="_blank">&#8599; OSU Extension: Homeowner Guide to Managing Bronze Birch Borer</a>
+    <a class="source-tag" href="https://inharmony.com/yikes-chafer-beetle-invades-washington/" target="_blank">&#8599; In Harmony Sustainable Landscapes: Chafer Beetle Invades Washington</a>
+    <a class="source-tag" href="https://www.seattletimes.com/seattle-news/environment/move-over-murder-hornets-theres-a-new-bug-in-town-and-its-coming-for-your-lawn/" target="_blank">&#8599; Seattle Times: European Chafer &amp; West Seattle Concentrations</a>
+    <a class="source-tag" href="https://www.lawntuneups.com/seattle-european-chafer-beetles/" target="_blank">&#8599; Aerating Thatching Co: European Chafer in Seattle</a>
+    <a class="source-tag" href="https://todayshomeowner.com/lawn-garden/guides/diy-soil-drainage-perk-test-for-your-yard/" target="_blank">&#8599; Today's Homeowner: DIY Soil Drainage Perk Test</a>
+    <a class="source-tag" href="#" style="cursor:default;">&#8599; Swanson Nursery in-person consultation, April 2026 (drainage test &amp; sequencing advice)</a>
+    <br><br>
+    Questions? Bring this sheet to West Seattle Nursery at 5275 California Ave SW &middot; (206) 935-9276
+  </div>
+</div>
+
+<script>
+  function toggle(header) {
+    const body = header.parentElement.querySelector('.phase-body');
+    const btn = header.querySelector('.phase-toggle');
+    if (body.classList.contains('open')) {
+      body.classList.remove('open');
+      btn.textContent = '+';
+    } else {
+      body.classList.add('open');
+      btn.textContent = '−';
+    }
+  }
+</script>
+</body>
+</html>
