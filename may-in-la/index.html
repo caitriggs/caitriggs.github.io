@@ -524,6 +524,142 @@
     font-style: normal;
   }
 
+  /* ─── EXPANDABLE PLAN ─── */
+  .expand-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    background: rgba(212, 168, 83, 0.08);
+    border: 1px solid rgba(212, 168, 83, 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ocean);
+    letter-spacing: 0.03em;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: left;
+  }
+
+  .expand-toggle:hover {
+    background: rgba(212, 168, 83, 0.14);
+    border-color: rgba(212, 168, 83, 0.25);
+  }
+
+  .expand-toggle .chevron {
+    transition: transform 0.3s ease;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .expand-toggle.open .chevron {
+    transform: rotate(90deg);
+  }
+
+  .expand-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .expand-content.open {
+    max-height: 3000px;
+  }
+
+  .expand-inner {
+    padding-top: 1rem;
+  }
+
+  .shop-phase {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--warm-white);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shop-phase::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+  }
+
+  .shop-phase.phase-1::before { background: var(--gold); }
+  .shop-phase.phase-2::before { background: var(--terracotta); }
+  .shop-phase.phase-fallback::before { background: var(--sage); }
+
+  .phase-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .phase-1 .phase-label { color: var(--gold); }
+  .phase-2 .phase-label { color: var(--terracotta); }
+  .phase-fallback .phase-label { color: var(--sage); }
+
+  .shop-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--night);
+    margin-bottom: 0.3rem;
+  }
+
+  .shop-address {
+    font-size: 0.8rem;
+    color: var(--sage);
+    margin-bottom: 0.5rem;
+  }
+
+  .shop-desc {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: #666;
+  }
+
+  .shop-desc strong { color: var(--charcoal); }
+
+  .shop-meta-row {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .shop-meta-tag {
+    font-size: 0.72rem;
+    color: #999;
+    font-weight: 500;
+  }
+
+  .shop-meta-tag strong {
+    color: var(--charcoal);
+    font-weight: 600;
+  }
+
+  .shop-flow-note {
+    margin-top: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(42, 91, 108, 0.04);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--ocean);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
   /* ─── ANIMATIONS ─── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -636,8 +772,8 @@
 <section class="day-section">
   <div class="day-header">
     <p class="day-label">Day Two — Saturday, May 9</p>
-    <h2 class="day-title">Dresses, Scrubs <span class="light">&amp; Galbi</span></h2>
-    <p class="day-subtitle">Dress shopping, Korean spa with Amanda, dinner with the crew in KTown.</p>
+    <h2 class="day-title">Sister Day <span class="light">&amp; Galbi</span></h2>
+    <p class="day-subtitle">Sister shopping and spa day, dinner with the crew in KTown.</p>
   </div>
 
   <div class="timeline">
@@ -645,24 +781,103 @@
       <div class="timeline-time">Morning</div>
       <div class="timeline-title">Formal Dress Shopping</div>
       <div class="timeline-body">
-        Head to DTLA or mid-city for formal event dress shopping (~30 min from Santa Monica). Call ahead to confirm Saturday hours and whether appointments are needed.
+        Two-phase plan: start at Rodeo Drive / Beverly Hills for the experience and designer options, then pivot to the Fashion District if nothing clicks. Beverly Hills is only 15-20 min from the Proper; the Fashion District is 25 min further east and on the way to KTown for the spa.
       </div>
       <div class="info-card activity">
-        <div class="card-label">Dress Shop Options</div>
+        <div class="card-label">The Plan</div>
         <div class="card-body">
           <div class="options">
-            <span class="option-pill pick">CoutureShopLA — DTLA</span>
-            <span class="option-pill">Lili Bridals</span>
-            <span class="option-pill">LA Fashion District (Santee St)</span>
+            <span class="option-pill pick">Saks Fifth Avenue — Beverly Hills</span>
+            <span class="option-pill">Reformation — Melrose</span>
+            <span class="option-pill">What Goes Around Comes Around</span>
+            <span class="option-pill">CoutureShopLA — Fashion District</span>
+            <span class="option-pill">Santee Street — Fashion District</span>
           </div>
-          <p style="margin-top: 0.75rem;"><strong>CoutureShopLA</strong> (532 E 11th St) is the top pick — specializes in evening gowns, red carpet dresses, and formal event wear. Staff is highly reviewed for helping find the right fit. The Fashion District on Santee Street (9th–14th) is great if you want to browse many shops in one walk.</p>
+          <p style="margin-top: 0.75rem;">Start at <strong>Saks Beverly Hills</strong> for the full styling suite experience, then walk Rodeo. If the dress isn't found, head to <strong>CoutureShopLA</strong> in the Fashion District for 10x the selection at a fraction of the price. Both are world-class — just different vibes.</p>
+        </div>
+
+        <button class="expand-toggle" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');">
+          <span class="chevron">▶</span> Full shopping plan — Rodeo Drive + Fashion District breakdown
+        </button>
+
+        <div class="expand-content">
+          <div class="expand-inner">
+
+            <div class="shop-phase phase-1">
+              <div class="phase-label">Phase 1 — The Experience · ~10:00 AM</div>
+              <div class="shop-name">Saks Fifth Avenue Beverly Hills</div>
+              <div class="shop-address">9600 Wilshire Blvd (steps from Rodeo Drive)</div>
+              <div class="shop-desc">
+                The reimagined West Coast flagship — 130,000 sq ft across six floors. The <strong>Fifth Avenue Club</strong> on the 5th floor has 15 private styling suites with an outdoor terrace overlooking the Hollywood Hills. Book a styling appointment and a stylist pulls pieces for you based on your event, body type, and budget — with champagne. They carry everything from Badgley Mischka (~$400-800) up through Oscar de la Renta and Carolina Herrera. You control the price range.
+              </div>
+              <div class="shop-meta-row">
+                <div class="shop-meta-tag">Price range: <strong>$400 – $5,000+</strong></div>
+                <div class="shop-meta-tag">Tip: <strong>Book Fifth Avenue Club appointment in advance</strong></div>
+              </div>
+            </div>
+
+            <div class="shop-phase phase-1">
+              <div class="phase-label">Phase 1 — While You're There</div>
+              <div class="shop-name">Reformation</div>
+              <div class="shop-address">8000 Melrose Ave (flagship) or inside Saks</div>
+              <div class="shop-desc">
+                LA-born, sustainability-focused brand. Formal and evening pieces run <strong>$250-500</strong> — gorgeous cuts, modern silhouettes, not stuffy. Great for a cocktail-length or sleek column dress. The Melrose flagship is a fun standalone stop, or browse the Reformation section inside Saks to save a trip.
+              </div>
+            </div>
+
+            <div class="shop-phase phase-1">
+              <div class="phase-label">Phase 1 — Wild Card</div>
+              <div class="shop-name">What Goes Around Comes Around</div>
+              <div class="shop-address">356 N Beverly Dr</div>
+              <div class="shop-desc">
+                Premier vintage designer store with an authenticity guarantee. This is where you find a one-of-a-kind vintage Valentino, Versace, or Chanel piece at a fraction of retail. Nothing says "I didn't just buy this off a rack" like a vintage designer find. The hunt is half the fun.
+              </div>
+              <div class="shop-meta-row">
+                <div class="shop-meta-tag">Price range: <strong>Varies wildly — $200 to $3,000+</strong></div>
+              </div>
+            </div>
+
+            <p class="shop-flow-note">
+              🍝 Lunch between shops: Il Pastaio on Canon Drive (casual Italian, outdoor seating, great people-watching) or Gucci Osteria inside the Gucci boutique if you want to go full Rodeo.
+            </p>
+
+            <div class="shop-phase phase-2">
+              <div class="phase-label">Phase 2 — The Practical Pivot · if needed</div>
+              <div class="shop-name">CoutureShopLA</div>
+              <div class="shop-address">532 E 11th St, Fashion District</div>
+              <div class="shop-desc">
+                Where LA's red carpet stylists and pageant competitors actually shop. Carries MNM Couture, Jovani, Mac Duggal, Portia & Scarlett — real evening wear designers, not knockoffs. <strong>Claudia</strong> (main associate) is consistently praised for knowing every dress and matching body types fast. Enormous selection you won't find on Rodeo. Call ahead.
+              </div>
+              <div class="shop-meta-row">
+                <div class="shop-meta-tag">Price range: <strong>$300 – $1,200</strong></div>
+                <div class="shop-meta-tag">Tip: <strong>Call ahead to confirm Saturday hours</strong></div>
+              </div>
+            </div>
+
+            <div class="shop-phase phase-2">
+              <div class="phase-label">Phase 2 — Walk the Strip</div>
+              <div class="shop-name">Santee Street · 9th to 14th Streets</div>
+              <div class="shop-address">Fashion District, DTLA</div>
+              <div class="shop-desc">
+                Dozens of formal wear shops in every window. If CoutureShopLA doesn't land it, walk the strip. Cash is king at the smaller vendors — bring some. Also check out <strong>Laurel's House</strong> nearby for strong selection in the $150-600 range with patient, hands-on staff.
+              </div>
+            </div>
+
+            <div class="shop-phase phase-fallback">
+              <div class="phase-label">The Flow</div>
+              <div class="shop-desc">
+                Start at <strong>Saks</strong> around 10 AM. Browse Reformation and WGACA on the way out. Lunch on Canon Drive. If you've found the dress, you're done by noon and heading to the spa. If not, pivot to <strong>CoutureShopLA</strong> in the Fashion District (~25 min drive) — which is on the way toward Koreatown anyway. Either way, spa-ready by 2-3 PM.
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
 
     <div class="timeline-item">
       <div class="timeline-time">Afternoon</div>
-      <div class="timeline-title">Korean Spa Day — Amanda Time</div>
+      <div class="timeline-title">Korean Spa Day</div>
       <div class="timeline-body">
         The main event of the afternoon. Budget 3–4 hours for the full experience — soak, scrub, sauna, and decompress. Both top picks are in Koreatown, ~25 min from Santa Monica.
       </div>
@@ -884,7 +1099,7 @@
     <li><strong>Olympic Spa appointments</strong> — Saturday afternoon, 2 guests. Call to book body scrub packages. <span class="priority now">Book Now</span></li>
     <li><strong>Saturday dinner reservation</strong> — Quarters, Park's BBQ, or Chosun Galbee. Resy / OpenTable. Saturday KTown KBBQ fills fast — book or arrive before 6 PM. <span class="priority soon">Book Soon</span></li>
     <li><strong>Sunday pre-show dinner reservation</strong> — Martin's Cocina y Cantina or Cork &amp; Batter. Early seating ~3 PM. <span class="priority soon">Book Soon</span></li>
-    <li><strong>Dress shops</strong> — Call CoutureShopLA and/or Lili Bridals to confirm Saturday hours and whether an appointment is needed. <span class="priority soon">Book Soon</span></li>
+    <li><strong>Dress shopping</strong> — Book a Saks Fifth Avenue Club styling appointment (5th floor, Beverly Hills). Call CoutureShopLA to confirm Saturday hours as a backup. <span class="priority soon">Book Soon</span></li>
   </ol>
 </div>
 
