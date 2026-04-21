@@ -696,6 +696,45 @@
   }
 
 </style>
+
+<style>
+  /* ── Whimsy Canvas ── */
+  #whimsy-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+  }
+
+  .blossom {
+    position: absolute;
+    top: -30px;
+    font-size: 1.1rem;
+    opacity: 0;
+    animation: blossomFall linear forwards;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  @keyframes blossomFall {
+    0%   { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); }
+    5%   { opacity: 0.85; }
+    85%  { opacity: 0.7; }
+    100% { opacity: 0; transform: translateY(105vh) rotate(720deg) translateX(var(--drift)); }
+  }
+
+  #dog-chase-canvas {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 110px;
+    pointer-events: none;
+    z-index: 9999;
+  }
+</style>
 </head>
 <body>
 
@@ -724,7 +763,7 @@
     <a href="#thursday">Thu 6/18</a>
     <a href="#friday">Fri 6/19</a>
     <a href="#saturday">Sat 6/20</a>
-    <a href="#checklist">Checklist</a>
+
   </div>
 </nav>
 
@@ -733,8 +772,8 @@
 <!-- ═══════ MONDAY ═══════ -->
 <section class="day-section" id="monday">
   <div class="day-header">
-    <div class="day-label">Monday, June 15</div>
-    <h2 class="day-title">Monday — <em>Arrivals</em></h2>
+    <div class="day-label">Sat–Mon, June 13–15</div>
+    <h2 class="day-title">Arrivals</h2>
   </div>
 
   <div class="timeline-block">
@@ -749,21 +788,19 @@
         <img src="https://populusseattle.com/app/uploads/2025/05/PopulusSeattle_EntryStairs1-1024x683.jpg" alt="Populus Seattle lobby">
         <div class="photo-caption">Populus Seattle, Pioneer Square</div>
       </div>
-      <div class="venue-name">Populus Seattle <span class="tag tag-book">Book Now</span></div>
+      <div class="venue-name">Populus Seattle</div>
       <div class="venue-meta">100 S King St, Pioneer Square · <a href="https://populusseattle.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">populusseattle.com</a></div>
       <div class="venue-details">
         <ul>
           <li>Carbon-positive boutique hotel in a restored 1907 warehouse</li>
           <li>Biophilic design, natural materials, Pacific NW storytelling</li>
           <li>Salt Harvest restaurant on-site, Firn rooftop bar</li>
-          <li>Book rooms for Casey and Poppa Cap, Monday night</li>
+          <li>Rooms booked for Casey and Poppa Cap, Sunday & Monday nights</li>
         </ul>
       </div>
     </div>
 
-    <p class="block-text">
-      Everyone settles in after travel. Maybe a quick nightcap at Firn, the rooftop bar upstairs at Populus, if Casey and Poppa Cap are up for it.
-    </p>
+
   </div>
 </section>
 
@@ -771,16 +808,30 @@
 <section class="day-section" id="tuesday">
   <div class="day-header">
     <div class="day-label">Tuesday, June 16</div>
-    <h2 class="day-title">Tuesday — <em>Girls' Day in Port Townsend</em></h2>
+    <h2 class="day-title">Tuesday — <em>Into the Wild Green</em></h2>
   </div>
 
   <div class="timeline-block">
     <div class="block-time">Morning</div>
     <div class="block-title">Ferry to Port Townsend</div>
-    <p class="block-text">Drive to Colman Dock downtown (~20 min from West Seattle), catch the ferry to Bainbridge Island (~35 min crossing), then drive to Port Townsend (~1 hr). About 2.5 hours total.</p>
+    <p class="block-text">Leave from downtown — Populus is just a 5-minute walk from Colman Dock. Catch the ferry to Bainbridge Island (~35 min crossing), then drive to Port Townsend (~1 hr). About 2.5 hours total.</p>
 
     <div class="tip">
       <strong>Ferry tip:</strong> No reservations on this route. Arrive 30-45 min before your target sailing. Summer schedule starts June 14. Grab Molly Moon's ice cream at the Colman Dock terminal while you wait.
+    </div>
+  </div>
+
+  <div class="timeline-block">
+    <div class="block-time">Late Morning</div>
+    <div class="block-title">Summit Picnic Lunch — Mount Walker</div>
+    <p class="block-text">
+      A short detour off US-101 just south of Quilcene. Drive 4.25 miles up the gravel summit road (FR 2730) to the summit.
+    </p>
+    <p class="block-text">
+      Lunch at the summit: fire up the camp stove and grill gyro wraps with premade tzatziki and tabbouleh. Picnic with a view before rolling into Port Townsend.
+    </p>
+    <div class="tip">
+      <strong>Dogs welcome on leash</strong> at both viewpoints. The summit road is gravel but well-maintained — fine for any vehicle. About 15 min from US-101 to the top.
     </div>
   </div>
 
@@ -793,7 +844,7 @@
         <img src="https://lirp.cdn-website.com/f6a577e5/dms3rep/multi/opt/Bishop_Hotel_Brooke_Fitts164-640w.jpg" alt="The Bishop Hotel, Port Townsend">
         <div class="photo-caption">The Bishop Hotel, Port Townsend</div>
       </div>
-      <div class="venue-name">The Bishop Hotel <span class="tag tag-dog">Dog Friendly</span> <span class="tag tag-book">Book ASAP</span></div>
+      <div class="venue-name">The Bishop Hotel <span class="tag tag-dog">Dog Friendly</span></div>
       <div class="venue-meta">Downtown Port Townsend · One block from the water · <a href="https://www.thebishophotel.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">thebishophotel.com</a></div>
       <div class="venue-details">
         <ul>
@@ -807,21 +858,10 @@
       </div>
 
       <div class="tip">
-        <strong>Room plan:</strong> Suite #18 or #20 (Water View King, 3rd floor) for Cait & Max as the honeymoon suite. Amanda & James + Lucy, Mustang & Lola in Suite #11 (Deluxe King, dog-friendly, 2nd floor). Additional suites for Chris & Marsheila, Poppa Cap, and Casey. Call to book a block.
+        <strong>Room plan:</strong> We have a couple of pet-friendly rooms reserved. All hotel rooms are already booked and taken care of.
       </div>
     </div>
 
-    <div class="venue-card" style="border-left-color: var(--cream-dark);">
-      <div class="venue-name">Runner-up: The Swan Hotel</div>
-      <div class="venue-meta">Point Hudson Marina · Waterfront · <a href="https://theswanhotel.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">theswanhotel.com</a></div>
-      <div class="venue-details">
-        <ul>
-          <li>Boutique hotel right on the marina</li>
-          <li>Dog-friendly ground floor rooms + one dog-friendly cottage</li>
-          <li>$30/pet/night · Treats, beds, bowls provided</li>
-        </ul>
-      </div>
-    </div>
   </div>
 
   <div class="timeline-block">
@@ -886,9 +926,9 @@
 
   <div class="timeline-block">
     <div class="block-time">Evening</div>
-    <div class="block-title">Casual Pre-Wedding Dinner</div>
+    <div class="block-title">Dinner in Port Townsend</div>
     <p class="block-text">
-      <strong>Khu Larb Thai</strong> (225 Adams St) or <strong>Alchemy Bistro & Wine Bar</strong> (842 Washington St) for something lighter before the big day. Everyone together for the first group dinner.
+      <strong>Nikos Greek Kitchen</strong> (812 Water St) for something casual and warm, or <strong>Alchemy Bistro & Wine Bar</strong> (842 Washington St) for a relaxed evening with great cocktails.
     </p>
   </div>
 </section>
@@ -902,9 +942,9 @@
 
   <div class="timeline-block">
     <div class="block-time">Morning</div>
-    <div class="block-title">Leisurely Start</div>
+    <div class="block-title">Getting Ready</div>
     <p class="block-text">
-      Everyone grabs breakfast on their own. Blue Moose Cafe on Water Street is a local favorite. Get ready at the hotel.
+      Everyone gets ready at The Bishop. Blue Moose Cafe on Water Street is right around the corner for breakfast. Casey, Amanda, and Chris head to Chetzemoka Park to set up the gazebo. Cait, Max, Marsheila, and Tony get ready at the hotel.
     </p>
   </div>
 
@@ -914,61 +954,34 @@
       <div class="photo-caption">Chetzemoka Park, Port Townsend</div>
     </div>
     <div class="ceremony-highlight">
-      <div class="time-badge">Early Afternoon</div>
+      <div class="time-badge">4:00 – 6:00 PM</div>
       <h3>The Ceremony</h3>
-      <p>Chetzemoka Park gazebo or the courthouse lawn · Port Townsend</p>
+      <p>Chetzemoka Park gazebo · Port Townsend</p>
     </div>
 
     <p class="block-text" style="margin-top: 1rem;">
-      Short and sweet. Vows and officiation in the park with the family, then straight to celebrating. The whole point of the week is getting both families together in a beautiful place, so we're keeping the ceremony quick and saving the real time for dinner, drinks, and each other.
-    </p>
-
-    <div class="tip">
-      <strong>Venue options:</strong> The gazebo at Chetzemoka Park or the lawn of the Jefferson County Courthouse. Both are beautiful, open-air, and perfect for a group of 8 with no reservation needed. If a courthouse officiation date opens back up, even better.
-    </div>
-
-    <div class="venue-photo" style="margin-top: 0.5rem;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Jefferson_County_Courthouse_in_Port_Townsend%2C_WA.jpg" alt="Jefferson County Courthouse, Port Townsend">
-      <div class="photo-caption">Jefferson County Courthouse, est. 1892</div>
-    </div>
-
-    <div class="tip">
-      <strong>After the ceremony:</strong> Swing by the Jefferson County Auditor's Office (1820 Jefferson St, open Mon–Fri 8:30am–4pm) to file the signed marriage license. Quick stop on the way to photos and champagne.
-    </div>
-  </div>
-
-  <div class="timeline-block">
-    <div class="block-time">Afternoon</div>
-    <div class="block-title">Wander & Photos</div>
-    <p class="block-text">
-      Take some family photos along the waterfront or among the Victorian homes in the uptown district. Grab a champagne toast at Bishop Block wine bar, then take it easy before dinner. Plenty of time to explore downtown together.
+      Vows and officiation in the park with the family. The officiant and photographer will meet us at the gazebo.
     </p>
   </div>
 
   <div class="timeline-block">
-    <div class="block-time">Evening</div>
+    <div class="block-time">7:00 PM</div>
     <div class="block-title">Wedding Dinner</div>
 
     <div class="venue-card coral-accent">
-      <div class="venue-name">Finistère <span class="tag tag-book">Book ASAP</span></div>
-      <div class="venue-meta">1025 Lawrence St · (360) 344-8127 · <a href="https://www.restaurantfinistere.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">restaurantfinistere.com</a> · <a href="https://resy.com/cities/seattle-wa/venues/finistere" target="_blank" style="color: var(--coral); text-decoration: underline;">Reserve on Resy</a></div>
+      <div class="venue-name">Finistère</div>
+      <div class="venue-meta">1025 Lawrence St · (360) 344-8127 · <a href="https://www.restaurantfinistere.com/" target="_blank" style="color: var(--sage); text-decoration: underline;">restaurantfinistere.com</a></div>
       <div class="venue-details">
         <ul>
           <li>Chef-driven, Brittany-inspired with Pacific NW roots</li>
           <li>Locally sourced seafood, house-made pasta, incredible bread</li>
           <li>Standouts: scallops, duck egg raviolo, fried oysters, smash burger</li>
-          <li>Open Wed–Sat · Happy hour 3–5pm · Dinner 5–8pm</li>
-          <li>Small restaurant — only ~14 tables across two rooms</li>
         </ul>
       </div>
     </div>
 
-    <div class="tip">
-      <strong>Party of 8:</strong> Cait, Max, Chris, Marsheila, Amanda, James, Poppa Cap, and Casey. Mention the wedding when you reserve and ask about seating the group together.
-    </div>
-
     <p class="block-text" style="margin-top: 0.6rem;">
-      <strong>Backup:</strong> Alchemy Bistro & Wine Bar (842 Washington St) — intimate, Italian-leaning, excellent cocktails, live music some nights. Open Wednesdays.
+      Or <strong>The Fountain Café</strong> (920 Washington St) — cozy, intimate, a Port Townsend classic.
     </p>
   </div>
 </section>
@@ -1164,70 +1177,362 @@
     <div class="block-time">Rest of Weekend</div>
     <div class="block-title">Quality Time with Family</div>
     <p class="block-text">
-      Chris & Marsheila stay through the weekend for Amanda's birthday dinner on Sunday, then fly back to NC on Monday. Poppa Cap and Casey may head out over the weekend or Monday depending on flights. Enjoy the last stretch together in West Seattle. Brunch, show everyone around the neighborhood, decompress from an incredible week.
+      Chris & Marsheila stay through the weekend for Amanda's birthday dinner on Sunday before flying back to NC.
     </p>
   </div>
 </section>
 
-<!-- ═══════ CHECKLIST ═══════ -->
-<section class="day-section checklist-section" id="checklist">
-  <div class="day-header">
-    <div class="day-label">Action Items</div>
-    <h2 class="day-title">Booking <em>Checklist</em></h2>
-  </div>
 
-  <ul class="checklist">
-    <li>
-      <div class="priority priority-high">ASAP</div>
-      <div class="checklist-item">
-        <strong>Finistère dinner reservation</strong>
-        <span>Party of 8, Wednesday June 17. Mention it's a wedding dinner. Call (360) 344-8127 or book via Resy.</span>
-      </div>
-    </li>
-    <li>
-      <div class="priority priority-high">ASAP</div>
-      <div class="checklist-item">
-        <strong>The Bishop Hotel — book room block</strong>
-        <span>Suite #18 or #20 (honeymoon) for Cait & Max. Dog-friendly suite for Amanda & James + Lucy, Mustang & Lola. Plus rooms for Chris & Marsheila, Poppa Cap, and Casey. Tues June 16 & Wed June 17.</span>
-      </div>
-    </li>
-    <li>
-      <div class="priority priority-high">ASAP</div>
-      <div class="checklist-item">
-        <strong>Captain Whidbey — dog-friendly cabin</strong>
-        <span>Rooms for the whole crew. Call (360) 678-4097 for dog-friendly room availability. Thurs June 18 & Fri June 19.</span>
-      </div>
-    </li>
-    <li>
-      <div class="priority priority-high">ASAP</div>
-      <div class="checklist-item">
-        <strong>Populus Seattle — Monday night</strong>
-        <span>Rooms for Casey and Poppa Cap. Monday June 15. populusseattle.com</span>
-      </div>
-    </li>
-    <li>
-      <div class="priority priority-high">ASAP</div>
-      <div class="checklist-item">
-        <strong>Soak on the Sound — group of 4</strong>
-        <span>Cait, Amanda, Marsheila, and Casey. Email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="582b373933353936393f3d2a183f35393134763b3735">[email&#160;protected]</a>. Allow 24-48 hr response time.</span>
-      </div>
-    </li>
-    <li>
-      <div class="priority priority-med">Soon</div>
-      <div class="checklist-item">
-        <strong>PT → Coupeville ferry reservation</strong>
-        <span>Thursday June 18. Book at wsdot.wa.gov/ferries. Popular mid-June crossing.</span>
-      </div>
-    </li>
-    <li>
-      <div class="priority priority-med">Soon</div>
-      <div class="checklist-item">
-        <strong>Marriage license</strong>
-        <span>Confirm Jefferson County Superior Court requirements and timing.</span>
-      </div>
-    </li>
-    <li>
-      <div class="priority priority-low">Before trip</div>
-      <div class="checklist-item">
-        <strong>Discover Pass</strong>
-        <span>$30/year at parks.wa.gov or REI. Needed for Deception Pas
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="footer-emoji">🌿</div>
+  <h2>See you there.</h2>
+  <p>June 15–20, 2026 · Port Townsend & Whidbey Island</p>
+</footer>
+
+</div><!-- end .content -->
+
+<!-- ═══════ WHIMSY ANIMATIONS ═══════ -->
+<div id="whimsy-canvas"></div>
+<canvas id="dog-chase-canvas"></canvas>
+
+<script>
+(function() {
+  /* ── Blossom layer ── */
+  const blossomLayer = document.getElementById('whimsy-canvas');
+  const mondaySection = document.getElementById('monday');
+  let active = true;
+  let blossomInterval = null;
+  const blossomChars = ['🌸','🌺','🌼','🌷','🌸','🌼'];
+
+  function spawnBlossom() {
+    if (!active) return;
+    const el = document.createElement('span');
+    el.className = 'blossom';
+    el.textContent = blossomChars[Math.floor(Math.random() * blossomChars.length)];
+    const duration = 7 + Math.random() * 6;
+    const drift = (Math.random() - 0.5) * 160;
+    el.style.left = (Math.random() * 100) + 'vw';
+    el.style.setProperty('--drift', drift + 'px');
+    el.style.animationDuration = duration + 's';
+    el.style.fontSize = (0.8 + Math.random() * 0.6) + 'rem';
+    blossomLayer.appendChild(el);
+    setTimeout(() => el.remove(), duration * 1000 + 300);
+  }
+
+  blossomInterval = setInterval(spawnBlossom, 700);
+
+  /* ── Dog sprite canvas ── */
+  const dc = document.getElementById('dog-chase-canvas');
+  dc.width = window.innerWidth;
+  dc.height = 110;
+  const ctx = dc.getContext('2d');
+
+  // Leg animation frame counter
+  let frame = 0;
+
+  const GROUND = 82;   // y baseline for paws
+  const SPEED  = 1.3;  // px per frame — leisurely
+  const GAP    = 62;   // chaser trails quarry by this many px
+
+  // ── Draw helpers ──
+
+  function drawShadow(x, y) {
+    ctx.save();
+    ctx.globalAlpha = 0.10;
+    ctx.fillStyle = '#3A3632';
+    ctx.beginPath();
+    ctx.ellipse(x, y + 2, 18, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function legOffsets(t, stride) {
+    const swing = Math.sin(t) * stride;
+    return [swing, -swing, -swing, swing];
+  }
+
+  // dir: 1 = facing right, -1 = facing left
+  // All sprite art is drawn facing LEFT in local coords (head at negative x).
+  // When dir=1 we flip horizontally with scale(-1,1).
+
+  // ── Terrier (small, white, scruffy) ──
+  function drawTerrier(x, bobY, dir) {
+    ctx.save();
+    ctx.translate(x, GROUND + bobY);
+    if (dir === 1) ctx.scale(-1, 1); // flip to face right
+
+    const t = frame * 0.18;
+    const legs = legOffsets(t, 5);
+    const liftFL = Math.max(0, Math.sin(t) * 7);
+    const liftFR = Math.max(0, Math.sin(t + Math.PI) * 7);
+    const liftBL = Math.max(0, Math.sin(t + Math.PI) * 6);
+    const liftBR = Math.max(0, Math.sin(t) * 6);
+
+    drawShadow(0, 0);
+
+    ctx.strokeStyle = '#ddd';
+    ctx.lineWidth = 2.8;
+    ctx.lineCap = 'round';
+    _leg(ctx, -7 + legs[2], -8, -7 + legs[2] - 2, -8 + 12 - liftBL);
+    _leg(ctx, -7 + legs[3], -8, -7 + legs[3] + 2, -8 + 12 - liftBR);
+    _leg(ctx,  6 + legs[0], -10,  6 + legs[0] - 2, -10 + 12 - liftFL);
+    _leg(ctx,  6 + legs[1], -10,  6 + legs[1] + 2, -10 + 12 - liftFR);
+
+    ctx.fillStyle = '#F5F2EE';
+    ctx.strokeStyle = '#C8C4BE';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.ellipse(0, -14, 12, 8, -0.1, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+
+    const tailWag = Math.sin(t * 1.6) * 10;
+    ctx.strokeStyle = '#E8E4DF';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(10, -16);
+    ctx.quadraticCurveTo(16 + tailWag * 0.3, -22 + tailWag * 0.4, 14 + tailWag * 0.5, -26 + tailWag);
+    ctx.stroke();
+
+    ctx.fillStyle = '#F5F2EE';
+    ctx.strokeStyle = '#C8C4BE';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.ellipse(-8, -22, 7, 6.5, -0.2, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+
+    ctx.strokeStyle = '#E0DDD8';
+    ctx.lineWidth = 1.5;
+    _scruff(ctx, -11, -27, -13, -31);
+    _scruff(ctx, -8,  -28, -8,  -33);
+    _scruff(ctx, -5,  -27, -3,  -31);
+    _scruff(ctx, -13, -18, -16, -15);
+    _scruff(ctx, -10, -17, -11, -13);
+
+    ctx.fillStyle = '#888';
+    ctx.beginPath();
+    ctx.ellipse(-14, -22, 2.5, 2, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#3A3632';
+    ctx.beginPath();
+    ctx.arc(-10, -24, 1.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.beginPath();
+    ctx.arc(-9.3, -24.5, 0.6, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#E0DDD8';
+    ctx.strokeStyle = '#C0BDB8';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(-8, -26);
+    ctx.quadraticCurveTo(-4, -24, -5, -19);
+    ctx.quadraticCurveTo(-9, -21, -8, -26);
+    ctx.fill(); ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // ── Hound (longer, taller, red-gold, floppy ears) ──
+  function drawHound(x, bobY, dir) {
+    ctx.save();
+    ctx.translate(x, GROUND + bobY);
+    if (dir === 1) ctx.scale(-1, 1); // flip to face right
+
+    const t = frame * 0.18 + 0.4;
+    const legs = legOffsets(t, 7);
+    const liftFL = Math.max(0, Math.sin(t) * 9);
+    const liftFR = Math.max(0, Math.sin(t + Math.PI) * 9);
+    const liftBL = Math.max(0, Math.sin(t + Math.PI) * 8);
+    const liftBR = Math.max(0, Math.sin(t) * 8);
+
+    drawShadow(0, 2);
+
+    ctx.strokeStyle = '#C8825A';
+    ctx.lineWidth = 3.2;
+    ctx.lineCap = 'round';
+    _leg(ctx, -9 + legs[2], -8, -9 + legs[2] - 2, -8 + 15 - liftBL);
+    _leg(ctx, -9 + legs[3], -8, -9 + legs[3] + 2, -8 + 15 - liftBR);
+    _leg(ctx,  7 + legs[0], -9,  7 + legs[0] - 2, -9 + 15 - liftFL);
+    _leg(ctx,  7 + legs[1], -9,  7 + legs[1] + 2, -9 + 15 - liftFR);
+
+    ctx.fillStyle = '#D4916A';
+    ctx.strokeStyle = '#B87050';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.ellipse(0, -15, 16, 9, 0.05, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+
+    ctx.fillStyle = 'rgba(120,60,30,0.18)';
+    ctx.beginPath();
+    ctx.ellipse(2, -16, 9, 6, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    const tailWag = Math.sin(frame * 0.12) * 8;
+    ctx.strokeStyle = '#C4784E';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(14, -14);
+    ctx.quadraticCurveTo(22, -10 + tailWag * 0.5, 26, -6 + tailWag);
+    ctx.stroke();
+
+    ctx.fillStyle = '#D4916A';
+    ctx.strokeStyle = '#B87050';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(-10, -20);
+    ctx.quadraticCurveTo(-14, -25, -16, -28);
+    ctx.quadraticCurveTo(-10, -26, -8, -20);
+    ctx.fill();
+
+    ctx.fillStyle = '#D4916A';
+    ctx.strokeStyle = '#B87050';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.ellipse(-18, -30, 8, 6.5, 0.3, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+
+    ctx.fillStyle = '#C4814A';
+    ctx.strokeStyle = '#A86A38';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.ellipse(-22, -29, 5, 3.5, 0.15, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+
+    ctx.fillStyle = '#5A3020';
+    ctx.beginPath();
+    ctx.ellipse(-26, -29, 2.2, 1.8, 0.1, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#3A2010';
+    ctx.beginPath();
+    ctx.arc(-19, -32, 1.8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.beginPath();
+    ctx.arc(-18.2, -32.7, 0.7, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#A85C38';
+    ctx.strokeStyle = '#8A4828';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(-14, -34);
+    ctx.quadraticCurveTo(-10, -30, -12, -22);
+    ctx.quadraticCurveTo(-16, -24, -14, -34);
+    ctx.fill(); ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // ── Shared helpers ──
+  function _leg(c, x1, y1, x2, y2) {
+    c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
+  }
+  function _scruff(c, x1, y1, x2, y2) {
+    c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
+  }
+
+  // ── Animation loop ──
+  // Pass 0 (→): hound chases terrier right. Hound leads in x (quarry is ahead).
+  //   terrier (quarry) at dogX, hound (chaser) at dogX - GAP
+  //   Both face RIGHT (dir=1)
+  // Pass 1 (←): terrier chases hound left. 
+  //   hound (quarry) at dogX, terrier (chaser) at dogX + GAP
+  //   Both face LEFT (dir=-1), moving leftward
+  // Alternates for MAX_PASSES total passes then fades.
+
+  let raf = null;
+  let pass = 0;
+  const MAX_PASSES = 4; // 2 right + 2 left
+  let opacity = 1;
+  let fadingOut = false;
+
+  // Pass 0 starts: dogs enter from left, moving right
+  let dogX = -60; // position of the quarry (ahead dog)
+  let goingRight = true;
+
+  function loop() {
+    if (!active) return;
+
+    dc.width = window.innerWidth;
+    ctx.globalAlpha = opacity;
+
+    const bob = Math.sin(frame * 0.22) * 3;
+
+    if (goingRight) {
+      // Terrier is quarry (ahead/right), hound is chaser (behind/left)
+      // Both face right (dir=1)
+      const terrierX = dogX;
+      const houndX   = dogX - GAP;
+      drawHound(houndX, bob, 1);
+      drawTerrier(terrierX, bob, 1);
+
+      dogX += SPEED;
+      if (dogX > dc.width + 120) {
+        pass++;
+        goingRight = false;
+        // Reset: now going left. Hound is quarry (ahead/left), terrier chases.
+        // "ahead" means smaller x. dogX now = position of hound (quarry).
+        dogX = dc.width + 60;
+      }
+    } else {
+      // Hound is quarry (ahead/left, smaller x), terrier is chaser (behind/right)
+      // Both face left (dir=-1)
+      const houndX   = dogX;
+      const terrierX = dogX + GAP;
+      drawTerrier(terrierX, bob, -1);
+      drawHound(houndX, bob, -1);
+
+      dogX -= SPEED;
+      if (dogX < -120) {
+        pass++;
+        goingRight = true;
+        dogX = -60;
+        if (pass >= MAX_PASSES) fadingOut = true;
+      }
+    }
+
+    if (fadingOut) {
+      opacity -= 0.015;
+      if (opacity <= 0) {
+        ctx.clearRect(0, 0, dc.width, dc.height);
+        dc.style.display = 'none';
+        return;
+      }
+    }
+
+    frame++;
+    raf = requestAnimationFrame(loop);
+  }
+
+  raf = requestAnimationFrame(loop);
+
+  /* ── Shared stop ── */
+  function stopAll() {
+    if (!active) return;
+    active = false;
+    clearInterval(blossomInterval);
+    fadingOut = true;
+    blossomLayer.style.transition = 'opacity 1.5s ease';
+    blossomLayer.style.opacity = '0';
+    setTimeout(() => { blossomLayer.style.display = 'none'; }, 1600);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { stopAll(); observer.disconnect(); } });
+  }, { threshold: 0.12 });
+
+  if (mondaySection) observer.observe(mondaySection);
+  setTimeout(stopAll, 45000);
+
+  window.addEventListener('resize', () => { dc.width = window.innerWidth; });
+})();
+</script>
+
+</body>
+</html>
