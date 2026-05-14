@@ -1,1 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The E-Myth Revisited — A Book Report</title>
+<meta name="description" content="Notes on Michael Gerber's The E-Myth Revisited, and why building a business is about more than doing the work.">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --paper: #efe9dd;
+  --paper-shadow: #e5dccb;
+  --ink: #1a1815;
+  --ink-soft: #4a453d;
+  --ink-faint: #8a8377;
+  --accent: #b8472d;
+  --accent-deep: #8a3320;
+  --blueprint: #2d5a7a;
+  --rule: rgba(26, 24, 21, 0.15);
+  --rule-strong: rgba(26, 24, 21, 0.35);
+
+  --entrepreneur: #b8472d;
+  --manager: #2d5a7a;
+  --technician: #5c7a3e;
+
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Newsreader', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Subtle grid texture — the "blueprint" undertone */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(26,24,21,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26,24,21,0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Subtle paper noise */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- HEADER ---------- */
+header {
+  padding: 56px 24px 40px;
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.meta-line {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 12px;
+  margin-bottom: 36px;
+}
+
+.meta-line span:last-child { color: var(--accent); }
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+}
+
+h1.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(48px, 12vw, 84px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+h1.title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(20px, 5vw, 26px);
+  color: var(--ink-soft);
+  line-height: 1.3;
+  margin-bottom: 32px;
+  max-width: 28ch;
+}
+
+.byline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ink-faint);
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.byline strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ---------- DEDICATION ---------- */
+.dedication {
+  margin: 24px auto 48px;
+  padding: 28px 32px;
+  max-width: 680px;
+  background: var(--paper-shadow);
+  border-left: 3px solid var(--accent);
+  position: relative;
+  z-index: 2;
+}
+
+.dedication .label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 10px;
+}
+
+.dedication p {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+/* ---------- SECTIONS ---------- */
+section {
+  padding: 32px 0 48px;
+  position: relative;
+  z-index: 2;
+}
+
+section + section {
+  border-top: 1px solid var(--rule);
+}
+
+.section-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-num::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(32px, 7vw, 42px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin-bottom: 24px;
+  max-width: 22ch;
+}
+
+h2 em { font-style: italic; color: var(--accent); }
+
+p {
+  margin-bottom: 18px;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+p.lead {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-family: var(--font-display);
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+/* Pull quote */
+.pull-quote {
+  margin: 32px 0;
+  padding: 24px 0 24px 24px;
+  border-left: 2px solid var(--ink);
+  position: relative;
+}
+
+.pull-quote .q {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 5.5vw, 28px);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  margin-bottom: 12px;
+}
+
+.pull-quote .attr {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Smaller inline quote */
+.inline-q {
+  display: block;
+  margin: 20px 0;
+  padding: 14px 18px;
+  background: var(--paper-shadow);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink);
+  border-radius: 2px;
+}
+
+/* ---------- THREE PERSONALITIES ---------- */
+.personas {
+  display: grid;
+  gap: 14px;
+  margin: 24px 0 8px;
+}
+
+.persona {
+  border: 1px solid var(--rule-strong);
+  padding: 20px 22px;
+  background: rgba(255,255,255,0.3);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.persona::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--bar-color);
+}
+
+.persona[data-role="e"] { --bar-color: var(--entrepreneur); }
+.persona[data-role="m"] { --bar-color: var(--manager); }
+.persona[data-role="t"] { --bar-color: var(--technician); }
+
+.persona-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.persona-name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-style: italic;
+}
+
+.persona-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bar-color);
+  font-weight: 500;
+}
+
+.persona p {
+  font-size: 15.5px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  color: var(--ink-soft);
+}
+
+.persona p:last-child { margin-bottom: 0; }
+
+.persona .pq {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink);
+  padding-top: 10px;
+  border-top: 1px dotted var(--rule);
+}
+
+/* ---------- INTERACTIVE COMPOSITION ---------- */
+.composition {
+  margin: 36px 0;
+  padding: 24px;
+  background: var(--paper-shadow);
+  border: 1px solid var(--rule);
+  position: relative;
+}
+
+.comp-head {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comp-head .fig { color: var(--accent); }
+
+.comp-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.comp-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 12px;
+  height: 180px;
+  margin-bottom: 16px;
+  padding: 0 4px;
+  position: relative;
+}
+
+.bars::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 24px;
+  height: 1px;
+  background: var(--rule-strong);
+}
+
+.bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  position: relative;
+  padding-bottom: 24px;
+}
+
+.bar {
+  width: 100%;
+  background: var(--bar-c);
+  transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  min-height: 4px;
+  border-top: 2px solid var(--ink);
+}
+
+.bar-pct {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bar-label {
+  position: absolute;
+  bottom: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.comp-controls {
+  display: grid;
+  gap: 14px;
+  margin: 20px 0 16px;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.slider-row label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  min-width: 92px;
+  color: var(--ink-soft);
+}
+
+.slider-row label .dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--dot-c);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+input[type="range"] {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--rule-strong);
+  border-radius: 0;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.15); }
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.preset-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.preset {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink-soft);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preset:hover, .preset.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.diagnosis {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dotted var(--rule-strong);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink);
+  min-height: 50px;
+}
+
+.diagnosis .verdict {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ---------- KEY IDEAS LIST ---------- */
+.takeaways {
+  list-style: none;
+  counter-reset: take;
+  margin: 24px 0;
+}
+
+.takeaways li {
+  counter-increment: take;
+  padding: 18px 0 18px 56px;
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+
+.takeaways li:last-child { border-bottom: none; }
+
+.takeaways li::before {
+  content: counter(take, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 18px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.takeaways .t-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.25;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.takeaways .t-body {
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* ---------- CAIT'S NOTE ---------- */
+.note {
+  margin: 48px 0 24px;
+  padding: 28px;
+  background: var(--ink);
+  color: var(--paper);
+  position: relative;
+}
+
+.note::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(239, 233, 221, 0.2);
+  pointer-events: none;
+}
+
+.note .stamp {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.note p {
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--paper);
+}
+
+.note p + p { margin-top: 14px; }
+
+.signature {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-style: italic;
+  margin-top: 18px;
+  color: var(--paper);
+}
+
+/* ---------- LIBBY CTA ---------- */
+.libby-cta {
+  margin: 32px 0;
+  padding: 32px 24px;
+  border: 2px solid var(--ink);
+  text-align: center;
+  background: var(--paper);
+  position: relative;
+}
+
+.libby-cta .corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+}
+.libby-cta .corner.tl { top: -7px; left: -7px; }
+.libby-cta .corner.tr { top: -7px; right: -7px; }
+.libby-cta .corner.bl { bottom: -7px; left: -7px; }
+.libby-cta .corner.br { bottom: -7px; right: -7px; }
+
+.libby-cta .small {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 12px;
+}
+
+.libby-cta h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.libby-button {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: var(--paper);
+  padding: 14px 24px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid var(--accent);
+}
+
+.libby-button:hover {
+  background: var(--accent-deep);
+  border-color: var(--accent-deep);
+}
+
+.libby-button .arrow {
+  display: inline-block;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+}
+
+.libby-button:hover .arrow { transform: translateX(4px); }
+
+.libby-meta {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+header > * { animation: rise 0.8s ease-out backwards; }
+header .meta-line { animation-delay: 0.05s; }
+header .kicker { animation-delay: 0.15s; }
+header h1.title { animation-delay: 0.25s; }
+header .subtitle { animation-delay: 0.4s; }
+header .byline { animation-delay: 0.55s; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (min-width: 720px) {
+  body { font-size: 18px; }
+  header { padding: 80px 24px 56px; }
+  .dedication { padding: 32px 40px; }
+  section { padding: 48px 0 64px; }
+  .libby-cta { padding: 40px 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="meta-line">
+    <span>FIELD NOTES / 001</span>
+    <span>● ACTIVE</span>
+  </div>
+  <div class="kicker">A Book Report · No. 1</div>
+  <h1 class="title">The E-Myth <em>Revisited</em></h1>
+  <p class="subtitle">Why most small businesses don't work — and what to do about it.</p>
+  <div class="byline">
+    <span>By <strong>Michael E. Gerber</strong></span>
+    <span>Notes by <strong>Cait</strong></span>
+  </div>
+</header>
+
+<div class="dedication wrap-flush">
+  <div class="label">For Max</div>
+  <p>I read this and kept thinking about us. Not in a fix-it way — in a "this is the language for the thing we keep circling" way. Tinker with it. Argue with it. Then tell me what you think.</p>
+</div>
+
+<main class="wrap">
+
+  <section>
+    <div class="section-num">§ 01 — The Big Idea</div>
+    <h2>Most businesses aren't started by entrepreneurs.</h2>
+    <p class="lead">They're started by skilled people having a really bad day at work.</p>
+    <p>Gerber calls this moment the <em>"Entrepreneurial Seizure"</em> — the day a technician decides she can do this better on her own. The problem isn't ambition. The problem is what Gerber calls the <em>Fatal Assumption</em>: that knowing how to do the work means knowing how to run the business that does the work.</p>
+    <div class="pull-quote">
+      <div class="q">The technical work of a business, and a business that does that technical work, are two different things.</div>
+      <div class="attr">— Paraphrased from Gerber, Ch. 2</div>
+    </div>
+    <p>Most small businesses fail because their founders never learn the difference.</p>
+  </section>
+
+  <section>
+    <div class="section-num">§ 02 — The Cast</div>
+    <h2>Every owner contains <em>three</em> people.</h2>
+    <p>The Entrepreneur. The Manager. The Technician. They all want to be the boss. None of them wants <em>to have</em> a boss. So they start a business together — and the trouble begins.</p>
+
+    <div class="personas">
+      <article class="persona" data-role="e">
+        <div class="persona-head">
+          <div class="persona-name">The Entrepreneur</div>
+          <div class="persona-tag">The Visionary</div>
+        </div>
+        <p>Lives in the future. Sees what could be. Builds the house, and the moment it's done starts designing the next one. Creates change — and a lot of mess.</p>
+        <div class="pq">"The Entrepreneur lives in the future, never in the past, rarely in the present."</div>
+      </article>
+
+      <article class="persona" data-role="m">
+        <div class="persona-head">
+          <div class="persona-name">The Manager</div>
+          <div class="persona-tag">The Pragmatist</div>
+        </div>
+        <p>Lives in the past. Craves order. Sees problems where the Entrepreneur sees opportunities. Builds neat rows of things. Cleans up after the visionary.</p>
+        <div class="pq">"The Manager craves order, compulsively clings to the status quo."</div>
+      </article>
+
+      <article class="persona" data-role="t">
+        <div class="persona-head">
+          <div class="persona-name">The Technician</div>
+          <div class="persona-tag">The Doer</div>
+        </div>
+        <p>Lives in the present. Loves the feel of the work itself. Suspicious of abstraction. Believes thinking gets in the way of doing. "If you want it done right, do it yourself."</p>
+        <div class="pq">"Thinking isn't work; it gets in the way of work."</div>
+      </article>
+    </div>
+
+    <p style="margin-top: 24px;">Gerber's argument isn't that any one of these is wrong. It's that most owners aren't balanced — and one personality runs the whole show.</p>
+  </section>
+
+  <section>
+    <div class="section-num">§ 03 — The Composition</div>
+    <h2>What's the mix inside a typical small business owner?</h2>
+    <p>Gerber gives a specific number. You can also drag the sliders and see what the business <em>becomes</em> at different compositions.</p>
+
+    <div class="composition" role="region" aria-label="Interactive personality composition">
+      <div class="comp-head">
+        <span>FIG. 01 — Personality Distribution</span>
+        <span class="fig" id="total-readout">Σ 100%</span>
+      </div>
+      <div class="comp-title">Who's running the business?</div>
+      <div class="comp-sub">The typical owner, per Gerber.</div>
+
+      <div class="bars" id="bars">
+        <div class="bar-wrap" style="--bar-c: var(--entrepreneur);">
+          <div class="bar" id="bar-e" style="height: 10%;">
+            <div class="bar-pct" id="pct-e">10%</div>
+          </div>
+          <div class="bar-label">Entrepreneur</div>
+        </div>
+        <div class="bar-wrap" style="--bar-c: var(--manager);">
+          <div class="bar" id="bar-m" style="height: 20%;">
+            <div class="bar-pct" id="pct-m">20%</div>
+          </div>
+          <div class="bar-label">Manager</div>
+        </div>
+        <div class="bar-wrap" style="--bar-c: var(--technician);">
+          <div class="bar" id="bar-t" style="height: 70%;">
+            <div class="bar-pct" id="pct-t">70%</div>
+          </div>
+          <div class="bar-label">Technician</div>
+        </div>
+      </div>
+
+      <div class="comp-controls">
+        <div class="slider-row">
+          <label><span class="dot" style="--dot-c: var(--entrepreneur);"></span>Entrepreneur</label>
+          <input type="range" id="slider-e" min="0" max="100" value="10" aria-label="Entrepreneur percentage">
+        </div>
+        <div class="slider-row">
+          <label><span class="dot" style="--dot-c: var(--manager);"></span>Manager</label>
+          <input type="range" id="slider-m" min="0" max="100" value="20" aria-label="Manager percentage">
+        </div>
+        <div class="slider-row">
+          <label><span class="dot" style="--dot-c: var(--technician);"></span>Technician</label>
+          <input type="range" id="slider-t" min="0" max="100" value="70" aria-label="Technician percentage">
+        </div>
+
+        <div class="preset-row">
+          <button class="preset active" data-e="10" data-m="20" data-t="70">Typical Owner</button>
+          <button class="preset" data-e="34" data-m="33" data-t="33">Balanced</button>
+          <button class="preset" data-e="60" data-m="20" data-t="20">All Vision</button>
+          <button class="preset" data-e="5" data-m="5" data-t="90">All Hands</button>
+        </div>
+      </div>
+
+      <div class="diagnosis" id="diagnosis">
+        <span class="verdict" id="verdict">— Default Reading —</span>
+        <span id="diag-text">The typical small business owner: 10% Entrepreneur, 20% Manager, 70% Technician. Working hard, doing good work — but the business runs on personal effort, not systems.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-num">§ 04 — The Distinction</div>
+    <h2>Working <em>in</em> the business vs. working <em>on</em> it.</h2>
+    <p>This is the line that ran through every chapter for me. The Technician's question is "what work has to be done today?" The Entrepreneur's question is "how must the business work?" Both matter. But only one of them builds something that outlasts the founder.</p>
+    <div class="pull-quote">
+      <div class="q">"If your business depends on you, you don't have a business — you have a job."</div>
+      <div class="attr">— Gerber's central provocation</div>
+    </div>
+    <p>The fix isn't to stop doing the technical work. It's to stop letting the technical work consume all the other roles the business needs.</p>
+  </section>
+
+  <section>
+    <div class="section-num">§ 05 — The Prototype</div>
+    <h2>Build it as if you'll franchise it 5,000 times.</h2>
+    <p>Even if you never sell or franchise — design the business as a <em>prototype</em>. A system so well documented that an ordinary, well-trained person could run it without you in the room.</p>
+    <span class="inline-q">The prototype is how the entrepreneur's vision gets turned into something real and repeatable.</span>
+    <p>This is the part that I think reframes everything. The work isn't <em>doing the thing</em>. The work is <em>designing the system that does the thing</em>. The technical skill doesn't go away — it gets encoded, repeatable, transferable.</p>
+  </section>
+
+  <section>
+    <div class="section-num">§ 06 — The Receipts</div>
+    <h2>Five takeaways worth keeping.</h2>
+    <ol class="takeaways">
+      <li>
+        <span class="t-title">The E-Myth itself.</span>
+        <span class="t-body">Most businesses are founded by technicians, not entrepreneurs. Technical skill is necessary and insufficient.</span>
+      </li>
+      <li>
+        <span class="t-title">Work on it, not in it.</span>
+        <span class="t-body">If the business can't function without you, it's a job dressed up in business clothes.</span>
+      </li>
+      <li>
+        <span class="t-title">Three personalities, one owner.</span>
+        <span class="t-body">Entrepreneur, Manager, Technician. The dominance of any single one is the imbalance.</span>
+      </li>
+      <li>
+        <span class="t-title">Systems run the business; people run the systems.</span>
+        <span class="t-body">Design for ordinary operators executing extraordinary systems — not heroes burning out.</span>
+      </li>
+      <li>
+        <span class="t-title">Start with the end in mind.</span>
+        <span class="t-body">Mature companies began with the picture of the mature company. Then worked backward.</span>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="section-num">§ 07 — A Note</div>
+    <div class="note">
+      <div class="stamp">— PERSONAL —</div>
+      <p>The reason I wanted you to see this isn't because I think you're "too much Technician." It's because the book gave me language for something I've been circling — that the work of building Rad Rigs (and what comes next) is a different <em>kind</em> of work than the work of restoring a rig perfectly.</p>
+      <p>Both matter. Gerber just makes the case that the second one has to make room for the first.</p>
+      <div class="signature">— C.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="libby-cta">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="small">Seattle Public Library · Libby</div>
+      <h3>Read it (or listen) for yourself.</h3>
+      <a class="libby-button" href="https://share.libbyapp.com/title/77036" target="_blank" rel="noopener">
+        Borrow on Libby <span class="arrow">→</span>
+      </a>
+      <div class="libby-meta">Free with your SPL card · ~4 hours on audio</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>Field Notes · No. 001</span>
+  <span>Cait · 2026</span>
+</footer>
+
+<script>
+(function() {
+  const sliders = {
+    e: document.getElementById('slider-e'),
+    m: document.getElementById('slider-m'),
+    t: document.getElementById('slider-t')
+  };
+  const bars = {
+    e: document.getElementById('bar-e'),
+    m: document.getElementById('bar-m'),
+    t: document.getElementById('bar-t')
+  };
+  const pcts = {
+    e: document.getElementById('pct-e'),
+    m: document.getElementById('pct-m'),
+    t: document.getElementById('pct-t')
+  };
+  const total = document.getElementById('total-readout');
+  const verdict = document.getElementById('verdict');
+  const diagText = document.getElementById('diag-text');
+  const presets = document.querySelectorAll('.preset');
+
+  // Diagnostic readings — descriptive, not preachy
+  function diagnose(e, m, t) {
+    // Find dominant
+    const max = Math.max(e, m, t);
+    const dominant = e === max ? 'e' : (m === max ? 'm' : 't');
+
+    // Edge cases
+    if (t >= 80) return {
+      v: 'The Bottleneck',
+      d: "Almost pure Technician. Every cup of coffee gets pulled with care — and nothing scales. The business is the founder, working harder."
+    };
+    if (e >= 60) return {
+      v: 'The Dreamer',
+      d: "Vision without anchor. New ideas faster than execution. Manager and Technician can't keep up; nothing finishes."
+    };
+    if (m >= 60) return {
+      v: 'The Bureaucracy',
+      d: "Process without purpose. Beautifully run — but stuck. No vision pulling forward, no hands keeping the craft alive."
+    };
+
+    // Balance — within ~10 points of even
+    const spread = Math.max(e, m, t) - Math.min(e, m, t);
+    if (spread <= 15) return {
+      v: 'In Balance',
+      d: "Vision moves forward. Systems hold the line. The work still happens — but it doesn't <em>own</em> the owner. This is the goal."
+    };
+
+    // Default readings by dominant
+    if (dominant === 't' && t >= 60) return {
+      v: 'Working In It',
+      d: "Heavy on doing, light on designing. Gerber's classic small-business pattern — strong technical work, weak structural growth."
+    };
+    if (dominant === 'e') return {
+      v: 'Vision-Forward',
+      d: "Pulling toward what's next. Watch the Manager bar — without order, vision becomes chaos."
+    };
+    if (dominant === 'm') return {
+      v: 'Operations-Forward',
+      d: "Steady and organized. Now make sure the Entrepreneur has room — businesses without vision plateau."
+    };
+    return {
+      v: 'A Mix',
+      d: "No single personality running the show. Adjust further to see what tips."
+    };
+  }
+
+  function normalize(changedKey) {
+    let e = parseInt(sliders.e.value);
+    let m = parseInt(sliders.m.value);
+    let t = parseInt(sliders.t.value);
+    let sum = e + m + t;
+
+    // If totals don't sum to 100, scale the others proportionally
+    if (sum !== 100 && sum > 0) {
+      const others = ['e', 'm', 't'].filter(k => k !== changedKey);
+      const changedVal = { e, m, t }[changedKey];
+      const remaining = 100 - changedVal;
+
+      let otherSum = others.reduce((acc, k) => acc + { e, m, t }[k], 0);
+
+      if (otherSum === 0) {
+        // distribute remaining evenly
+        const each = Math.floor(remaining / 2);
+        sliders[others[0]].value = each;
+        sliders[others[1]].value = remaining - each;
+      } else {
+        const scaled = others.map(k => Math.round(({ e, m, t }[k] / otherSum) * remaining));
+        // fix rounding drift
+        const drift = remaining - scaled.reduce((a, b) => a + b, 0);
+        scaled[0] += drift;
+        sliders[others[0]].value = Math.max(0, scaled[0]);
+        sliders[others[1]].value = Math.max(0, scaled[1]);
+      }
+    }
+    update();
+  }
+
+  function update() {
+    const e = parseInt(sliders.e.value);
+    const m = parseInt(sliders.m.value);
+    const t = parseInt(sliders.t.value);
+    const sum = e + m + t;
+
+    bars.e.style.height = e + '%';
+    bars.m.style.height = m + '%';
+    bars.t.style.height = t + '%';
+    pcts.e.textContent = e + '%';
+    pcts.m.textContent = m + '%';
+    pcts.t.textContent = t + '%';
+    total.textContent = 'Σ ' + sum + '%';
+    total.style.color = sum === 100 ? '' : 'var(--accent-deep)';
+
+    const dx = diagnose(e, m, t);
+    verdict.textContent = '— ' + dx.v + ' —';
+    diagText.innerHTML = dx.d;
+
+    // Clear active preset if no match
+    let matchedPreset = false;
+    presets.forEach(p => {
+      const isMatch = parseInt(p.dataset.e) === e &&
+                      parseInt(p.dataset.m) === m &&
+                      parseInt(p.dataset.t) === t;
+      p.classList.toggle('active', isMatch);
+      if (isMatch) matchedPreset = true;
+    });
+  }
+
+  // Slider events — normalize to 100
+  Object.keys(sliders).forEach(key => {
+    sliders[key].addEventListener('input', () => normalize(key));
+  });
+
+  // Preset buttons
+  presets.forEach(p => {
+    p.addEventListener('click', () => {
+      sliders.e.value = p.dataset.e;
+      sliders.m.value = p.dataset.m;
+      sliders.t.value = p.dataset.t;
+      update();
+    });
+  });
+
+  // Initial render
+  update();
+})();
+</script>
+
+</body>
+</html>
