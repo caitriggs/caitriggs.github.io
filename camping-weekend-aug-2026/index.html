@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scablands Field Log — Max's Birthday Weekend</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  :root {
+    --basalt: #1a1c1a;
+    --panel: #22251f;
+    --sage: #8a9a7b;
+    --sage-dim: #5e6b53;
+    --lichen: #c4b454;
+    --flood: #6ba3b0;
+    --flood-dim: #3d6069;
+    --bone: #e8e4d8;
+    --bone-dim: #b0ab9c;
+    --rust: #b5623a;
+    --line: #3a3f39;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--basalt);
+    color: var(--bone);
+    font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .mono { font-family: "SFMono-Regular", "Consolas", "Roboto Mono", monospace; }
+
+  header {
+    position: relative;
+    padding: clamp(2.8rem, 7vw, 6rem) clamp(1.5rem, 5vw, 5rem) clamp(2rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  header::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: repeating-radial-gradient(circle at 25% 120%,
+      transparent 0, transparent 38px,
+      rgba(107,163,176,0.06) 38px, rgba(107,163,176,0.06) 40px);
+    pointer-events: none;
+  }
+  .eyebrow {
+    font-family: "SFMono-Regular", monospace;
+    font-size: 0.72rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--flood); margin-bottom: 1.3rem; position: relative;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 7vw, 5rem); line-height: 0.98; font-weight: 400;
+    letter-spacing: -0.02em; max-width: 15ch; position: relative;
+  }
+  h1 em { font-style: italic; color: var(--lichen); }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 1.4rem 2.6rem; margin-top: 2.2rem; position: relative;
+  }
+  .hero-meta div { min-width: 88px; }
+  .hero-meta dt {
+    font-family: "SFMono-Regular", monospace; font-size: 0.66rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--bone-dim); margin-bottom: 0.3rem;
+  }
+  .hero-meta dd { font-size: 1.02rem; }
+
+  .conditions {
+    margin: 2.2rem clamp(1.5rem, 5vw, 5rem) 0;
+    border: 1px solid var(--line);
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  .cond {
+    padding: 1rem 1.2rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .cond dt {
+    font-family: "SFMono-Regular", monospace; font-size: 0.64rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--flood); margin-bottom: 0.35rem;
+  }
+  .cond dd { font-size: 0.9rem; color: var(--bone-dim); }
+  .cond dd strong { color: var(--bone); font-weight: 400; }
+
+  .toggle-wrap {
+    position: sticky; top: 0; z-index: 1000;
+    background: rgba(26,28,26,0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    padding: 1rem clamp(1.5rem, 5vw, 5rem);
+    margin-top: 2.5rem;
+    display: flex; gap: 0.7rem; align-items: center; flex-wrap: wrap;
+  }
+  .toggle-label {
+    font-family: "SFMono-Regular", monospace; font-size: 0.66rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--bone-dim); margin-right: 0.5rem;
+  }
+  .toggle-btn {
+    font-family: "SFMono-Regular", monospace; font-size: 0.8rem; letter-spacing: 0.04em;
+    background: transparent; color: var(--bone-dim);
+    border: 1px solid var(--line); padding: 0.55rem 1.1rem; cursor: pointer;
+    transition: all 0.18s; border-radius: 2px;
+  }
+  .toggle-btn:hover { color: var(--bone); border-color: var(--sage-dim); }
+  .toggle-btn.active { background: var(--sage); color: var(--basalt); border-color: var(--sage); }
+  .toggle-btn .k { display: block; font-size: 0.62rem; letter-spacing: 0.1em; opacity: 0.75; margin-top: 0.15rem; }
+
+  main { padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 5rem); }
+
+  .opt { display: none; }
+  .opt.show { display: block; animation: fade 0.4s ease both; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+  .opt-head { margin-bottom: 1.8rem; }
+  .opt-tag {
+    font-family: "SFMono-Regular", monospace; font-size: 0.72rem; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--flood); margin-bottom: 0.7rem;
+  }
+  .opt-title { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 400; letter-spacing: -0.01em; }
+  .opt-title em { font-style: italic; color: var(--lichen); }
+  .opt-sub { font-size: 1.05rem; color: var(--bone-dim); margin-top: 0.6rem; max-width: 60ch; }
+  .verdict {
+    margin-top: 1.3rem; padding: 0.9rem 1.2rem;
+    border-left: 3px solid var(--sage); background: rgba(138,154,123,0.08);
+    font-size: 0.96rem;
+  }
+  .verdict strong { color: var(--sage); font-weight: 400; }
+
+  /* map */
+  .route-map {
+    height: 380px; width: 100%; margin: 1.6rem 0 0.6rem;
+    border: 1px solid var(--line); border-radius: 3px; background: var(--panel);
+    z-index: 1;
+  }
+  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background: var(--panel); color: var(--bone);
+    border: 1px solid var(--line); border-radius: 3px;
+  }
+  .leaflet-popup-content { margin: 0.7rem 0.9rem; font-family: "SFMono-Regular", monospace; font-size: 0.8rem; }
+  .leaflet-popup-content b { color: var(--lichen); font-weight: 400; display:block; margin-bottom: 0.2rem; letter-spacing: 0.02em; }
+  .leaflet-popup-content a { color: var(--flood); }
+  .map-cap {
+    font-family: "SFMono-Regular", monospace; font-size: 0.68rem; letter-spacing: 0.06em;
+    color: var(--bone-dim); margin-bottom: 2rem;
+  }
+
+  .section-label {
+    font-family: "SFMono-Regular", monospace; font-size: 0.7rem; letter-spacing: 0.26em;
+    text-transform: uppercase; color: var(--sage);
+    padding-bottom: 0.8rem; margin: 2.8rem 0 2rem; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .section-label span:last-child { color: var(--bone-dim); letter-spacing: 0.12em; }
+
+  .day {
+    display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 2.15fr);
+    gap: clamp(1.3rem, 3.5vw, 3rem);
+    padding: clamp(1.8rem, 4vw, 3rem) 0; border-bottom: 1px solid var(--line);
+  }
+  .day:last-of-type { border-bottom: none; }
+  .day-head { position: sticky; top: 5.5rem; align-self: start; }
+  .day-num {
+    font-size: clamp(2.6rem, 6vw, 4rem); line-height: 1; font-weight: 400;
+    letter-spacing: -0.03em; -webkit-text-stroke: 1px var(--sage-dim); color: transparent;
+  }
+  .day-date {
+    font-family: "SFMono-Regular", monospace; font-size: 0.78rem; letter-spacing: 0.1em;
+    color: var(--flood); margin-top: 0.5rem;
+  }
+  .day-title { font-size: 1.4rem; font-style: italic; margin-top: 0.35rem; max-width: 16ch; }
+
+  .stop {
+    position: relative; padding-left: 1.5rem; padding-bottom: 2rem; border-left: 1px solid var(--line);
+  }
+  .stop:last-child { padding-bottom: 0; border-left-color: transparent; }
+  .stop::before {
+    content: ""; position: absolute; left: -5px; top: 6px; width: 9px; height: 9px;
+    background: var(--flood); border-radius: 50%; box-shadow: 0 0 0 4px var(--basalt); z-index: 1;
+  }
+  .stop.camp::before { background: var(--lichen); width: 11px; height: 11px; left: -6px; }
+  .stop.wine::before { background: var(--rust); }
+  .stop-photo {
+    width: 100%; max-width: 480px; height: 180px; object-fit: cover;
+    border: 1px solid var(--line); border-radius: 3px; margin-bottom: 0.7rem; display: block;
+    background: var(--panel);
+  }
+  .stop-time {
+    font-family: "SFMono-Regular", monospace; font-size: 0.72rem; letter-spacing: 0.1em;
+    color: var(--bone-dim); text-transform: uppercase;
+  }
+  .stop-name { font-size: 1.18rem; margin: 0.15rem 0 0.4rem; }
+  .stop-name.camp { color: var(--lichen); }
+  .stop-name.wine { color: var(--rust); }
+  .stop-coord {
+    display: inline-block; font-family: "SFMono-Regular", monospace; font-size: 0.73rem;
+    color: var(--flood); background: rgba(107,163,176,0.08); padding: 0.15rem 0.5rem;
+    border: 1px solid var(--flood-dim); margin-bottom: 0.55rem; text-decoration: none; transition: background 0.15s;
+  }
+  .stop-coord:hover { background: rgba(107,163,176,0.2); }
+  .stop-note { font-size: 0.95rem; color: var(--bone-dim); max-width: 62ch; }
+  .stop-note strong { color: var(--sage); font-weight: 400; }
+
+  .basecamp {
+    background: var(--panel); border: 1px solid var(--line);
+    padding: clamp(1.5rem, 4vw, 2.2rem); margin: 2.5rem 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1.2rem 1.8rem;
+  }
+  .basecamp h3 {
+    grid-column: 1 / -1; font-family: "SFMono-Regular", monospace; font-size: 0.72rem;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--lichen); font-weight: 400;
+  }
+  .bc-item dt {
+    font-family: "SFMono-Regular", monospace; font-size: 0.64rem; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--bone-dim); margin-bottom: 0.25rem;
+  }
+  .bc-item dd { font-size: 0.96rem; }
+
+  .water {
+    border: 1px dashed var(--flood-dim); padding: 1.1rem 1.3rem; margin: 2rem 0;
+    background: rgba(107,163,176,0.05);
+  }
+  .water h4 {
+    font-family: "SFMono-Regular", monospace; font-size: 0.7rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--flood); font-weight: 400; margin-bottom: 0.7rem;
+  }
+  .water p { font-size: 0.94rem; color: var(--bone-dim); }
+  .water a { color: var(--flood); text-decoration: none; border-bottom: 1px solid var(--flood-dim); }
+  .water strong { color: var(--bone); font-weight: 400; }
+
+  .compare-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr 1fr; border: 1px solid var(--line);
+    overflow: hidden; font-size: 0.92rem; margin-top: 1rem;
+  }
+  .compare-grid > div { padding: 0.85rem 1rem; border-bottom: 1px solid var(--line); }
+  .compare-grid .ch {
+    font-family: "SFMono-Regular", monospace; font-size: 0.66rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--flood); background: var(--panel);
+  }
+  .compare-grid .rl { color: var(--bone-dim); font-family: "SFMono-Regular", monospace; font-size: 0.78rem; letter-spacing: 0.04em; }
+  .compare-grid .win { color: var(--sage); }
+  .compare-grid > div:nth-child(3n) { border-right: none; }
+
+  footer {
+    padding: 2.2rem clamp(1.5rem, 5vw, 5rem) 3.5rem; border-top: 1px solid var(--line);
+    font-family: "SFMono-Regular", monospace; font-size: 0.72rem; letter-spacing: 0.08em;
+    color: var(--sage-dim); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  footer a { color: var(--flood-dim); }
+
+  @media (max-width: 680px) {
+    .day { grid-template-columns: 1fr; gap: 1rem; }
+    .day-head { position: static; display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; }
+    .day-title { margin-top: 0; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-grid .rl { background: var(--panel); }
+    .route-map { height: 300px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .day, .basecamp { animation: rise 0.55s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Field Log &middot; Channeled Scablands &middot; Two Routes</div>
+  <h1>Two ways to run the <em>Ice Age Floods</em></h1>
+  <dl class="hero-meta">
+    <div><dt>Dates</dt><dd>Jul 31 &ndash; Aug 2, 2026</dd></div>
+    <div><dt>Occasion</dt><dd>Max's birthday (Aug 4)</dd></div>
+    <div><dt>Nights</dt><dd>2 &middot; drive-up dispersed</dd></div>
+    <div><dt>Rigs</dt><dd>4&times;4 &middot; propane firepit</dd></div>
+  </dl>
+</header>
+
+<dl class="conditions">
+  <div class="cond"><dt>Heat</dt><dd>Plan <strong>low-to-mid 90s</strong> day, 50s&ndash;60s night. No shade &mdash; bring an awning.</dd></div>
+  <div class="cond"><dt>Fire</dt><dd>Campfire ban on public land, but <strong>propane firepits are fine</strong> &mdash; that's our setup.</dd></div>
+  <div class="cond"><dt>Water</dt><dd>No potable water at camp. <strong>Fill up en route</strong> &mdash; see each route below.</dd></div>
+  <div class="cond"><dt>Passes</dt><dd><strong>Discover Pass</strong> required everywhere. Buy ahead.</dd></div>
+  <div class="cond"><dt>Critters</dt><dd>Rattlesnakes on rock; ticks + mosquitoes lakeside. Check nightly.</dd></div>
+</dl>
+
+<div class="toggle-wrap">
+  <span class="toggle-label">Choose route</span>
+  <button class="toggle-btn active" data-opt="b" onclick="pick('b')">Option B<span class="k">Winery Circuit</span></button>
+  <button class="toggle-btn" data-opt="a" onclick="pick('a')">Option A<span class="k">Big-Water Camp</span></button>
+  <button class="toggle-btn" data-opt="c" onclick="pick('c')">Compare<span class="k">Head to head</span></button>
+</div>
+
+<main>
+
+  <!-- OPTION B -->
+  <section class="opt show" id="opt-b">
+    <div class="opt-head">
+      <div class="opt-tag">Option B &middot; Southern basecamp</div>
+      <div class="opt-title">The <em>Ancient Lakes</em> Winery Circuit</div>
+      <p class="opt-sub">Drive-up coulee-lake camping in the Quincy Wildlife Area, built around the tightest winery cluster in the region &mdash; Cave B, Beaumont, and Jones all within ~10 miles of camp.</p>
+      <div class="verdict"><strong>Pick this if:</strong> the winery day is the point, and you want intimate coulee-lake camping close to the vineyards.</div>
+    </div>
+
+    <div id="map-b" class="route-map"></div>
+    <p class="map-cap">Tap any pin for the spot and a Google Maps link. Yellow = camp, red = winery, blue = stop.</p>
+
+    <div class="section-label"><span>The Route</span><span>3 days &middot; 1 basecamp</span></div>
+
+    <article class="day">
+      <div class="day-head">
+        <div class="day-num">01</div><div class="day-date">FRI &middot; JUL 31</div>
+        <div class="day-title">Claim a coulee-lake site</div>
+      </div>
+      <div>
+        <div class="stop camp">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AJRVUZNaPHbU6VTYZcsebNyktuDNm-9J7FNqBNpxwXnpRu-ZGBMbQT3cobLpidUOsbRCSHS1a8w6HryqqzsWa_wbRVL1dg2NdzJE8T60FiXIgkXsNbvoYh6if1AZBoDoU9Gm2aeJmiv0wnE7OYmaZ1A5pv4Q=s1200-w800-h600" alt="Quincy Lakes / Burke Lake">
+          <div class="stop-time">&#8776; 3:00 PM &middot; Arrive</div>
+          <div class="stop-name camp">Quincy Lakes / Burke Lake &mdash; Basecamp (Nights 1 &amp; 2)</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.155011,-119.9178868" target="_blank" rel="noopener">47.15501, -119.91789</a>
+          <p class="stop-note">Drive-up dispersed on WDFW land &mdash; the gate is open <strong>Mar 1&ndash;Sep 30</strong>, so you drive right in to lakeside or bench sites with sunset views. Vault toilets throughout, free with Discover Pass, well-spaced. Leave the west side ~11 AM (&#8776;3 hr) to claim a good spot on a summer Friday. <strong>Note:</strong> leeches reported in the lake (paddling fine, swimming iffy), plus mosquitoes &mdash; bring spray.</p>
+        </div>
+        <div class="stop">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AG9NLjBUiliaGUsBlhvKW48BXFGVvEnZVB3YkXwpBeNLwz24lKi4fUOmHyDuKNWXWs0ZgEjHKdFUA_jiTMY5LOP-9M7AXnYZRXyrRm-V-GF1lMt6R9NRUw_4vFKg0r79vZdu7G2_Qzu43yKQP9uccyYViPKT=s1200-w800-h600" alt="Frenchman Coulee">
+          <div class="stop-time">Alt basecamp</div>
+          <div class="stop-name">Frenchman Coulee (dramatic overlook)</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.0278503,-119.9670767" target="_blank" rel="noopener">47.02785, -119.96708</a>
+          <p class="stop-note">Swap here for the best sunset of any option: basalt columns, a waterfall across the canyon, and an "Overland Overlook" site made for rigs like ours. Trade-off: busier with climbers on weekends, windy, rocky ground, steep entrance (4&times;4 clearance helps). Off I-90 Exit 143.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="day">
+      <div class="day-head">
+        <div class="day-num">02</div><div class="day-date">SAT &middot; AUG 1</div>
+        <div class="day-title">The winery circuit</div>
+      </div>
+      <div>
+        <div class="stop wine">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AJRVUZMjBCIXPayhijJhBTHbubAaZHH94xXOYYY5GgfifMAxy75eA0E74fxVf4KVieaOCsRmWDZu1QzD_lcMLoPuXCIZ34fmykIQ6Gr1O2_CJWQKY-yKX-MTGTkCvQgvDCkNILg5_nkdX8arrXBp2ds=s1200-w800-h600" alt="Cave B Estate Winery">
+          <div class="stop-time">12:00 PM &middot; Marquee</div>
+          <div class="stop-name wine">Cave B Estate Winery</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.0966697,-119.9954386" target="_blank" rel="noopener">47.09667, -119.99544</a>
+          <p class="stop-note">Start on the cliff, 900 ft above the Columbia. $20 for 6 wines / $25 keep-the-glass. Open Fri&ndash;Sat 11&ndash;6:30, last tasting 45 min before close. <strong>Dogs OK leashed &amp; outside</strong> per county rule. Reserve online or walk in.</p>
+        </div>
+        <div class="stop wine">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AG9NLjBESMYNBA-1m96V-mGfa2DPvufhgxl8yZvsW8SXMKkYZplMKgg1HRYeQRSRDsuvUj1hTZtcbl9LNKEekXvLAZkg9ea8vB90tKa61HI1cBOfxb-s481RN772EDt41cJRfuQfOuhOeaDGEJbZc3OW_cOv=s1200-w800-h600" alt="Beaumont Cellars">
+          <div class="stop-time">2:00 PM &middot; ~8 mi</div>
+          <div class="stop-name wine">Beaumont Cellars</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.2093438,-119.9505462" target="_blank" rel="noopener">47.20934, -119.95055</a>
+          <p class="stop-note">Relaxed farm setting with covered patio seating. Well-reviewed Tempranillo, friendly pours, resident chocolate lab. Fri&ndash;Sat 12&ndash;6, Sun 12&ndash;5. No reservation needed.</p>
+        </div>
+        <div class="stop wine">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AG9NLjAu-QuU-odc9rZnNb1xiT5yo9Tesoag8H5GPy6kFs6Rx0Ccb0TbGwyhx5Szl0dB63G4uYxARhcywtuu4UX5_7jURyOqnnoX1SGnj-uPYoO16aupQ9_LDXYnvwddH7ydrsoSgjqbzb3t6_aNuBo=s1200-w800-h600" alt="Jones of Washington">
+          <div class="stop-time">3:30 PM &middot; In town</div>
+          <div class="stop-name wine">Jones of Washington</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.2326249,-119.869545" target="_blank" rel="noopener">47.23262, -119.86954</a>
+          <p class="stop-note">Close it out casual in Quincy town: Ancient Lakes whites &mdash; Riesling, Pinot Gris, Chardonnay &mdash; plus the <strong>wine slushies</strong> reviewers swear by on a 95&deg;F day. Sat 12&ndash;6. Then back to camp for sunset.</p>
+        </div>
+        <div class="stop">
+          <div class="stop-time">Optional add-ons</div>
+          <div class="stop-name">White Heron &middot; Chris Daniel</div>
+          <p class="stop-note">Two more nearby for a fuller circuit &mdash; White Heron (European-style, cliff views above Crescent Bar) and Chris Daniel in George (Fri&ndash;Sun 12&ndash;5). Easy to swap in for Beaumont or Jones.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="day">
+      <div class="day-head">
+        <div class="day-num">03</div><div class="day-date">SUN &middot; AUG 2</div>
+        <div class="day-title">Coulee hike &amp; drive home</div>
+      </div>
+      <div>
+        <div class="stop">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AJRVUZMX_WNvpDQIHYHeqaBD67P1nvKUJ7QSlJSLQFVY625sn09YhWgkzss177PERzJX8ZJV8V-WleQ-JsQ_LHn-fnkr_ixByeSiLalTNMiPonLOBc8GLuZvSC9MdHKfq3GCtRHIY9qvadHttl5hCQ=s1200-w800-h600" alt="Ancient Lakes">
+          <div class="stop-time">&#8776; 9:00 AM &middot; Before heat</div>
+          <div class="stop-name">Ancient Lakes / Dusty Lake day hike</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.1603062,-119.9807011" target="_blank" rel="noopener">47.16031, -119.98070</a>
+          <p class="stop-note">Morning hike into the waterfall-fed coulee &mdash; flat, scenic, and camp gear stays at the rig. Go early before the sun bakes the exposed basin, then break camp. <strong>Don't drink or filter the lake water</strong> &mdash; it's ag runoff.</p>
+        </div>
+        <div class="stop">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AG9NLjBUiliaGUsBlhvKW48BXFGVvEnZVB3YkXwpBeNLwz24lKi4fUOmHyDuKNWXWs0ZgEjHKdFUA_jiTMY5LOP-9M7AXnYZRXyrRm-V-GF1lMt6R9NRUw_4vFKg0r79vZdu7G2_Qzu43yKQP9uccyYViPKT=s1200-w800-h600" alt="Frenchman Coulee">
+          <div class="stop-time">&#8776; 12:00 PM &middot; On the way</div>
+          <div class="stop-name">Frenchman Coulee (optional detour)</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.0278503,-119.9670767" target="_blank" rel="noopener">47.02785, -119.96708</a>
+          <p class="stop-note">A quick scenic stop on the way to I-90 if you didn't camp here: basalt columns, the waterfall, and a Columbia River swim at the end of Vantage Rd to rinse off before the drive home.</p>
+        </div>
+      </div>
+    </article>
+
+    <div class="water">
+      <h4>Water fill-up &middot; Southern route</h4>
+      <p>No potable water at camp, so tank up before or en route. Closest reliable fills: the <strong>town of Quincy</strong> (gas stations &amp; grocery, ~15 min from camp) on the way in, and <a href="https://maps.google.com/?q=46.9733183,-119.3479452" target="_blank" rel="noopener">Potholes State Park</a> to the south, which has potable water, showers, and a dump station if you want a full top-off.</p>
+    </div>
+
+    <div class="basecamp">
+      <h3>Basecamp Spec &middot; Quincy Lakes / Burke Lake</h3>
+      <div class="bc-item"><dt>Manager</dt><dd>WDFW (Columbia Basin WA)</dd></div>
+      <div class="bc-item"><dt>Fee</dt><dd>Free &middot; Discover Pass</dd></div>
+      <div class="bc-item"><dt>Gate</dt><dd>Open Mar 1 &ndash; Sep 30</dd></div>
+      <div class="bc-item"><dt>Reserve?</dt><dd>No &mdash; first-come</dd></div>
+      <div class="bc-item"><dt>Facilities</dt><dd>Vault toilets, boat launch</dd></div>
+      <div class="bc-item"><dt>Water/power</dt><dd>None &mdash; fill in town</dd></div>
+      <div class="bc-item"><dt>Wineries</dt><dd>3&ndash;5 within ~10 mi</dd></div>
+      <div class="bc-item"><dt>Watch for</dt><dd>Leeches &middot; mosquitoes &middot; wind</dd></div>
+    </div>
+  </section>
+
+  <!-- OPTION A -->
+  <section class="opt" id="opt-a">
+    <div class="opt-head">
+      <div class="opt-tag">Option A &middot; Northern basecamp</div>
+      <div class="opt-title">Big-Water Camp &amp; the <em>Dam Show</em></div>
+      <p class="opt-sub">Drive-up sites right on Banks Lake, a 27-mile reservoir you can actually swim in, with the marquee Ice Age Floods geology on your doorstep and a free laser show on Grand Coulee Dam for Max's birthday eve.</p>
+      <div class="verdict"><strong>Pick this if:</strong> swimming, big-water camping, and a birthday spectacle matter most &mdash; wine becomes a single stop on the way home.</div>
+    </div>
+
+    <div id="map-a" class="route-map"></div>
+    <p class="map-cap">Tap any pin for the spot and a Google Maps link. Yellow = camp, red = winery, blue = stop.</p>
+
+    <div class="section-label"><span>The Route</span><span>3 days &middot; 1 basecamp</span></div>
+
+    <article class="day">
+      <div class="day-head">
+        <div class="day-num">01</div><div class="day-date">FRI &middot; JUL 31</div>
+        <div class="day-title">Roll out &amp; make camp on Banks Lake</div>
+      </div>
+      <div>
+        <div class="stop camp">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AJRVUZOMk85nnobLI1Jf42T5acmQgSHhVUqgJeziOdwEtoPmtgDd9qagfvcJ1_zLlo9OqbF_plWYuS5HeMFRfecwwGA-nAK5PRrFOvD3eZWoD_ZhGk7Y4Z8PX0uFkrqgXzb1fEndHAAD4j_AERM0TK5io75BBg=s1200-w800-h600" alt="Osborn Bay, Banks Lake">
+          <div class="stop-time">&#8776; 3:00 PM &middot; Arrive</div>
+          <div class="stop-name camp">Osborn Bay &mdash; Basecamp (Nights 1 &amp; 2)</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.9227893,-119.0603683" target="_blank" rel="noopener">47.92279, -119.06037</a>
+          <p class="stop-note">Drive-up primitive sites right on Banks Lake off Hwy 155, WDFW/State Parks. <strong>~$12/night, vault toilet, boat ramp &amp; dock</strong>, first-come. No water/power. ~3.5 hr from the west side. Ticks reported &mdash; nightly checks including the dog. Through-traffic on the camp road at night per reviews.</p>
+        </div>
+        <div class="stop">
+          <div class="stop-time">Fallback</div>
+          <div class="stop-name">Jones Bay (if Osborn's full)</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.9445,-119.0866" target="_blank" rel="noopener">&#8776; 47.9445, -119.0866</a>
+          <p class="stop-note">Same primitive drive-up setup a couple miles up Hwy 155 &mdash; part of the same 70+ site stretch on Banks Lake. Good backup on a summer Friday.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="day">
+      <div class="day-head">
+        <div class="day-num">02</div><div class="day-date">SAT &middot; AUG 1</div>
+        <div class="day-title">Swim, then read the flood</div>
+      </div>
+      <div>
+        <div class="stop">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AJRVUZPomfNvch8MJPMC_kxGIzMASK55FITjpxysnWRDnJaDyVjL24ogUec3beZe1YD6Iu10qwmsf0rCgBNL9wDeU7uEGJc3NKkhs4QYMYsFcwZsWg9BTZ7FViQGLVA6C4OBbVTTWIX0ALP0Yved4F4=s1200-w800-h600" alt="Steamboat Rock">
+          <div class="stop-time">Dawn (optional) &middot; summit</div>
+          <div class="stop-name">Steamboat Rock Trail</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.8608,-119.1236" target="_blank" rel="noopener">47.86080, -119.12360</a>
+          <p class="stop-note">3.2 mi round trip, ~760 ft gain with light scrambling, onto a 600-acre basalt plateau above the lake. <strong>No shade, rattlesnakes, can top 100&deg;F</strong> &mdash; dawn only, or skip on the hottest day.</p>
+        </div>
+        <div class="stop">
+          <div class="stop-time">&#8776; 10:00 AM &middot; Cool off</div>
+          <div class="stop-name">Steamboat Rock swim beach</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.8608,-119.1236" target="_blank" rel="noopener">47.86080, -119.12360</a>
+          <p class="stop-note">Sandy swim beach on Banks Lake's blue water, ~7 mi south of camp. Morning swim before the desert bakes. Discover Pass for day use.</p>
+        </div>
+        <div class="stop">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AJRVUZPTyf_R6VZdh-wxcnh3ndkNaCRRHUuWdwn-OMRP9C6zwL6ycgWd767deWEntOQpzteF503sY4A7_dolx_3CZOl0IuYpCQakKy19UI94gTzwa9nhh8B33-aS_LTQd2UiEEozjlymXa4MhGlX-pyYNz5e=s1200-w800-h600" alt="Dry Falls">
+          <div class="stop-time">&#8776; 1:00 PM &middot; Geology</div>
+          <div class="stop-name">Dry Falls Visitor Center</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.6064986,-119.3646946" target="_blank" rel="noopener">47.60650, -119.36469</a>
+          <p class="stop-note">The 400-ft cliff that was once the largest waterfall on Earth &mdash; a 3.5-mi-wide dead cataract. AC, clean restrooms, and the interpretive story that frames the whole landscape. ~30 min south.</p>
+        </div>
+        <div class="stop">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AG9NLjAhk1uLWaB1wd3N19BDGp-WIRbEK4BRqFLYPszTZLBW1jAxFM6B_ln73MTz1tuxmTP-At9U0LBcVLR0FyaFH7CawtMl1wzvnhsqdeaiY1AhhnWM1kdEJ8F8m-kiQy1V7IPBo50eLxQ6MoCe-AoSPPCxLA=s1200-w800-h600" alt="Lake Lenore Caves">
+          <div class="stop-time">&#8776; 2:30 PM &middot; Turnaround</div>
+          <div class="stop-name">Lake Lenore Caves</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.51731,-119.4937193" target="_blank" rel="noopener">47.51731, -119.49372</a>
+          <p class="stop-note">Short, rocky hike to basalt shelter caves used by early peoples &mdash; high reward, low effort. Watch footing on loose rock. Southern turnaround; head back north to camp.</p>
+        </div>
+        <div class="stop camp">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AJRVUZNNYkcKJ8rNzR9V4MAgT-AqoxrFE8R6JKoV0HGujCCQXRhmETOMMV330lsd-ZkbuPgpMvsvMZJVq24IaQsD5ebFhYnwJQM9J5zObz0xUOWD77loz2whs7Q2tBVtnYLFT6bf7o01gS5EVBlr_L8_7ReqMQ=s1200-w800-h600" alt="Grand Coulee Dam">
+          <div class="stop-time">&#8776; 9:30 PM &middot; Birthday eve</div>
+          <div class="stop-name camp">Grand Coulee Dam laser show</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.9604327,-118.9866735" target="_blank" rel="noopener">47.96043, -118.98667</a>
+          <p class="stop-note">Free laser light show projected on the dam face, nightly through September. ~15 min from camp &mdash; a memorable low-key send-off into Max's birthday week. <strong>Confirm tonight's start time at the visitor center earlier in the day</strong> (it shifts with sunset).</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="day">
+      <div class="day-head">
+        <div class="day-num">03</div><div class="day-date">SUN &middot; AUG 2</div>
+        <div class="day-title">Wine on the way home</div>
+      </div>
+      <div>
+        <div class="stop">
+          <div class="stop-time">AM &middot; Break camp</div>
+          <div class="stop-name">Pack out Osborn Bay</div>
+          <p class="stop-note">Leave-no-trace pack-out, one last swim if you like, then roll south toward Quincy on the way back to I-90.</p>
+        </div>
+        <div class="stop wine">
+          <img class="stop-photo" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'" src="https://lh3.googleusercontent.com/place-photos/AG9NLjAu-QuU-odc9rZnNb1xiT5yo9Tesoag8H5GPy6kFs6Rx0Ccb0TbGwyhx5Szl0dB63G4uYxARhcywtuu4UX5_7jURyOqnnoX1SGnj-uPYoO16aupQ9_LDXYnvwddH7ydrsoSgjqbzb3t6_aNuBo=s1200-w800-h600" alt="Jones of Washington">
+          <div class="stop-time">12:30 PM &middot; One stop</div>
+          <div class="stop-name wine">Jones of Washington &mdash; Quincy</div>
+          <a class="stop-coord" href="https://maps.google.com/?q=47.2326249,-119.869545" target="_blank" rel="noopener">47.23262, -119.86954</a>
+          <p class="stop-note">Relaxed Ancient Lakes tasting in Quincy town, roughly on the route home. Sun 12&ndash;5. <strong>Add Cave B</strong> (~15 min further, closes Sun 6) if you want the marquee cliffside tasting too. Then home.</p>
+        </div>
+      </div>
+    </article>
+
+    <div class="water">
+      <h4>Water fill-up &middot; Northern route</h4>
+      <p><a href="https://maps.google.com/?q=47.5915476,-119.3624834" target="_blank" rel="noopener">Sun Lakes-Dry Falls State Park</a> has potable water, showers, and a dump station &mdash; it's right on the Saturday geology route, so top off there. Even closer, the developed <strong>Steamboat Rock State Park</strong> campground (~7 mi south of camp) has drinking water and showers by the day-use area.</p>
+    </div>
+
+    <div class="basecamp">
+      <h3>Basecamp Spec &middot; Osborn Bay</h3>
+      <div class="bc-item"><dt>Manager</dt><dd>WDFW / State Parks</dd></div>
+      <div class="bc-item"><dt>Fee</dt><dd>&#8776; $12/night (incl. ramp)</dd></div>
+      <div class="bc-item"><dt>Reserve?</dt><dd>No &mdash; first-come</dd></div>
+      <div class="bc-item"><dt>Facilities</dt><dd>Vault toilet, ramp + dock</dd></div>
+      <div class="bc-item"><dt>Water/power</dt><dd>None &mdash; fill at Steamboat</dd></div>
+      <div class="bc-item"><dt>Swimming</dt><dd>Excellent &mdash; big blue lake</dd></div>
+      <div class="bc-item"><dt>Birthday extra</dt><dd>Dam laser show, ~15 min</dd></div>
+      <div class="bc-item"><dt>Watch for</dt><dd>Ticks &middot; full sun &middot; wind</dd></div>
+    </div>
+  </section>
+
+  <!-- COMPARE -->
+  <section class="opt" id="opt-c">
+    <div class="opt-head">
+      <div class="opt-tag">Head to head</div>
+      <div class="opt-title">How they <em>split</em></div>
+      <p class="opt-sub">Both are drive-up camping with no festival crowds. The decision is a trade between winery density and big-water swimming.</p>
+    </div>
+    <div class="compare-grid">
+      <div class="ch">Factor</div><div class="ch">B &middot; Winery Circuit</div><div class="ch">A &middot; Big-Water Camp</div>
+
+      <div class="rl">Drive-up camp</div><div class="win">Yes &mdash; Burke / Frenchman</div><div class="win">Yes &mdash; Osborn Bay</div>
+      <div class="rl">Swimming</div><div>Leeches at Burke; river swim at Frenchman</div><div class="win">Big blue lake, excellent</div>
+      <div class="rl">Winery day</div><div class="win">Tight 3&ndash;5 winery circuit</div><div>One stop on the way home</div>
+      <div class="rl">Geology</div><div>~45&ndash;60 min north</div><div class="win">On your doorstep</div>
+      <div class="rl">Vista camp</div><div class="win">Frenchman overlook is best</div><div>Coulee + reservoir</div>
+      <div class="rl">Birthday extra</div><div>&mdash;</div><div class="win">Dam laser show</div>
+      <div class="rl">Crowds</div><div>Frenchman busy weekends; Burke quiet</div><div>Moderate</div>
+      <div class="rl">Drive time</div><div class="win">~3 hr</div><div>~3.5 hr</div>
+    </div>
+
+    <div class="verdict" style="margin-top:2rem">
+      <strong>The hybrid:</strong> camp two nights at Burke Lake, run the winery circuit Saturday, and drive the Dry Falls / Lenore geology loop as a day trip. It captures the best of both.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>Field Log &middot; Rad Rigs &middot; Jul 2026</span>
+  <span>Map &amp; pins via OpenStreetMap &middot; every pin links out to <a href="https://maps.google.com" target="_blank" rel="noopener">Google Maps</a></span>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  var DATA = {
+    b: {
+      el: 'map-b', center: [47.13, -119.90], zoom: 10,
+      pins: [
+        { c:[47.155011,-119.9178868], t:'Burke Lake — Basecamp', k:'camp' },
+        { c:[47.0278503,-119.9670767], t:'Frenchman Coulee (alt camp)', k:'camp' },
+        { c:[47.0966697,-119.9954386], t:'Cave B Estate Winery', k:'wine' },
+        { c:[47.2093438,-119.9505462], t:'Beaumont Cellars', k:'wine' },
+        { c:[47.2326249,-119.869545], t:'Jones of Washington', k:'wine' },
+        { c:[47.1603062,-119.9807011], t:'Ancient Lakes hike', k:'stop' }
+      ]
+    },
+    a: {
+      el: 'map-a', center: [47.72, -119.20], zoom: 9,
+      pins: [
+        { c:[47.9227893,-119.0603683], t:'Osborn Bay — Basecamp', k:'camp' },
+        { c:[47.8608,-119.1236], t:'Steamboat Rock (swim + summit)', k:'stop' },
+        { c:[47.6064986,-119.3646946], t:'Dry Falls Visitor Center', k:'stop' },
+        { c:[47.51731,-119.4937193], t:'Lake Lenore Caves', k:'stop' },
+        { c:[47.9604327,-118.9866735], t:'Grand Coulee Dam laser show', k:'camp' },
+        { c:[47.2326249,-119.869545], t:'Jones of Washington', k:'wine' }
+      ]
+    }
+  };
+  var COLORS = { camp:'#c4b454', wine:'#b5623a', stop:'#6ba3b0' };
+  var maps = {};
+
+  function dot(color){
+    return L.divIcon({
+      className:'', iconSize:[16,16], iconAnchor:[8,8], popupAnchor:[0,-8],
+      html:'<div style="width:14px;height:14px;border-radius:50%;background:'+color+';border:2px solid #1a1c1a;box-shadow:0 0 0 1px '+color+'"></div>'
+    });
+  }
+
+  function buildMap(key){
+    var d = DATA[key];
+    var m = L.map(d.el, { scrollWheelZoom:false, attributionControl:true }).setView(d.center, d.zoom);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:19
+    }).addTo(m);
+    var bounds = [];
+    d.pins.forEach(function(p){
+      var mk = L.marker(p.c, { icon: dot(COLORS[p.k]) }).addTo(m);
+      var g = 'https://maps.google.com/?q=' + p.c[0] + ',' + p.c[1];
+      mk.bindPopup('<b>'+p.t+'</b><a href="'+g+'" target="_blank" rel="noopener">Open in Google Maps &rarr;</a>');
+      bounds.push(p.c);
+    });
+    m.fitBounds(bounds, { padding:[40,40] });
+    maps[key] = m;
+    return m;
+  }
+
+  function pick(opt){
+    document.querySelectorAll('.opt').forEach(function(el){ el.classList.remove('show'); });
+    document.getElementById('opt-' + opt).classList.add('show');
+    document.querySelectorAll('.toggle-btn').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-opt') === opt);
+    });
+    if ((opt === 'a' || opt === 'b')) {
+      if (!maps[opt]) { buildMap(opt); }
+      setTimeout(function(){ if (maps[opt]) { maps[opt].invalidateSize(); } }, 60);
+    }
+    window.scrollTo({ top: document.querySelector('.toggle-wrap').offsetTop, behavior: 'smooth' });
+  }
+
+  window.addEventListener('load', function(){ buildMap('b'); });
+</script>
+
+</body>
+</html>
