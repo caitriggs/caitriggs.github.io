@@ -195,6 +195,7 @@
 
   .mission-card:nth-child(1) { animation-delay: 0.4s; }
   .mission-card:nth-child(2) { animation-delay: 0.55s; }
+  .mission-card:nth-child(3) { animation-delay: 0.7s; }
 
   .mission-card::before {
     content: '';
@@ -211,6 +212,10 @@
 
   .mission-card:nth-child(2)::before {
     background: linear-gradient(135deg, rgba(140, 184, 0, 0.05), transparent 50%);
+  }
+
+  .mission-card:nth-child(3)::before {
+    background: linear-gradient(135deg, rgba(232, 137, 106, 0.06), transparent 50%);
   }
 
   .mission-card:hover::before { opacity: 1; }
@@ -230,6 +235,11 @@
     box-shadow: 0 16px 48px rgba(140, 184, 0, 0.05);
   }
 
+  .mission-card:nth-child(3):hover {
+    border-color: rgba(232, 137, 106, 0.3);
+    box-shadow: 0 16px 48px rgba(232, 137, 106, 0.06);
+  }
+
   .mission-index {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
@@ -243,6 +253,7 @@
 
   .mission-card:nth-child(1):hover .mission-index { color: var(--magenta); }
   .mission-card:nth-child(2):hover .mission-index { color: var(--chartreuse); }
+  .mission-card:nth-child(3):hover .mission-index { color: var(--coral-warm); }
 
   .mission-content {
     position: relative;
@@ -262,6 +273,7 @@
 
   .mission-card:nth-child(1) .mission-tag { color: var(--magenta); }
   .mission-card:nth-child(2) .mission-tag { color: var(--chartreuse); }
+  .mission-card:nth-child(3) .mission-tag { color: var(--coral-warm); }
 
   .tag-line {
     width: 16px;
@@ -270,6 +282,7 @@
 
   .mission-card:nth-child(1) .tag-line { background: var(--magenta); }
   .mission-card:nth-child(2) .tag-line { background: var(--chartreuse); }
+  .mission-card:nth-child(3) .tag-line { background: var(--coral-warm); }
 
   .mission-title {
     font-family: 'Syne', sans-serif;
@@ -283,6 +296,7 @@
 
   .mission-card:nth-child(1):hover .mission-title { color: var(--magenta); }
   .mission-card:nth-child(2):hover .mission-title { color: var(--chartreuse); }
+  .mission-card:nth-child(3):hover .mission-title { color: var(--coral-warm); }
 
   .mission-meta {
     font-size: 0.8rem;
@@ -324,6 +338,13 @@
     color: var(--chartreuse);
     background: rgba(140, 184, 0, 0.06);
     box-shadow: 0 0 20px rgba(140, 184, 0, 0.1);
+  }
+
+  .mission-card:nth-child(3):hover .mission-arrow {
+    border-color: var(--coral-warm);
+    color: var(--coral-warm);
+    background: rgba(232, 137, 106, 0.08);
+    box-shadow: 0 0 20px rgba(232, 137, 106, 0.12);
   }
 
   .footer {
@@ -425,7 +446,7 @@
       <div class="mission-content">
         <div class="mission-tag"><span class="tag-line"></span>Los Angeles</div>
         <div class="mission-title">May in LA</div>
-        <div class="mission-meta">May 8–11 <span>·</span> Dress shopping, Korean spa, Netflix Is a Joke Fest <span>·</span> 4 crew</div>
+        <div class="mission-meta">May 8–11, 2026 <span>·</span> Dress shopping, Korean spa, Netflix Is a Joke Fest <span>·</span> 4 crew</div>
       </div>
       <div class="mission-arrow">→</div>
     </a>
@@ -435,7 +456,17 @@
       <div class="mission-content">
         <div class="mission-tag"><span class="tag-line"></span>Pacific Northwest</div>
         <div class="mission-title">Wedding Week</div>
-        <div class="mission-meta">June 15–20 <span>·</span> Port Townsend & Whidbey Island <span>·</span> Max & Cait</div>
+        <div class="mission-meta">June 15–20, 2026 <span>·</span> Port Townsend & Whidbey Island <span>·</span> Max & Cait</div>
+      </div>
+      <div class="mission-arrow">→</div>
+    </a>
+
+    <a href="./camping-weekend-aug-2026/" class="mission-card">
+      <div class="mission-index">03</div>
+      <div class="mission-content">
+        <div class="mission-tag"><span class="tag-line"></span>Channeled Scablands</div>
+        <div class="mission-title">Camping Weekend</div>
+        <div class="mission-meta">Jul 31 – Aug 2, 2026 <span>·</span> Ice Age Floods, Max's birthday <span>·</span> 2 nights dispersed</div>
       </div>
       <div class="mission-arrow">→</div>
     </a>
@@ -446,11 +477,11 @@
     <div class="footer-left">Cait & Max — 2026 Ops Board</div>
     <div class="footer-right">
       <div class="footer-stat">
-        <div class="footer-stat-value">2</div>
+        <div class="footer-stat-value">3</div>
         <div class="footer-stat-label">Active Missions</div>
       </div>
       <div class="footer-stat">
-        <div class="footer-stat-value">9</div>
+        <div class="footer-stat-value">13</div>
         <div class="footer-stat-label">Total Days</div>
       </div>
     </div>
