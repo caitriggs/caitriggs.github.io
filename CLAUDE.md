@@ -16,6 +16,10 @@ Cait's personal GitHub Pages site — a hand-written static HTML site. The root 
 - Remote: github.com/caitriggs/caitriggs.github.io.
 - No separate staging branch observed. For anything risky, work on a feature branch and merge to main when ready, since main is live.
 
+## Adding pages
+- New trip/itinerary subpage → also add a card to the root index.html "Ops Board" home page, linking to that subpage.
+- Ad hoc pages (reports, projects, or anything not a trip/itinerary) → no homepage card or link.
+
 ## Do NOT touch
 - Don't introduce a build system, bundler, or framework (React/Vue/etc.) or a node_modules/ unless explicitly asked — this site is intentionally plain HTML.
 - Don't add Jekyll config or restructure into a Jekyll layout; it's served as static files.
