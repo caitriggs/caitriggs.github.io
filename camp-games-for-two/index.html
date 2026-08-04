@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two chairs, one fire, three games</title>
+<style>
+  :root{
+    --ink:#080B0F;
+    --bone:#EAE4DA;
+    --mute:#8D9AA6;
+    --body:#C6CDD3;
+
+    --sky-bg:#122019;
+    --sky-deep:#0A1410;
+    --sky-glow:#C6E44A;
+
+    --iron-bg:#101C27;
+    --iron-deep:#0A131B;
+    --iron-ember:#C88743;
+
+    --star-bg:#210A1A;
+    --star-deep:#150410;
+    --star-rose:#F58AB4;
+    --star-hot:#E0218A;
+
+    --serif:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+
+    --shell:1280px;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--bone);
+    font-family:var(--sans);
+    font-weight:400;
+    line-height:1.64;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  img{display:block;max-width:100%;}
+  a{color:inherit;}
+
+  .wrap{max-width:var(--shell);margin:0 auto;padding-left:22px;padding-right:22px;}
+
+  /* ---------- opening scene ---------- */
+
+  .scene{padding-top:58px;padding-bottom:40px;position:relative;}
+
+  .rule{width:64px;height:3px;margin-bottom:22px;
+    background:linear-gradient(90deg,#C6E44A,#C88743 50%,#E0218A);}
+
+  .kicker{
+    font-family:var(--mono);
+    font-size:.66rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--mute);
+    margin:0 0 18px;
+  }
+
+  .scene h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2.1rem,7.2vw,3.7rem);
+    line-height:1.05;
+    letter-spacing:-.02em;
+    margin:0 0 28px;
+    max-width:17ch;
+  }
+
+  .scene h1 em{font-style:italic;font-weight:inherit;color:var(--sky-glow);}
+
+  .story{max-width:60ch;border-left:2px solid rgba(255,255,255,.14);padding-left:20px;}
+
+  .story p{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:clamp(1.12rem,3.6vw,1.38rem);
+    line-height:1.46;
+    color:var(--bone);
+    margin:0 0 18px;
+  }
+
+  .story p:last-child{margin-bottom:0;}
+
+  /* ---------- vitals ---------- */
+
+  .vitals{padding-top:32px;}
+
+  .vitals-inner{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.12);
+  }
+
+  .vital{background:var(--ink);padding:15px 17px;}
+
+  .vital span{
+    display:block;
+    font-family:var(--mono);
+    font-size:.62rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    margin-bottom:5px;
+  }
+
+  .v-sky span{color:var(--sky-glow);}
+  .v-iron span{color:var(--iron-ember);}
+  .v-star span{color:var(--star-hot);}
+
+  .vital strong{font-weight:400;font-size:.95rem;color:var(--body);}
+
+  /* ---------- panels ---------- */
+
+  .rack{padding-top:38px;display:grid;grid-template-columns:1fr;gap:36px;}
+
+  .panel{border:1px solid rgba(255,255,255,.09);overflow:hidden;display:flex;flex-direction:column;}
+
+  .p-sky{background:var(--sky-deep);}
+  .p-iron{background:var(--iron-deep);}
+  .p-star{background:var(--star-deep);}
+
+  .hero{position:relative;overflow:hidden;min-height:120px;}
+  .hero img{width:100%;height:230px;object-fit:cover;}
+  .hero-fit img{object-fit:contain;padding:16px;height:250px;}
+
+  .veil{position:absolute;left:0;right:0;bottom:0;height:60%;pointer-events:none;}
+  .p-sky .veil{background:linear-gradient(to top,#0A1410,rgba(10,20,16,0));}
+  .p-iron .veil{background:linear-gradient(to top,#0A131B,rgba(10,19,27,0));}
+  .p-star .veil{background:linear-gradient(to top,#150410,rgba(21,4,16,0));}
+
+  .inner{padding:26px 22px 30px;flex:1;display:flex;flex-direction:column;}
+
+  .tagline{
+    font-family:var(--mono);
+    font-size:.65rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    margin:0 0 12px;
+  }
+
+  .p-sky .tagline{color:var(--sky-glow);}
+  .p-iron .tagline{color:var(--iron-ember);}
+  .p-star .tagline{color:var(--star-hot);}
+
+  .panel h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(1.75rem,5.2vw,2.3rem);
+    line-height:1.06;
+    letter-spacing:-.018em;
+    margin:0 0 5px;
+  }
+
+  .byline{font-size:.84rem;color:var(--mute);margin:0 0 20px;}
+
+  .hook{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:1.15rem;
+    line-height:1.42;
+    margin:0 0 20px;
+  }
+
+  .p-sky .hook{color:#D9EFA8;}
+  .p-iron .hook{color:#CBDDEA;}
+  .p-star .hook{color:var(--star-rose);}
+
+  .inner p.txt{margin:0 0 15px;font-size:.97rem;color:var(--body);}
+  .inner p.txt.last{margin-bottom:22px;}
+
+  .howto{border-left:2px solid rgba(255,255,255,.2);padding:2px 0 2px 16px;margin:4px 0 24px;}
+  .p-sky .howto{border-left-color:var(--sky-glow);}
+  .p-iron .howto{border-left-color:var(--iron-ember);}
+  .p-star .howto{border-left-color:var(--star-hot);}
+
+  .howto h3{
+    font-family:var(--mono);
+    font-size:.65rem;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--mute);
+    margin:0 0 10px;
+  }
+
+  .howto ol{margin:0;padding-left:1.15em;}
+  .howto li{font-size:.93rem;margin-bottom:7px;color:var(--body);}
+
+  .gallery{display:flex;gap:10px;overflow-x:auto;padding-bottom:12px;margin:0 0 10px;-webkit-overflow-scrolling:touch;}
+  .gallery img{height:200px;width:auto;flex:0 0 auto;border:1px solid rgba(255,255,255,.1);}
+  .gallery::-webkit-scrollbar{height:5px;}
+  .gallery::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);}
+
+  .caption{
+    font-family:var(--mono);
+    font-size:.62rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--mute);
+    margin:0 0 24px;
+  }
+
+  .facts{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.1);
+    margin-bottom:24px;
+  }
+
+  .fact{padding:13px 14px;}
+  .p-sky .fact{background:var(--sky-bg);}
+  .p-iron .fact{background:var(--iron-bg);}
+  .p-star .fact{background:var(--star-bg);}
+
+  .fact span{
+    display:block;
+    font-family:var(--mono);
+    font-size:.59rem;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--mute);
+    margin-bottom:4px;
+  }
+
+  .fact strong{font-weight:400;font-size:.92rem;}
+
+  .cta{
+    margin-top:auto;
+    align-self:flex-start;
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:12px 20px;
+    border:1px solid rgba(255,255,255,.3);
+  }
+
+  .p-sky .cta{border-color:var(--sky-glow);color:var(--sky-glow);}
+  .p-iron .cta{border-color:var(--iron-ember);color:var(--iron-ember);}
+  .p-star .cta{border-color:var(--star-hot);color:var(--star-rose);}
+
+  /* ---------- closer ---------- */
+
+  .closer{padding-top:52px;padding-bottom:72px;}
+
+  .closer h3{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:1.5rem;
+    letter-spacing:-.015em;
+    margin:0 0 22px;
+  }
+
+  .pick{display:grid;gap:15px;max-width:64ch;margin-bottom:30px;}
+  .pick div{padding-left:16px;border-left:2px solid rgba(255,255,255,.16);font-size:.98rem;color:var(--body);}
+  .k-sky{border-left-color:var(--sky-glow) !important;}
+  .k-iron{border-left-color:var(--iron-ember) !important;}
+  .k-star{border-left-color:var(--star-hot) !important;}
+  .pick b{font-weight:600;color:var(--bone);}
+
+  .signoff{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:1.1rem;
+    color:var(--bone);
+    max-width:54ch;
+    margin:0 0 32px;
+  }
+
+  .note{
+    font-size:.82rem;
+    color:var(--mute);
+    max-width:64ch;
+    padding-top:22px;
+    border-top:1px solid rgba(255,255,255,.1);
+    margin:0;
+  }
+
+  @media (min-width:560px){
+    .vitals-inner{grid-template-columns:1fr 1fr 1fr;}
+    .hero img{height:270px;}
+  }
+
+  @media (min-width:1080px){
+    .rack{grid-template-columns:1fr 1fr 1fr;gap:24px;}
+    .scene{padding-top:84px;}
+    .hero img{height:210px;}
+    .hero-fit img{height:210px;}
+    .gallery img{height:180px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap scene">
+  <div class="rule"></div>
+  <p class="kicker">For Max &middot; Three games, two players, no group required</p>
+  <h1>Two chairs, one fire, <em>three good games</em></h1>
+
+  <div class="story">
+    <p>Coals down to that steady orange. Dinner done. Lucy curled up in her poof by our camp chairs. Nowhere to be and nothing left to do except pick something to play.</p>
+    <p>Somebody reaches into the rig and comes back with a small box.</p>
+    <p>All three of these fit in a bin, play with exactly two people, and need zero other humans and zero prep. Read them, pick your favorite, and I will pack it.</p>
+  </div>
+</header>
+
+<section class="wrap vitals">
+  <div class="vitals-inner">
+    <div class="vital v-sky"><span>Sky Team</span><strong>20 minutes &middot; smallest box</strong></div>
+    <div class="vital v-iron"><span>Ironsworn</span><strong>Months of story &middot; free PDF</strong></div>
+    <div class="vital v-star"><span>Star Crossed</span><strong>One evening &middot; one story</strong></div>
+  </div>
+</section>
+
+<main class="wrap rack">
+
+  <article class="panel p-sky">
+    <div class="hero hero-fit">
+      <img src="https://www.redrockgames.co.uk/wp-content/uploads/2026/06/CSG-CSGSKY_01-sky-team.jpg" alt="Sky Team box art" onerror="this.parentNode.style.display='none'">
+      <div class="veil"></div>
+    </div>
+    <div class="inner">
+      <p class="tagline">Cooperative &middot; Cockpit &middot; 20 minutes</p>
+      <h2>Sky Team</h2>
+      <p class="byline">Luc R&eacute;mond &middot; Le Scorpion Masqu&eacute; &middot; Spiel des Jahres award winner, 2024</p>
+
+      <p class="hook">You fly it. I sit right seat. We land this thing without saying a word.</p>
+
+      <p class="txt">Small box, tiny footprint, one shared control panel that sits between us and looks like an actual instrument cluster. We are pilot and co-pilot bringing an airliner down, and the whole game lives in that cockpit.</p>
+
+      <p class="txt">The gorgeous, evil part: dice get rolled behind a screen where the other person cannot see them, and from that moment on the two of you go silent. All that is left is watching where your partner puts a die and working out what they need from you. Most romantic thing a dice game has ever done.</p>
+
+      <p class="txt last">Eleven real airports, twenty one scenarios built from real landing conditions. Wind, ice, kerosene leaks, traffic, and one where you have to train an intern. There is a coffee space on the panel that lets you nudge a die value, which is the single most accurate mechanic in tabletop gaming.</p>
+
+      <div class="howto">
+        <h3>How a round goes</h3>
+        <ol>
+          <li>Both of us roll our dice hidden behind our own screens.</li>
+          <li>We alternate placing dice on the panel: axis, flaps, gear, engines, brakes, radio.</li>
+          <li>Talking is done for the round. Read what I placed, guess what I am worried about, place accordingly.</li>
+        </ol>
+      </div>
+
+      <div class="gallery">
+        <img src="https://www.redrockgames.co.uk/wp-content/uploads/2026/06/CSG-CSGSKY_01-sky-team.jpg" alt="Sky Team box art" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://www.redrockgames.co.uk/wp-content/uploads/2026/06/CSG-CSGSKY_02-sky-team.jpg" alt="Sky Team components" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <p class="caption">Swipe &middot; box and components</p>
+
+      <div class="facts">
+        <div class="fact"><span>Players</span><strong>Exactly 2</strong></div>
+        <div class="fact"><span>Runs a GM?</span><strong>No</strong></div>
+        <div class="fact"><span>Length</span><strong>15 to 20 minutes</strong></div>
+        <div class="fact"><span>Camp friendly</span><strong>Very, small box</strong></div>
+      </div>
+
+      <a class="cta" href="https://www.redrockgames.co.uk/sky-team/">See the components</a>
+    </div>
+  </article>
+
+  <article class="panel p-iron">
+    <div class="hero">
+      <img src="https://img.itch.zone/aW1nLzE3OTgwODguanBn/original/gRDqF5.jpg" alt="Ironsworn cover art" onerror="this.parentNode.style.display='none'">
+      <div class="veil"></div>
+    </div>
+    <div class="inner">
+      <p class="tagline">Dark fantasy &middot; The Ironlands</p>
+      <h2>Ironsworn</h2>
+      <p class="byline">Shawn Tomkin &middot; 2018 &middot; ENnie winner, Best Free Game</p>
+
+      <p class="hook">Swear a vow out loud, then find out what it costs you.</p>
+
+      <p class="txt">Cold low fantasy in a land of fjords, glaciers and half abandoned steadings. Early Viking age vibes with the magic dialed way down and made ritual and dangerous. Promises sworn on iron bind you, and your character starts play already owing one.</p>
+
+      <p class="txt">Co-op mode is our mode. We each play our own character, neither of us gets stuck being the GM, and the world fills itself in through oracle tables we roll against together. What is in the cave, who already lives there, whether the bridge holds. We find out at the same second, which means I get to watch your face do the thing.</p>
+
+      <p class="txt last">It carries across sessions. Vows stay open, scars stay on the sheet, the map keeps growing. Also, and I want to be very clear about this, the entire 272 page rulebook is free.</p>
+
+      <div class="howto">
+        <h3>How a turn goes</h3>
+        <ol>
+          <li>Say what your character does.</li>
+          <li>Roll one d6, add a stat. That number is what you brought.</li>
+          <li>Roll two d10 against it. Beat both and you get what you wanted. Beat one and you get it with strings attached. Beat neither and the Ironlands take their turn.</li>
+        </ol>
+      </div>
+
+      <div class="gallery">
+        <img src="https://img.itch.zone/aW1hZ2UvMzU5NzA3LzE3OTgxMTQucG5n/347x500/4T0Q8w.png" alt="Ironsworn interior page" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzU5NzA3LzE3OTgxMTUucG5n/347x500/e4qPTQ.png" alt="Ironsworn interior page" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzU5NzA3LzE3OTgxMTIucG5n/347x500/A9moFn.png" alt="Ironsworn interior page" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzU5NzA3LzE3OTgxMTMucG5n/347x500/3OFD20.png" alt="Ironsworn interior page" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzU5NzA3LzE3OTgxMjQucG5n/347x500/rQbZa6.png" alt="Ironsworn interior page" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzU5NzA3LzE3OTgxMjMucG5n/347x500/%2FmXNIP.png" alt="Ironsworn interior page" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <p class="caption">Swipe &middot; rulebook interiors</p>
+
+      <div class="facts">
+        <div class="fact"><span>Players</span><strong>2 in co-op mode</strong></div>
+        <div class="fact"><span>Runs a GM?</span><strong>No</strong></div>
+        <div class="fact"><span>Format</span><strong>Free, complete PDF</strong></div>
+        <div class="fact"><span>Camp friendly</span><strong>Dice, sheets, pencils</strong></div>
+      </div>
+
+      <a class="cta" href="https://shawn-tomkin.itch.io/ironsworn">Download it free</a>
+    </div>
+  </article>
+
+  <article class="panel p-star">
+    <div class="hero">
+      <img src="https://img.itch.zone/aW1nLzE4NzE0MDgucG5n/original/lhliUQ.png" alt="Star Crossed cover art by Jess Fink" onerror="this.parentNode.style.display='none'">
+      <div class="veil"></div>
+    </div>
+    <div class="inner">
+      <p class="tagline">Romance &middot; Any setting we want</p>
+      <h2>Star Crossed</h2>
+      <p class="byline">Alex Roberts &middot; art by Jess Fink &middot; 2019 Diana Jones Award</p>
+
+      <p class="hook">Two characters who really want to, and really should not.</p>
+
+      <p class="txt">We build a pair who are pulled toward each other and have a very good reason to stay apart. Best friends about to move to different cities. A queen and her knight errant. Rival clan leaders. A lonely trucker and an alien brain parasite, which is an actual worked example in the book and tells you everything about its sense of humor.</p>
+
+      <p class="txt">Then we play scenes, trading off describing what our characters say and do. Any time you want yours to lean into the pull, you pull a brick from the tower and set it on top. The tension becomes a physical object sitting between us getting worse and worse.</p>
+
+      <p class="txt last">If it falls, they act on it. We decide what that looks like and the rules tell us what it costs. Epidiah Ravachol, who designed Dread, said the thing hiding in that teetering tower is real human desire, and he is annoyingly right.</p>
+
+      <div class="howto">
+        <h3>The entire mechanic</h3>
+        <ol>
+          <li>Play a scene. Take turns describing what your character does.</li>
+          <li>Push toward the attraction, pull a brick.</li>
+          <li>Tower falls, they give in. We narrate it, the rules handle the aftermath.</li>
+        </ol>
+      </div>
+
+      <div class="gallery">
+        <img src="https://img.itch.zone/aW1nLzE4NzE0MzAucG5n/original/Ub6A39.png" alt="Star Crossed illustration by Jess Fink" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzczMTcwLzE4NzEwMDQucG5n/347x500/vntsBW.png" alt="Star Crossed interior page" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzczMTcwLzE4NzEwMDcucG5n/347x500/d9uR52.png" alt="Star Crossed interior page" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzczMTcwLzE4NzEwMTguanBn/347x500/ZOm0T8.jpg" alt="Star Crossed in play" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzczMTcwLzE4NzEwMTYuanBn/347x500/N0RPu8.jpg" alt="Star Crossed in play" loading="lazy" onerror="this.style.display='none'">
+        <img src="https://img.itch.zone/aW1hZ2UvMzczMTcwLzE4NzEwMTkucG5n/347x500/ZhzMOC.png" alt="Star Crossed interior page" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <p class="caption">Swipe &middot; art by Jess Fink</p>
+
+      <div class="facts">
+        <div class="fact"><span>Players</span><strong>Exactly 2</strong></div>
+        <div class="fact"><span>Runs a GM?</span><strong>No</strong></div>
+        <div class="fact"><span>Format</span><strong>Digital PDF</strong></div>
+        <div class="fact"><span>You need</span><strong>A Jenga set</strong></div>
+      </div>
+
+      <a class="cta" href="https://bullypulpitgames.itch.io/star-crossed">See it on itch</a>
+    </div>
+  </article>
+
+</main>
+
+<footer class="wrap closer">
+  <h3>How to pick</h3>
+
+  <div class="pick">
+    <div class="k-sky"><b>You have twenty minutes and a beer.</b> Sky Team. Set it up on the tailgate, crash the plane twice, land it on the third try, immediately want to go again. Smallest box, lowest commitment, best odds we play it more than once.</div>
+    <div class="k-iron"><b>You want something that keeps going.</b> Ironsworn. Characters we carry from trip to trip, vows we are still chasing in October, a map of the Ironlands that grows every time we camp. Costs nothing to find out whether it grabs you.</div>
+    <div class="k-star"><b>You want one loaded evening with a real ending.</b> Star Crossed. An hour or two, a definite finish, and a tower on the table doing the work of raising the stakes so neither of us has to.</div>
+  </div>
+
+  <p class="note">Cover art and interior pages belong to their publishers and creators, pulled from the official listings at shawn-tomkin.itch.io, bullypulpitgames.itch.io, and a Scorpion Masqu&eacute; retail listing. This page is just a reference for the two of us.</p>
+</footer>
+
+</body>
+</html>
