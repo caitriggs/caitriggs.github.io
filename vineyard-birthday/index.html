@@ -26,7 +26,7 @@
   body{
     margin:0;background:var(--must);color:var(--fog);
     font-family:"Karla",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    font-weight:300;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;
+    font-weight:300;font-size:19px;line-height:1.7;-webkit-font-smoothing:antialiased;
   }
   .wrap{max-width:980px;margin:0 auto;padding:0 24px;}
 
@@ -40,7 +40,7 @@
 
   .eyebrow{
     font-family:"IBM Plex Mono",ui-monospace,monospace;
-    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    font-size:13px;letter-spacing:.22em;text-transform:uppercase;
     color:var(--bronze);margin:0 0 18px;
   }
   h1,h2,h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:400;margin:0;}
@@ -53,9 +53,9 @@
   .hero-img img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.85) brightness(.6);}
   .hero-veil{position:absolute;inset:0;background:linear-gradient(to top,var(--must) 3%,rgba(27,18,32,.74) 44%,rgba(27,18,32,.28) 100%);}
   .hero-inner{position:relative;padding:0 24px 60px;max-width:980px;margin:0 auto;width:100%;}
-  .hero h1{font-size:clamp(2.9rem,10vw,6rem);line-height:.94;letter-spacing:-.02em;margin:0 0 22px;}
+  .hero h1{font-size:calc(clamp(2.9rem,10vw,6rem) + 2px);line-height:.94;letter-spacing:-.02em;margin:0 0 22px;}
   .hero h1 em{font-style:italic;color:var(--bronze-bright);}
-  .hero p{max-width:44ch;font-size:clamp(1rem,2.4vw,1.18rem);margin:0;}
+  .hero p{max-width:44ch;font-size:calc(clamp(1rem,2.4vw,1.18rem) + 2px);margin:0;}
 
   /* the vineyard, introduced */
   .estate{
@@ -69,52 +69,52 @@
   @media(min-width:820px){.estate-body{padding:44px 42px;}}
   .estate-name{
     font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;
-    font-size:clamp(2rem,5.5vw,2.9rem);line-height:1.02;letter-spacing:-.01em;
+    font-size:calc(clamp(2rem,5.5vw,2.9rem) + 2px);line-height:1.02;letter-spacing:-.01em;
     color:var(--bronze-bright);display:block;margin-bottom:14px;
   }
-  .estate-tag{font-size:1.02rem;margin:0 0 24px;max-width:46ch;}
-  .estate-body p.body{font-size:.96rem;margin:0 0 26px;max-width:52ch;}
+  .estate-tag{font-size:calc(1.02rem + 2px);margin:0 0 24px;max-width:46ch;}
+  .estate-body p.body{font-size:calc(.96rem + 2px);margin:0 0 26px;max-width:52ch;}
   .facts{
     display:grid;grid-template-columns:1fr;gap:0;
     border-top:1px solid var(--wire);
-    font-family:"IBM Plex Mono",monospace;font-size:12px;line-height:1.7;
+    font-family:"IBM Plex Mono",monospace;font-size:14px;line-height:1.7;
   }
   @media(min-width:560px){.facts{grid-template-columns:1fr 1fr;}}
   .facts div{padding:16px 0 0;}
   @media(min-width:560px){.facts div:first-child{padding-right:20px;border-right:1px solid var(--wire);}
     .facts div:last-child{padding-left:20px;}}
-  .facts b{display:block;font-weight:400;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin-bottom:7px;}
+  .facts b{display:block;font-weight:400;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin-bottom:7px;}
   .facts span{color:var(--fog-dim);}
 
   /* u-pick date stamp */
   .stamp{border-top:1px solid var(--wire);border-bottom:1px solid var(--wire);padding:44px 0;margin-top:60px;text-align:center;}
   .stamp .eyebrow{margin-bottom:14px;}
   .stamp .window{
-    font-family:"Bodoni Moda",serif;font-size:clamp(1.9rem,7vw,3.5rem);
+    font-family:"Bodoni Moda",serif;font-size:calc(clamp(1.9rem,7vw,3.5rem) + 2px);
     line-height:1.05;letter-spacing:-.02em;color:var(--bronze-bright);display:block;margin-bottom:16px;
   }
-  .stamp .fine{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.1em;color:var(--fog-dim);margin:0;}
+  .stamp .fine{font-family:"IBM Plex Mono",monospace;font-size:13.5px;letter-spacing:.1em;color:var(--fog-dim);margin:0;}
 
   section{padding:60px 0 0;}
   .sec-head{margin-bottom:32px;}
-  .sec-head h2{font-size:clamp(1.9rem,5vw,2.9rem);line-height:1.06;letter-spacing:-.015em;}
+  .sec-head h2{font-size:calc(clamp(1.9rem,5vw,2.9rem) + 2px);line-height:1.06;letter-spacing:-.015em;}
 
   /* envelope */
   .envelope{border:1px solid var(--wire);background:linear-gradient(165deg,var(--skin),var(--must));
     padding:34px 28px;display:grid;gap:26px;grid-template-columns:1fr;}
   @media(min-width:760px){.envelope{grid-template-columns:1fr 1fr;padding:44px 40px;gap:44px;}}
-  .envelope h3{font-size:1.55rem;margin-bottom:12px;}
-  .price{font-family:"IBM Plex Mono",monospace;font-size:2.7rem;color:var(--bronze-bright);letter-spacing:-.03em;display:block;line-height:1;}
-  .price small{font-size:.72rem;letter-spacing:.16em;color:var(--fog-dim);text-transform:uppercase;display:block;margin-top:12px;line-height:1.8;}
+  .envelope h3{font-size:calc(1.55rem + 2px);margin-bottom:12px;}
+  .price{font-family:"IBM Plex Mono",monospace;font-size:calc(2.7rem + 2px);color:var(--bronze-bright);letter-spacing:-.03em;display:block;line-height:1;}
+  .price small{font-size:calc(.72rem + 2px);letter-spacing:.16em;color:var(--fog-dim);text-transform:uppercase;display:block;margin-top:12px;line-height:1.8;}
   .envelope ul{margin:0;padding:0;list-style:none;}
-  .envelope li{padding:12px 0 12px 20px;border-top:1px solid var(--wire);position:relative;font-size:.93rem;line-height:1.6;}
+  .envelope li{padding:12px 0 12px 20px;border-top:1px solid var(--wire);position:relative;font-size:calc(.93rem + 2px);line-height:1.6;}
   .envelope li:first-child{border-top:0;}
   .envelope li::before{content:"";position:absolute;left:0;top:1.4em;width:7px;height:7px;border-radius:50%;background:var(--bronze);}
 
   /* buttons */
   .cta-row{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
   .btn{display:inline-block;background:var(--bronze-bright);color:#1B1220;
-    font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12.5px;
+    font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:14.5px;
     letter-spacing:.16em;text-transform:uppercase;text-decoration:none;
     padding:17px 30px;border:1px solid var(--bronze-bright);
     transition:background .2s ease,color .2s ease;}
@@ -130,30 +130,30 @@
   .day figure img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9) brightness(.86);transition:transform .6s ease;}
   .day:hover figure img{transform:scale(1.04);}
   .day-body{padding:24px 22px 26px;flex:1;}
-  .day-n{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.2em;color:var(--fog-dim);display:block;margin-bottom:12px;}
+  .day-n{font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:.2em;color:var(--fog-dim);display:block;margin-bottom:12px;}
   .day-place{
     font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;
-    font-size:1.75rem;line-height:1.05;color:var(--bronze-bright);
+    font-size:calc(1.75rem + 2px);line-height:1.05;color:var(--bronze-bright);
     display:block;margin-bottom:8px;
   }
-  .day-sub{font-family:"Bodoni Moda",serif;font-size:.98rem;color:var(--fog);opacity:.75;display:block;margin-bottom:16px;line-height:1.35;}
-  .day p{font-size:.92rem;margin:0 0 16px;line-height:1.68;}
-  .day .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--fog-dim);border-top:1px solid var(--wire);padding-top:13px;margin:0;line-height:1.7;}
+  .day-sub{font-family:"Bodoni Moda",serif;font-size:calc(.98rem + 2px);color:var(--fog);opacity:.75;display:block;margin-bottom:16px;line-height:1.35;}
+  .day p{font-size:calc(.92rem + 2px);margin:0 0 16px;line-height:1.68;}
+  .day .meta{font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--fog-dim);border-top:1px solid var(--wire);padding-top:13px;margin:0;line-height:1.7;}
 
   /* map */
   .mapbox{margin-top:34px;border:1px solid var(--wire);background:var(--skin);}
   .mapbox iframe{display:block;width:100%;height:400px;border:0;filter:grayscale(.25) contrast(1.05);}
   .mapbox .maprow{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;
     padding:16px 20px;border-top:1px solid var(--wire);
-    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--fog-dim);letter-spacing:.06em;}
+    font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--fog-dim);letter-spacing:.06em;}
 
   /* detours */
   .detours{display:grid;gap:26px;grid-template-columns:1fr;}
   @media(min-width:760px){.detours{grid-template-columns:1fr 1fr;gap:36px;}}
   .detour{border-left:2px solid var(--bronze);padding:4px 0 4px 22px;}
-  .detour h3{font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;font-size:1.4rem;color:var(--bronze-bright);margin-bottom:10px;}
-  .detour p{font-size:.92rem;margin:0 0 14px;}
-  .detour .meta{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--fog-dim);margin:0 0 14px;}
+  .detour h3{font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;font-size:calc(1.4rem + 2px);color:var(--bronze-bright);margin-bottom:10px;}
+  .detour p{font-size:calc(.92rem + 2px);margin:0 0 14px;}
+  .detour .meta{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--fog-dim);margin:0 0 14px;}
 
   /* varieties */
   .vines{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;}
@@ -161,14 +161,14 @@
   .vine{padding:22px 12px 18px;text-align:center;background:var(--skin);border-top:2px solid var(--berry);}
   .berry{width:32px;height:32px;border-radius:50%;margin:0 auto 13px;background:var(--berry);
     box-shadow:inset -4px -5px 9px rgba(0,0,0,.42),inset 3px 3px 7px rgba(255,255,255,.14);}
-  .vine b{font-family:"Bodoni Moda",serif;font-weight:400;font-size:1.05rem;display:block;}
-  .vine span{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;color:var(--fog-dim);text-transform:uppercase;}
+  .vine b{font-family:"Bodoni Moda",serif;font-weight:400;font-size:calc(1.05rem + 2px);display:block;}
+  .vine span{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.16em;color:var(--fog-dim);text-transform:uppercase;}
 
   /* winemaking */
   .make{border-left:2px solid var(--bronze);padding:6px 0 6px 26px;max-width:var(--measure);}
-  .make p:first-child{font-family:"Bodoni Moda",serif;font-size:clamp(1.2rem,3.2vw,1.5rem);
+  .make p:first-child{font-family:"Bodoni Moda",serif;font-size:calc(clamp(1.2rem,3.2vw,1.5rem) + 2px);
     line-height:1.4;font-style:italic;margin:0 0 18px;color:var(--bronze-bright);}
-  .make p{font-size:.96rem;}
+  .make p{font-size:calc(.96rem + 2px);}
 
   /* field notes */
   .notes{display:grid;grid-template-columns:1fr;border:1px solid var(--wire);font-family:"IBM Plex Mono",monospace;}
@@ -178,12 +178,12 @@
     .note:nth-child(odd){border-right:1px solid var(--wire);}
     .note:nth-last-child(-n+2){border-bottom:0;}
   }
-  .note dt{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin-bottom:8px;}
-  .note dd{margin:0;font-size:13.5px;line-height:1.65;}
+  .note dt{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin-bottom:8px;}
+  .note dd{margin:0;font-size:15.5px;line-height:1.65;}
   .note dd a{color:var(--bronze-bright);}
 
   footer{margin-top:70px;padding:30px 0 60px;border-top:1px solid var(--wire);
-    font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.9;color:var(--fog-dim);}
+    font-family:"IBM Plex Mono",monospace;font-size:13px;line-height:1.9;color:var(--fog-dim);}
   footer a{color:var(--fog-dim);}
   a:focus-visible{outline:2px solid var(--bronze-bright);outline-offset:3px;}
 
@@ -254,7 +254,7 @@
     background:radial-gradient(circle at 34% 28%,#E6C892,#BD9A5F 58%,#8A6A34);
     box-shadow:0 4px 14px rgba(0,0,0,.5);
     display:flex;align-items:center;justify-content:center;
-    font-family:"Bodoni Moda",serif;font-style:italic;font-size:21px;color:#2B1C31;
+    font-family:"Bodoni Moda",serif;font-style:italic;font-size:23px;color:#2B1C31;
     animation:breakSeal .5s cubic-bezier(.4,0,.7,.2) .34s both;
   }
   @keyframes breakSeal{
@@ -297,23 +297,23 @@
     to{transform:rotateX(0deg) translateZ(0);}
   }
   .panel .kicker{
-    font-family:"IBM Plex Mono",monospace;font-size:10px;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;
     letter-spacing:.26em;text-transform:uppercase;color:#8A6A34;
   }
   .panel .big{
     font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;
-    font-size:clamp(1.5rem,7vw,2.05rem);line-height:1.06;color:#2E1F33;margin:8px 0;
+    font-size:calc(clamp(1.5rem,7vw,2.05rem) + 2px);line-height:1.06;color:#2E1F33;margin:8px 0;
   }
-  .panel .small{font-family:"Karla",sans-serif;font-size:13px;color:#5A4661;line-height:1.5;}
+  .panel .small{font-family:"Karla",sans-serif;font-size:15px;color:#5A4661;line-height:1.5;}
   .panel .sig{
     font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;
-    font-size:1.18rem;color:#2E1F33;margin-bottom:9px;line-height:1.2;
+    font-size:calc(1.18rem + 2px);color:#2E1F33;margin-bottom:9px;line-height:1.2;
   }
 
   .skip{
     position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
     background:none;border:0;cursor:pointer;padding:12px 18px;
-    font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+    font-family:"IBM Plex Mono",monospace;font-size:12.5px;
     letter-spacing:.24em;text-transform:uppercase;color:rgba(232,228,217,.42);
     animation:fadeIn .5s ease 1.2s both;
   }
@@ -409,7 +409,7 @@
       <div>
         <h3>Harvest Hosts Classic</h3>
         <span class="price">$99<small>Per year &middot; unlimited nights</small></span>
-        <p class="dim" style="font-size:.9rem;margin:20px 0 0;">A year of nights on farms, vineyards, orchards and family breweries all over the country, with no campground fees and not a gravel pull&#8209;through in sight. Tsali Notch is one of thousands. It just seemed like the right one to start with.</p>
+        <p class="dim" style="font-size:calc(.9rem + 2px);margin:20px 0 0;">A year of nights on farms, vineyards, orchards and family breweries all over the country, with no campground fees and not a gravel pull&#8209;through in sight. Tsali Notch is one of thousands. It just seemed like the right one to start with.</p>
         <div class="cta-row">
           <a class="btn" href="https://www.harvesthosts.com/hosts/tennessee/4hTKqcugbSZ5iUOQn7rh">Book on Harvest Hosts</a>
         </div>
@@ -514,7 +514,7 @@
     </div>
     <div class="make">
       <p>Every autumn they open the rows and let people pick muscadines for their own juice, their own jelly, their own wine.</p>
-      <p>No kits here, which suits you better anyway. They're the largest muscadine grower in Tennessee and they'll sell you fruit by the bucket or the bushel, so you can skip the concentrate and start from real grapes for once. After all those boxes, you've earned a proper harvest.</p>
+      <p>No kits here, which suits you better anyway. They're the largest muscadine grower in Tennessee and they'll sell you fruit by the bucket or the bushel, so you can skip the concentrate and start from real grapes. After all those boxes, you've earned a proper harvest.</p>
       <p>Six varieties on the hillside, two dark and four bronze, and nothing sprayed on any of it.</p>
     </div>
   </section>
@@ -568,7 +568,7 @@
   <footer>
     Photographs of Tsali Notch Vineyard, Walnut Hollow RV Ranch and the Cherohala Skyway via Google, contributed by Dean Brown, Tonya Keller, Carl Ciaccio, Jonathan Knighton and Walnut Hollow RV Ranch.<br>
     Hours, harvest timing, extra-night pricing and membership terms were current when this was put together. Do confirm before you set off.<br>
-    Happy birthday, Mum. Go get muddy.
+    Happy birthday, Mum.
   </footer>
 
 </div>
