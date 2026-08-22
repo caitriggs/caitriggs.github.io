@@ -305,6 +305,10 @@
     font-size:clamp(1.5rem,7vw,2.05rem);line-height:1.06;color:#2E1F33;margin:8px 0;
   }
   .panel .small{font-family:"Karla",sans-serif;font-size:13px;color:#5A4661;line-height:1.5;}
+  .panel .sig{
+    font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;
+    font-size:1.18rem;color:#2E1F33;margin-bottom:9px;line-height:1.2;
+  }
 
   .skip{
     position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
@@ -343,11 +347,14 @@
           <span class="big">Happy Birthday</span>
           <span class="small">Sleep at a vineyard!</span>
         </div>
-        <div class="panel p-bot"><span class="kicker">Tsali Notch &middot; Madisonville TN</span></div>
+        <div class="panel p-bot">
+          <span class="sig">💜 Cait &amp; Amanda</span>
+          <span class="kicker">Tsali Notch &middot; Madisonville TN</span>
+        </div>
       </div>
     </div>
   </div>
-  <button class="skip" id="skip" type="button">Tap to open</button>
+  <button class="skip" id="skip" type="button">Tap to continue</button>
 </div>
 
 <div id="page">
@@ -571,7 +578,7 @@
 (function(){
   var intro = document.getElementById('intro');
   var body  = document.body;
-  var TOTAL = 3950;
+  var TOTAL = 8500; // last fold lands at 3.48s, then the letter rests open for 5s
   var timer;
 
   function finish(){
@@ -605,7 +612,7 @@
   });
 
   // hard failsafe
-  setTimeout(finish, 8000);
+  setTimeout(finish, 13000);
 })();
 </script>
 
