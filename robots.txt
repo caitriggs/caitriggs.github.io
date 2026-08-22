@@ -1,0 +1,11 @@
+# caitriggs.github.io
+#
+# This file is served at the domain root, so anything disallowed here applies
+# to the whole site. The rest of the site stays crawlable on purpose --
+# only the personal pages below are held back from search engines.
+# Each of those pages also carries <meta name="robots" content="noindex, nofollow">,
+# which is what actually keeps them out of the index; this file just asks
+# crawlers not to fetch them in the first place.
+
+User-agent: *
+Disallow: /vineyard-birthday/
