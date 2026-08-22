@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Sleep at a Vineyard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Karla:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --envW:min(74vw,320px);
+    --envH:calc(min(74vw,320px) * .66);
+    --must:#1B1220;
+    --skin:#2E1F33;
+    --bronze:#BD9A5F;
+    --bronze-bright:#D8B87C;
+    --fog:#E8E4D9;
+    --fog-dim:#A9A296;
+    --wire:rgba(189,154,95,.28);
+    --measure:64ch;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--must);color:var(--fog);
+    font-family:"Karla",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-weight:300;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px;}
+
+  /* trellis: a wire strung between posts, borrowed from the vineyard */
+  .trellis{
+    height:22px;margin:60px 0 0;border:0;
+    background-image:
+      linear-gradient(to bottom,transparent 10px,var(--wire) 10px,var(--wire) 11px,transparent 11px),
+      repeating-linear-gradient(to right,var(--wire) 0 1px,transparent 1px 74px);
+  }
+
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--bronze);margin:0 0 18px;
+  }
+  h1,h2,h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:400;margin:0;}
+  .dim{color:var(--fog-dim);}
+  .lede{max-width:var(--measure);}
+
+  /* hero */
+  .hero{position:relative;min-height:82vh;display:flex;align-items:flex-end;overflow:hidden;}
+  .hero-img{position:absolute;inset:0;background:linear-gradient(160deg,#3A2840,#1B1220 70%);}
+  .hero-img img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.85) brightness(.6);}
+  .hero-veil{position:absolute;inset:0;background:linear-gradient(to top,var(--must) 3%,rgba(27,18,32,.74) 44%,rgba(27,18,32,.28) 100%);}
+  .hero-inner{position:relative;padding:0 24px 60px;max-width:980px;margin:0 auto;width:100%;}
+  .hero h1{font-size:clamp(2.9rem,10vw,6rem);line-height:.94;letter-spacing:-.02em;margin:0 0 22px;}
+  .hero h1 em{font-style:italic;color:var(--bronze-bright);}
+  .hero p{max-width:44ch;font-size:clamp(1rem,2.4vw,1.18rem);margin:0;}
+
+  /* the vineyard, introduced */
+  .estate{
+    display:grid;grid-template-columns:1fr;gap:0;
+    border:1px solid var(--wire);background:var(--skin);margin-top:64px;
+  }
+  @media(min-width:820px){.estate{grid-template-columns:.85fr 1.15fr;}}
+  .estate figure{margin:0;overflow:hidden;min-height:260px;background:linear-gradient(150deg,#3A2840,#1B1220);}
+  .estate figure img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9) brightness(.82);}
+  .estate-body{padding:34px 30px 36px;}
+  @media(min-width:820px){.estate-body{padding:44px 42px;}}
+  .estate-name{
+    font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;
+    font-size:clamp(2rem,5.5vw,2.9rem);line-height:1.02;letter-spacing:-.01em;
+    color:var(--bronze-bright);display:block;margin-bottom:14px;
+  }
+  .estate-tag{font-size:1.02rem;margin:0 0 24px;max-width:46ch;}
+  .estate-body p.body{font-size:.96rem;margin:0 0 26px;max-width:52ch;}
+  .facts{
+    display:grid;grid-template-columns:1fr;gap:0;
+    border-top:1px solid var(--wire);
+    font-family:"IBM Plex Mono",monospace;font-size:12px;line-height:1.7;
+  }
+  @media(min-width:560px){.facts{grid-template-columns:1fr 1fr;}}
+  .facts div{padding:16px 0 0;}
+  @media(min-width:560px){.facts div:first-child{padding-right:20px;border-right:1px solid var(--wire);}
+    .facts div:last-child{padding-left:20px;}}
+  .facts b{display:block;font-weight:400;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin-bottom:7px;}
+  .facts span{color:var(--fog-dim);}
+
+  /* u-pick date stamp */
+  .stamp{border-top:1px solid var(--wire);border-bottom:1px solid var(--wire);padding:44px 0;margin-top:60px;text-align:center;}
+  .stamp .eyebrow{margin-bottom:14px;}
+  .stamp .window{
+    font-family:"Bodoni Moda",serif;font-size:clamp(1.9rem,7vw,3.5rem);
+    line-height:1.05;letter-spacing:-.02em;color:var(--bronze-bright);display:block;margin-bottom:16px;
+  }
+  .stamp .fine{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.1em;color:var(--fog-dim);margin:0;}
+
+  section{padding:60px 0 0;}
+  .sec-head{margin-bottom:32px;}
+  .sec-head h2{font-size:clamp(1.9rem,5vw,2.9rem);line-height:1.06;letter-spacing:-.015em;}
+
+  /* envelope */
+  .envelope{border:1px solid var(--wire);background:linear-gradient(165deg,var(--skin),var(--must));
+    padding:34px 28px;display:grid;gap:26px;grid-template-columns:1fr;}
+  @media(min-width:760px){.envelope{grid-template-columns:1fr 1fr;padding:44px 40px;gap:44px;}}
+  .envelope h3{font-size:1.55rem;margin-bottom:12px;}
+  .price{font-family:"IBM Plex Mono",monospace;font-size:2.7rem;color:var(--bronze-bright);letter-spacing:-.03em;display:block;line-height:1;}
+  .price small{font-size:.72rem;letter-spacing:.16em;color:var(--fog-dim);text-transform:uppercase;display:block;margin-top:12px;line-height:1.8;}
+  .envelope ul{margin:0;padding:0;list-style:none;}
+  .envelope li{padding:12px 0 12px 20px;border-top:1px solid var(--wire);position:relative;font-size:.93rem;line-height:1.6;}
+  .envelope li:first-child{border-top:0;}
+  .envelope li::before{content:"";position:absolute;left:0;top:1.4em;width:7px;height:7px;border-radius:50%;background:var(--bronze);}
+
+  /* buttons */
+  .cta-row{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .btn{display:inline-block;background:var(--bronze-bright);color:#1B1220;
+    font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:12.5px;
+    letter-spacing:.16em;text-transform:uppercase;text-decoration:none;
+    padding:17px 30px;border:1px solid var(--bronze-bright);
+    transition:background .2s ease,color .2s ease;}
+  .btn:hover{background:transparent;color:var(--bronze-bright);}
+  .btn-ghost{background:transparent;color:var(--bronze-bright);border-color:var(--wire);}
+  .btn-ghost:hover{background:var(--bronze-bright);color:#1B1220;border-color:var(--bronze-bright);}
+
+  /* days */
+  .days{display:grid;gap:24px;grid-template-columns:1fr;}
+  @media(min-width:860px){.days{grid-template-columns:repeat(3,1fr);gap:20px;}}
+  .day{border:1px solid var(--wire);background:var(--skin);display:flex;flex-direction:column;}
+  .day figure{margin:0;aspect-ratio:4/3;overflow:hidden;background:linear-gradient(150deg,#3A2840,#1B1220);}
+  .day figure img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9) brightness(.86);transition:transform .6s ease;}
+  .day:hover figure img{transform:scale(1.04);}
+  .day-body{padding:24px 22px 26px;flex:1;}
+  .day-n{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.2em;color:var(--fog-dim);display:block;margin-bottom:12px;}
+  .day-place{
+    font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;
+    font-size:1.75rem;line-height:1.05;color:var(--bronze-bright);
+    display:block;margin-bottom:8px;
+  }
+  .day-sub{font-family:"Bodoni Moda",serif;font-size:.98rem;color:var(--fog);opacity:.75;display:block;margin-bottom:16px;line-height:1.35;}
+  .day p{font-size:.92rem;margin:0 0 16px;line-height:1.68;}
+  .day .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--fog-dim);border-top:1px solid var(--wire);padding-top:13px;margin:0;line-height:1.7;}
+
+  /* map */
+  .mapbox{margin-top:34px;border:1px solid var(--wire);background:var(--skin);}
+  .mapbox iframe{display:block;width:100%;height:400px;border:0;filter:grayscale(.25) contrast(1.05);}
+  .mapbox .maprow{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;
+    padding:16px 20px;border-top:1px solid var(--wire);
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--fog-dim);letter-spacing:.06em;}
+
+  /* detours */
+  .detours{display:grid;gap:26px;grid-template-columns:1fr;}
+  @media(min-width:760px){.detours{grid-template-columns:1fr 1fr;gap:36px;}}
+  .detour{border-left:2px solid var(--bronze);padding:4px 0 4px 22px;}
+  .detour h3{font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;font-size:1.4rem;color:var(--bronze-bright);margin-bottom:10px;}
+  .detour p{font-size:.92rem;margin:0 0 14px;}
+  .detour .meta{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--fog-dim);margin:0 0 14px;}
+
+  /* varieties */
+  .vines{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;}
+  @media(min-width:720px){.vines{grid-template-columns:repeat(6,1fr);}}
+  .vine{padding:22px 12px 18px;text-align:center;background:var(--skin);border-top:2px solid var(--berry);}
+  .berry{width:32px;height:32px;border-radius:50%;margin:0 auto 13px;background:var(--berry);
+    box-shadow:inset -4px -5px 9px rgba(0,0,0,.42),inset 3px 3px 7px rgba(255,255,255,.14);}
+  .vine b{font-family:"Bodoni Moda",serif;font-weight:400;font-size:1.05rem;display:block;}
+  .vine span{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;color:var(--fog-dim);text-transform:uppercase;}
+
+  /* winemaking */
+  .make{border-left:2px solid var(--bronze);padding:6px 0 6px 26px;max-width:var(--measure);}
+  .make p:first-child{font-family:"Bodoni Moda",serif;font-size:clamp(1.2rem,3.2vw,1.5rem);
+    line-height:1.4;font-style:italic;margin:0 0 18px;color:var(--bronze-bright);}
+  .make p{font-size:.96rem;}
+
+  /* field notes */
+  .notes{display:grid;grid-template-columns:1fr;border:1px solid var(--wire);font-family:"IBM Plex Mono",monospace;}
+  @media(min-width:680px){.notes{grid-template-columns:1fr 1fr;}}
+  .note{padding:20px 22px;border-bottom:1px solid var(--wire);}
+  @media(min-width:680px){
+    .note:nth-child(odd){border-right:1px solid var(--wire);}
+    .note:nth-last-child(-n+2){border-bottom:0;}
+  }
+  .note dt{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin-bottom:8px;}
+  .note dd{margin:0;font-size:13.5px;line-height:1.65;}
+  .note dd a{color:var(--bronze-bright);}
+
+  footer{margin-top:70px;padding:30px 0 60px;border-top:1px solid var(--wire);
+    font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.9;color:var(--fog-dim);}
+  footer a{color:var(--fog-dim);}
+  a:focus-visible{outline:2px solid var(--bronze-bright);outline-offset:3px;}
+
+  /* ================= velvet plum envelope intro ================= */
+  #page{opacity:0;}
+  body.opened #page{opacity:1;transition:opacity .8s ease .05s;}
+  body.intro-lock{overflow:hidden;height:100%;}
+
+  .intro{
+    position:fixed;inset:0;z-index:900;
+    background:radial-gradient(125% 95% at 50% 42%,#3E2A46 0%,#241730 46%,#140D19 100%);
+    display:flex;align-items:center;justify-content:center;
+    perspective:1500px;
+  }
+  .intro.done{opacity:0;pointer-events:none;transition:opacity .6s ease;}
+
+  .stage{
+    position:relative;
+    width:var(--envW);
+    height:calc(var(--envW)*1.34);
+    transform-style:preserve-3d;
+    animation:settle .75s cubic-bezier(.2,.85,.3,1) both;
+  }
+  @keyframes settle{from{opacity:0;transform:scale(.9) translateY(16px);}to{opacity:1;transform:none;}}
+
+  .env{
+    position:absolute;left:0;top:50%;
+    width:var(--envW);height:var(--envH);
+    margin-top:calc(var(--envH) / -2);
+    transform-style:preserve-3d;
+    animation:envOut .75s cubic-bezier(.4,0,.6,1) 1.72s both;
+  }
+  @keyframes envOut{to{opacity:0;transform:translateY(30px) scale(.93);}}
+
+  .env-back{
+    position:absolute;inset:0;z-index:1;
+    background:linear-gradient(158deg,#402B4A,#281A2E);
+    border:1px solid rgba(189,154,95,.26);
+    box-shadow:0 30px 70px rgba(0,0,0,.6);
+  }
+  .pocket{
+    position:absolute;inset:0;z-index:3;overflow:hidden;
+    background:linear-gradient(170deg,#3E2A48,#2B1C31);
+    border:1px solid rgba(189,154,95,.3);
+  }
+  .pocket::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(165deg,#4C3556,#38243F);
+    clip-path:polygon(0 100%,50% 24%,100% 100%);
+  }
+  .flap{
+    position:absolute;left:0;top:0;width:100%;
+    height:calc(var(--envH)*.60);
+    background:linear-gradient(180deg,#523A5E,#3B2742);
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    transform-origin:top center;
+    animation:openFlap .95s cubic-bezier(.55,0,.2,1) .55s both;
+  }
+  @keyframes openFlap{
+    0%{transform:rotateX(0deg);z-index:5;}
+    48%{z-index:5;}
+    50%{z-index:0;}
+    100%{transform:rotateX(-174deg);z-index:0;}
+  }
+  .seal{
+    position:absolute;left:50%;top:calc(var(--envH)*.44);
+    width:52px;height:52px;margin-left:-26px;border-radius:50%;z-index:6;
+    background:radial-gradient(circle at 34% 28%,#E6C892,#BD9A5F 58%,#8A6A34);
+    box-shadow:0 4px 14px rgba(0,0,0,.5);
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Bodoni Moda",serif;font-style:italic;font-size:21px;color:#2B1C31;
+    animation:breakSeal .5s cubic-bezier(.4,0,.7,.2) .34s both;
+  }
+  @keyframes breakSeal{
+    0%{opacity:1;transform:scale(1) rotate(0deg);}
+    100%{opacity:0;transform:scale(1.45) rotate(-16deg);}
+  }
+
+  .letter-pos{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+  .letter{
+    width:calc(var(--envW)*.86);
+    transform-style:preserve-3d;
+    animation:lift .85s cubic-bezier(.25,.9,.3,1) 1.70s both;
+  }
+  @keyframes lift{
+    from{opacity:0;transform:translateY(calc(var(--envH)*.32)) scale(.6);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+  .panel{
+    height:calc(var(--envW)*.40);
+    background:linear-gradient(172deg,#F2EDE1,#E3DBCA);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:0 16px;
+    backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  }
+  .p-mid{box-shadow:0 24px 50px rgba(0,0,0,.45);}
+  .p-top{
+    transform-origin:bottom center;border-bottom:1px solid rgba(46,31,51,.13);
+    animation:unfoldTop .8s cubic-bezier(.3,.8,.3,1) 2.50s both;
+  }
+  .p-bot{
+    transform-origin:top center;border-top:1px solid rgba(46,31,51,.13);
+    animation:unfoldBot .8s cubic-bezier(.3,.8,.3,1) 2.68s both;
+  }
+  @keyframes unfoldTop{
+    from{transform:rotateX(180deg) translateZ(2px);}
+    to{transform:rotateX(0deg) translateZ(0);}
+  }
+  @keyframes unfoldBot{
+    from{transform:rotateX(-180deg) translateZ(2px);}
+    to{transform:rotateX(0deg) translateZ(0);}
+  }
+  .panel .kicker{
+    font-family:"IBM Plex Mono",monospace;font-size:10px;
+    letter-spacing:.26em;text-transform:uppercase;color:#8A6A34;
+  }
+  .panel .big{
+    font-family:"Bodoni Moda",serif;font-style:italic;font-weight:500;
+    font-size:clamp(1.5rem,7vw,2.05rem);line-height:1.06;color:#2E1F33;margin:8px 0;
+  }
+  .panel .small{font-family:"Karla",sans-serif;font-size:13px;color:#5A4661;line-height:1.5;}
+
+  .skip{
+    position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
+    background:none;border:0;cursor:pointer;padding:12px 18px;
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+    letter-spacing:.24em;text-transform:uppercase;color:rgba(232,228,217,.42);
+    animation:fadeIn .5s ease 1.2s both;
+  }
+  .skip:hover,.skip:focus-visible{color:var(--bronze-bright);}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  @media(prefers-reduced-motion:reduce){
+    .intro{display:none!important;}
+    #page{opacity:1!important;}
+    *{transition:none!important;animation:none!important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+<noscript><style>.intro{display:none!important;}#page{opacity:1!important;}</style></noscript>
+</head>
+<body>
+<script>document.body.className="intro-lock";</script>
+
+<div class="intro" id="intro" role="presentation">
+  <div class="stage">
+    <div class="env">
+      <div class="env-back"></div>
+      <div class="pocket"></div>
+      <div class="flap"></div>
+      <div class="seal">T</div>
+    </div>
+    <div class="letter-pos">
+      <div class="letter">
+        <div class="panel p-top"><span class="kicker">For Mum</span></div>
+        <div class="panel p-mid">
+          <span class="big">Happy Birthday</span>
+          <span class="small">Sleep at a vineyard!</span>
+        </div>
+        <div class="panel p-bot"><span class="kicker">Tsali Notch &middot; Madisonville TN</span></div>
+      </div>
+    </div>
+  </div>
+  <button class="skip" id="skip" type="button">Tap to open</button>
+</div>
+
+<div id="page">
+<header class="hero">
+  <div class="hero-img">
+    <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjA4cDbLygPQbThYi15YCir5XRu0Zi25Ix6KlMrZ4Y8nt_nqcGuLnPgy1d7rDFOKlN-6_ruEVNegzHiw5V1Mqj-iyKv3n5ve8l2BTjygQ0bQdCSQQ28Ap2h1VFYT6cB0quWXEjzlwr_YKHk6MJs=s4800-w800-h600" alt="Rows of muscadine vines at Tsali Notch Vineyard with mountain ridgelines behind" onerror="this.style.display='none'">
+  </div>
+  <div class="hero-veil"></div>
+  <div class="hero-inner">
+    <p class="eyebrow">For Mum &nbsp;/&nbsp; Happy Bday!</p>
+    <h1>Sleep at a <em>vineyard</em>!</h1>
+    <p>Two nights parked on the grass between the rows, up on a hillside in Tennessee where the fog settles in the low ground before sunrise. Go in the fall and they will let you pick, so bring your buckets and come home with the fruit.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="estate">
+    <figure>
+      <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjBcSXgzn4cJq0fEjoQb9L_PNCuuY-BbtAlvN445MaQZWX154thiMgrTQqEtmr7bqVbPfUqwKavAKTrRzQYkGHD-V6ltGYTbWU7p3o9p5yeAS2BGyp-YYwQD1qmitg7l5AU3HYVJHgWOSzwYDYg=s4800-w800-h600" alt="Muscadine vines and rolling hills at Tsali Notch Vineyard" onerror="this.closest('figure').style.display='none'">
+    </figure>
+    <div class="estate-body">
+      <p class="eyebrow">Where you're going</p>
+      <span class="estate-name">Tsali Notch Vineyard</span>
+      <p class="estate-tag">A family hillside in the Tennessee Overhill, and the largest muscadine vineyard in the state. Grown without chemicals since 2009.</p>
+      <p class="body">Two hundred acres of Monroe County farmland, with six thousand vines running twenty-one miles of trellis and the Smokies stacked up blue behind them. The tasting room was built from timber two centuries old, and there is a farmhouse beside it that has been standing since the 1800s. You will be parked in the middle of all of it, with the whole valley going gold in the evening.</p>
+      <div class="facts">
+        <div>
+          <b>Find it</b>
+          <span>162 Harrison Road<br>Madisonville, Tennessee 37354</span>
+        </div>
+        <div>
+          <b>From Weaverville</b>
+          <span>About 3 hrs on the interstate.<br>About 4.5 hrs the way we've sent you, which is the prettier road.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stamp">
+    <p class="eyebrow">U-Pick harvest window</p>
+    <span class="window">Mid-September to November 1</span>
+    <p class="fine">APPROXIMATE. THE CROP KEEPS ITS OWN CALENDAR, SO RING THEM BEFORE YOU SETTLE ON A WEEK.</p>
+  </div>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">What's in the envelope</p>
+      <h2>A year of places like this one.</h2>
+    </div>
+    <div class="envelope">
+      <div>
+        <h3>Harvest Hosts Classic</h3>
+        <span class="price">$99<small>Per year &middot; unlimited nights</small></span>
+        <p class="dim" style="font-size:.9rem;margin:20px 0 0;">A year of nights on farms, vineyards, orchards and family breweries all over the country, with no campground fees and not a gravel pull&#8209;through in sight. Tsali Notch is one of thousands. It just seemed like the right one to start with.</p>
+        <div class="cta-row">
+          <a class="btn" href="https://www.harvesthosts.com/hosts/tennessee/4hTKqcugbSZ5iUOQn7rh">Book on Harvest Hosts</a>
+        </div>
+      </div>
+      <ul>
+        <li>The code keeps for three years, so tuck it away and redeem it the month you actually want to leave. Your year begins that day, not this one.</li>
+        <li>You'll be off hookups out in the rows, so the rig needs its own water, tanks and battery for the night.</li>
+        <li>The custom is to buy a little something from whoever is hosting you, usually around thirty dollars. At a vineyard, that rather takes care of itself.</li>
+        <li>The first night comes with the membership. The vineyard lists extra nights at fifty dollars, up to three of them, so a second night is easy to add.</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="trellis">
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">The trip &nbsp;/&nbsp; two nights at the vineyard</p>
+      <h2>Drive In. Boondock at the grapes.</h2>
+      <p class="lede dim" style="margin-top:16px;">Mornings come up cool and the fog sits in the low rows until the sun gets around to it. You'll pick until your arms complain, eat lunch in a camp chair with the whole valley laid out in front of you, then wander up for a glass when the afternoon turns gold. Back to the rig for dinner on the grill, and nobody anywhere expecting you.</p>
+    </div>
+
+    <div class="days">
+      <article class="day">
+        <figure>
+          <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjDQsuws8Grab4D2d6JvHiViTesSx6Dstl-waWM5cpJGoQs5EUVXhtPxdngr74BOIF6_4eZOjofHKZod1ZuRUfHkHwikIXnEWp1N00p_DPZPBad8B6Sh8oklssR2zqB0MtIUn7gZiCR3aFPZeg=s4800-w800-h600" alt="Pastures and mountain views at Walnut Hollow RV Ranch in Hayesville, North Carolina" onerror="this.closest('figure').style.display='none'">
+        </figure>
+        <div class="day-body">
+          <span class="day-n">DAY ONE</span>
+          <span class="day-place">Weaverville to Tsali Notch Vineyard</span>
+          <span class="day-sub">by way of a cattle ranch in Hayesville</span>
+          <p>Head west with the whole day in front of you. Around Hayesville, pull off at Walnut Hollow and buy a few steaks from the family who raised them, then carry on along 64 and over the state line. You should be rolling through the vineyard gate by late afternoon. Park between the rows, get the grill going, and let the sun drop behind the ridge while dinner cooks.</p>
+          <p class="meta">Weaverville &rarr; Hayesville &rarr; Madisonville, TN<br>About 4.5 hrs driving &middot; farm store open 10 to 4</p>
+        </div>
+      </article>
+
+      <article class="day">
+        <figure>
+          <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjDDA-XeAbb8j5gxqH96uMSJ-T3CvQn8KRL_SauzYlH6hkwmyWwVZGZId1z-3OlBtbljxYs3AWBiZJkPMGJp6ew7Hv_iUYhKXb0F5s82pLRmgN-IWBlxsORKjheCf0vTDFmB3geXSr2CYHxRBQ=s4800-w800-h600" alt="The tasting room and grounds at Tsali Notch Vineyard" onerror="this.closest('figure').style.display='none'">
+        </figure>
+        <div class="day-body">
+          <span class="day-n">DAY TWO</span>
+          <span class="day-place">The Tasting Room</span>
+          <span class="day-sub">and twenty-one miles of trellis</span>
+          <p>Nothing to pack and nowhere to drive. Go out early while the air is still cool and pick until the bucket is too heavy to be sensible, then walk up to the old log tasting room and work your way through all six of the wines at your own pace. Ring ahead and JD will take you out through the vineyard himself. Everyone who visits ends up writing about him afterwards.</p>
+          <p class="meta">Tasting room: Wed &amp; Thu 12&ndash;6, Fri&ndash;Sun 10&ndash;6<br>Private tastings and tours by appointment</p>
+        </div>
+      </article>
+
+      <article class="day">
+        <figure>
+          <img src="https://lh3.googleusercontent.com/place-photos/AG9NLjDe0NXK4AKYJPjEDN9bkVmXNDiuRNf4dtyMubO4bsLDE1YTraBzNgSV7RDTK3oVUDAXzfEzGjntIZJSbE81CUe4Zyf191JJH5cCkz75GnVkLRGzXaBA4RjDaxfXvgmSrlujAYp2i-WHD5s7=s4800-w800-h600" alt="Layered blue mountain ridgelines seen from the Cherohala Skyway" onerror="this.closest('figure').style.display='none'">
+        </figure>
+        <div class="day-body">
+          <span class="day-n">DAY THREE</span>
+          <span class="day-place">The Cherohala Skyway</span>
+          <span class="day-sub">the long way home, if the light is good</span>
+          <p>Get the fruit into the cooler before the heat comes up, and ask about buying in bulk while you settle your bill, since they sell it by the quantity to people doing exactly what you are about to do in your kitchen. Then choose your road. The interstate has you home by supper. The Skyway takes the whole afternoon and gives you forty miles of blue ridgelines for the trouble.</p>
+          <p class="meta">Madisonville &rarr; home<br>About 3 hrs direct &middot; about 6 hrs over the Skyway</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="mapbox">
+      <iframe src="https://maps.google.com/maps?saddr=Weaverville,+NC&daddr=Walnut+Hollow+RV+Ranch,+Hayesville,+NC+to:Tsali+Notch+Vineyard,+Madisonville,+TN&output=embed" loading="lazy" title="Driving route from Weaverville to Walnut Hollow RV Ranch to Tsali Notch Vineyard"></iframe>
+      <div class="maprow">
+        <span>WEAVERVILLE, NC &rarr; HAYESVILLE, NC &rarr; MADISONVILLE, TN</span>
+        <a class="btn btn-ghost" href="https://www.google.com/maps/dir/Weaverville,+NC/Walnut+Hollow+RV+Ranch,+Hayesville,+NC/Tsali+Notch+Vineyard,+Madisonville,+TN">Open route in Google Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="trellis">
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Worth pulling over for</p>
+      <h2>Two more, should you fancy them.</h2>
+    </div>
+    <div class="detours">
+      <div class="detour">
+        <h3>Walnut Hollow RV Ranch</h3>
+        <p>A hundred and fifty-six acres of working cattle ranch outside Hayesville, sitting right on your road west. The family raises their own Black Angus and sells it from the farm store, which is where the first night's dinner comes from. There is a stocked pond for anyone who wants to fish and a trail through the woods for anyone who wants to walk, and near dusk the cows and the deer and the wild turkeys all wander down the hill together. It is a Harvest Hosts stop as well, so if the drive feels long you can simply stay the night and go on in the morning.</p>
+        <p class="meta">HAYESVILLE, NC &middot; (828) 389&#8209;8931</p>
+        <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Walnut+Hollow+RV+Ranch,+Hayesville,+NC">View on Google Maps</a>
+      </div>
+      <div class="detour">
+        <h3>The Cherohala Skyway</h3>
+        <p>Forty miles of high ridgeline between Tellico Plains and Robbinsville, built wide and graded gently for people who came to look at the view rather than fight the road. It may well be the finest drive in the Southeast, and in late September the hills have only just begun to turn. One thing to know: there is genuinely nothing out there, no fuel and no food and no signal for the whole run, so fill the tank before you start and let it have the entire day.</p>
+        <p class="meta">TELLICO PLAINS, TN &rarr; ROBBINSVILLE, NC &middot; ADDS ~3 HRS</p>
+        <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Cherohala+Skyway,+Tellico+Plains,+TN">View on Google Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="trellis">
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">The real reason</p>
+      <h2>Come home with the fruit, not just a bottle.</h2>
+    </div>
+    <div class="make">
+      <p>Every autumn they open the rows and let people pick muscadines for their own juice, their own jelly, their own wine.</p>
+      <p>No kits here, which suits you better anyway. They're the largest muscadine grower in Tennessee and they'll sell you fruit by the bucket or the bushel, so you can skip the concentrate and start from real grapes for once. After all those boxes, you've earned a proper harvest.</p>
+      <p>Six varieties on the hillside, two dark and four bronze, and nothing sprayed on any of it.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:44px;">
+    <div class="vines">
+      <div class="vine" style="--berry:#3E1B3F;"><div class="berry"></div><b>Nesbit</b><span>Red</span></div>
+      <div class="vine" style="--berry:#2B1330;"><div class="berry"></div><b>Noble</b><span>Red</span></div>
+      <div class="vine" style="--berry:#C6A96C;"><div class="berry"></div><b>Carlos</b><span>Bronze</span></div>
+      <div class="vine" style="--berry:#B79F72;"><div class="berry"></div><b>Doreen</b><span>Bronze</span></div>
+      <div class="vine" style="--berry:#D2BA85;"><div class="berry"></div><b>Magnolia</b><span>Bronze</span></div>
+      <div class="vine" style="--berry:#A2946F;"><div class="berry"></div><b>Sterling</b><span>Bronze</span></div>
+    </div>
+  </section>
+
+  <hr class="trellis">
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Field notes</p>
+      <h2>Everything you'll need on the day.</h2>
+    </div>
+    <dl class="notes">
+      <div class="note">
+        <dt>Reserve the nights</dt>
+        <dd>The overnight is arranged through Harvest Hosts, not with the vineyard.<br><a href="https://www.harvesthosts.com/hosts/tennessee/4hTKqcugbSZ5iUOQn7rh">Book the vineyard on Harvest Hosts</a></dd>
+      </div>
+      <div class="note">
+        <dt>Book a tasting or tour</dt>
+        <dd>Separate from the stay, and worth doing ahead.<br><a href="https://fareharbor.com/embeds/book/tsalinotch/?full-items=yes">Book direct at Tsali Notch</a><br><a href="https://tsalinotch.com/">tsalinotch.com</a></dd>
+      </div>
+      <div class="note">
+        <dt>Redeem the gift code</dt>
+        <dd><a href="https://www.harvesthosts.com/pages/gift-code-redemption">harvesthosts.com gift code redemption</a><br>Good for three years from the day it was bought.</dd>
+      </div>
+      <div class="note">
+        <dt>Ring ahead</dt>
+        <dd>Vineyard: <a href="tel:+14235069895">(423) 506&#8209;9895</a><br>Ranch: <a href="tel:+18283898931">(828) 389&#8209;8931</a></dd>
+      </div>
+      <div class="note">
+        <dt>Worth packing</dt>
+        <dd>Chairs for the rows, buckets and the big cooler for the pick, and a full fresh water tank before you leave, since there are no hookups.</dd>
+      </div>
+      <div class="note">
+        <dt>The week to aim for</dt>
+        <dd>Late September. The harvest is on, the heat has finally let go, and the crowds have not found it yet.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <footer>
+    Photographs of Tsali Notch Vineyard, Walnut Hollow RV Ranch and the Cherohala Skyway via Google, contributed by Dean Brown, Tonya Keller, Carl Ciaccio, Jonathan Knighton and Walnut Hollow RV Ranch.<br>
+    Hours, harvest timing, extra-night pricing and membership terms were current when this was put together. Do confirm before you set off.<br>
+    Happy birthday, Mum. Go get muddy.
+  </footer>
+
+</div>
+</div>
+
+<script>
+(function(){
+  var intro = document.getElementById('intro');
+  var body  = document.body;
+  var TOTAL = 3950;
+  var timer;
+
+  function finish(){
+    if (body.classList.contains('opened')) return;
+    body.classList.add('opened');
+    body.classList.remove('intro-lock');
+    if (intro){
+      intro.classList.add('done');
+      setTimeout(function(){
+        if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+      }, 700);
+    }
+  }
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !intro){ finish(); return; }
+
+  timer = setTimeout(finish, TOTAL);
+
+  intro.addEventListener('click', function(){ clearTimeout(timer); finish(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' || e.key === 'Enter'){ clearTimeout(timer); finish(); }
+  });
+
+  // if the tab was backgrounded mid-animation, don't strand the visitor
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'visible' && !body.classList.contains('opened')){
+      clearTimeout(timer);
+      timer = setTimeout(finish, 600);
+    }
+  });
+
+  // hard failsafe
+  setTimeout(finish, 8000);
+})();
+</script>
+
+</body>
+</html>
