@@ -8,22 +8,28 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   :root {
-    --bg: #f4f2ea; --panel: #fffdf7; --panel-2: #eceadf;
-    --line: #d5d1c2; --line-strong: #b9b4a2;
-    --ink: #1e211d; --ink-dim: #55594f;
-    --lichen: #6f5f14; --sage: #41523a; --flood: #1c545f; --rust: #8c4218;
-    --warn-bg: #fdf3e3; --warn-line: #c98a2e; --warn-ink: #5c3a05;
-    --stop-bg: #fdecea; --stop-line: #b5341f; --stop-ink: #6b1c0d;
+    /* coral pink, chartreuse and evergreen. every pairing used on the page is
+       checked against WCAG AA: 4.5:1 for text, 3:1 for borders and focus. */
+    --bg: #FDF7F4; --panel: #FFFCFA; --panel-2: #F7E9E3;
+    --line: #EFD9CF; --line-strong: #B18676;
+    --ink: #241E1C; --ink-dim: #6A554E;
+    --evergreen: #1B4332; --coral: #B03A22; --coral-fill: #BF4426;
+    --chartreuse: #667A00; --chart-fill: #A8CC1A; --on-fill: #FFFCFA;
+    --focus: #B03A22;
+    --warn-bg: #FDF1E6; --warn-line: #C07A2C; --warn-ink: #5A3708;
+    --stop-bg: #FDECE8; --stop-line: #B5341F; --stop-ink: #6B1C0D;
     --gut: 16px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1a1c1a; --panel: #22251f; --panel-2: #1f221c;
-      --line: #3a3f39; --line-strong: #4d534b;
-      --ink: #e8e4d8; --ink-dim: #b0ab9c;
-      --lichen: #c4b454; --sage: #8a9a7b; --flood: #6ba3b0; --rust: #d0784b;
-      --warn-bg: #2b2517; --warn-line: #a8862f; --warn-ink: #e8d7a8;
-      --stop-bg: #2e1c17; --stop-line: #b5623a; --stop-ink: #f0c6b4;
+      --bg: #15201B; --panel: #1C2A23; --panel-2: #223028;
+      --line: #35483E; --line-strong: #5A7164;
+      --ink: #F3E7E1; --ink-dim: #BCA79E;
+      --evergreen: #8FD3A8; --coral: #FF9280; --coral-fill: #FF9280;
+      --chartreuse: #B8E04A; --chart-fill: #A8CC1A; --on-fill: #15201B;
+      --focus: #B8E04A;
+      --warn-bg: #2B2517; --warn-line: #C79A3A; --warn-ink: #F0DDAF;
+      --stop-bg: #2E1C17; --stop-line: #E0785A; --stop-ink: #F7CFC2;
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,9 +42,9 @@
   }
   .mono { font-family: "SFMono-Regular", "Consolas", "Roboto Mono", monospace; }
   .wrap { max-width: 820px; margin: 0 auto; padding: 0 var(--gut); }
-  a { color: var(--flood); }
+  a { color: var(--coral); }
   a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
-    outline: 3px solid var(--lichen); outline-offset: 2px;
+    outline: 3px solid var(--focus); outline-offset: 2px;
   }
   .skip {
     position: absolute; left: -9999px; top: 0; background: var(--panel);
@@ -50,9 +56,14 @@
   h1 { font-size: clamp(1.7rem, 6vw, 2.5rem); letter-spacing: -0.01em; }
   h2 {
     font-size: 1.32rem; margin: 0 0 0.6rem;
-    padding-bottom: 0.4rem; border-bottom: 2px solid var(--line-strong);
+    padding-bottom: 0.45rem; position: relative;
   }
-  h3 { font-size: 1.06rem; margin: 0 0 0.35rem; color: var(--sage); }
+  h2::after {
+    content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--coral) 0%, var(--chart-fill) 100%);
+  }
+  h3 { font-size: 1.06rem; margin: 0 0 0.35rem; color: var(--evergreen); }
   p { margin: 0 0 0.8rem; }
   ul, ol { margin: 0 0 0.8rem 1.15rem; }
   li { margin-bottom: 0.35rem; }
@@ -72,7 +83,7 @@
   .banner span { font-size: 0.85rem; }
   .alert {
     border: 2px solid var(--stop-line); background: var(--stop-bg); color: var(--stop-ink);
-    padding: 14px 16px; margin: 1.1rem 0; border-radius: 3px;
+    padding: 14px 16px; margin: 1.1rem 0; border-radius: 10px;
   }
   .alert h3 { color: var(--stop-ink); margin-bottom: 0.4rem; }
   .alert p:last-child, .note p:last-child { margin-bottom: 0; }
@@ -92,7 +103,7 @@
   header.hero { padding: 1.8rem 0 0.4rem; }
   .dates {
     font-family: "SFMono-Regular", monospace; font-size: 0.95rem;
-    letter-spacing: 0.08em; color: var(--lichen); margin-top: 0.5rem;
+    letter-spacing: 0.08em; color: var(--coral); margin-top: 0.5rem;
   }
   .sub { color: var(--ink-dim); margin-top: 0.5rem; }
 
@@ -101,36 +112,47 @@
   @media (min-width: 720px) { .cards { grid-template-columns: 1fr 1fr; } }
   .card {
     background: var(--panel); border: 1px solid var(--line);
-    border-top: 4px solid var(--sage); padding: 16px;
+    border-top: 4px solid var(--evergreen); padding: 16px; border-radius: 10px;
   }
-  .card.backup { border-top-color: var(--warn-line); }
+  .card.backup { border-top-color: var(--coral); }
   .tag {
     display: inline-block; font-family: "SFMono-Regular", monospace;
     font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
-    background: var(--sage); color: var(--panel); padding: 2px 7px; margin-bottom: 0.5rem;
+    background: var(--chart-fill); color: var(--ink); padding: 3px 10px;
+    margin-bottom: 0.5rem; border-radius: 999px;
   }
-  .card.backup .tag { background: var(--warn-line); }
+  .card.backup .tag { background: var(--coral-fill); color: var(--on-fill); }
   .coord {
     font-family: "SFMono-Regular", monospace; font-size: 0.95rem;
     background: var(--panel-2); border: 1px solid var(--line);
     padding: 7px 9px; margin: 0.5rem 0; display: block; word-break: break-all;
+    border-radius: 6px;
   }
+  .card figure { margin: 0.7rem 0 0.2rem; }
+  .card figure picture { display: block; }   /* <picture> is inline by default */
+  .card figure img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--line-strong); border-radius: 8px;
+  }
+  .card figcaption { font-size: 0.78rem; color: var(--ink-dim); margin-top: 0.4rem; line-height: 1.45; }
+  .forage .note { margin: 0.8rem 0 0.6rem; }
+
   .btns { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 0.7rem; }
   .btn {
     display: inline-block; font-family: "SFMono-Regular", monospace;
     font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
     padding: 10px 12px; min-height: 44px; line-height: 24px;
     border: 1px solid var(--line-strong); background: var(--panel-2);
-    color: var(--ink); text-decoration: none; cursor: pointer;
+    color: var(--ink); text-decoration: none; cursor: pointer; border-radius: 8px;
   }
-  .btn:hover { background: var(--sage); color: var(--panel); border-color: var(--sage); }
-  .btn-primary { background: var(--sage); color: var(--panel); border-color: var(--sage); }
+  .btn:hover { background: var(--evergreen); color: var(--on-fill); border-color: var(--evergreen); }
+  .btn-primary { background: var(--coral-fill); color: var(--on-fill); border-color: var(--coral-fill); }
   .btn-primary:hover { filter: brightness(1.15); }
 
   /* map */
   #map {
     height: 62vh; min-height: 340px; max-height: 520px; width: 100%;
-    border: 1px solid var(--line-strong); background: var(--panel-2);
+    border: 1px solid var(--line-strong); background: var(--panel-2); border-radius: 10px;
   }
   .leaflet-popup-content { font-family: "SFMono-Regular", monospace; font-size: 0.8rem; }
   .leaflet-popup-content b { display: block; margin-bottom: 0.2rem; }
@@ -159,14 +181,14 @@
     display: flex; gap: 11px; align-items: flex-start;
     padding: 12px 2px; cursor: pointer; min-height: 44px;
   }
-  .check input { width: 21px; height: 21px; margin-top: 2px; flex: none; accent-color: var(--sage); }
+  .check input { width: 21px; height: 21px; margin-top: 2px; flex: none; accent-color: var(--coral-fill); }
   .check input:checked + span { text-decoration: line-through; color: var(--ink-dim); }
   .check-tools { display: flex; gap: 8px; align-items: center; margin-top: 0.7rem; flex-wrap: wrap; }
   #checkStatus { font-size: 0.82rem; color: var(--ink-dim); }
 
   /* misc */
   .kv { font-size: 0.93rem; }
-  .kv dt { font-weight: 600; color: var(--sage); margin-top: 0.6rem; }
+  .kv dt { font-weight: 600; color: var(--evergreen); margin-top: 0.6rem; }
   .kv dd { margin: 0 0 0.2rem; }
   footer {
     border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 0 2.5rem;
@@ -179,7 +201,8 @@
   @media print {
     :root {
       --bg: #fff; --panel: #fff; --panel-2: #fff; --line: #999; --line-strong: #333;
-      --ink: #000; --ink-dim: #333; --sage: #000; --lichen: #000; --flood: #000;
+      --ink: #000; --ink-dim: #333; --evergreen: #000; --coral: #000;
+      --coral-fill: #fff; --chartreuse: #000; --chart-fill: #fff; --on-fill: #000;
       --warn-bg: #fff; --warn-ink: #000; --stop-bg: #fff; --stop-ink: #000;
     }
     body { font-size: 7.4pt; line-height: 1.19; widows: 2; orphans: 2; }
@@ -187,7 +210,7 @@
        the checklist is a pre-trip task done on the phone, and the source list
        is unusable offline, so neither earns a page out here. */
     .btns, .btn, #map, .map-note, .check-tools, .skip, .noscript-map, nav,
-    .print-hide, .recheck, #checklist, #sources { display: none !important; }
+    .print-hide, .recheck, #checklist, #sources, .card figure { display: none !important; }
     .banner { border-bottom: 2px solid #000; padding: 4px 0; }
     .banner span { display: none; }
     .hero { padding: 0.3rem 0 0 !important; }
@@ -199,6 +222,8 @@
     h3 { page-break-after: avoid; break-after: avoid; }
     thead { display: table-header-group; }
     h2 { font-size: 0.98rem; margin: 0.45rem 0 0.25rem; padding-bottom: 0.15rem; }
+    h2::after { background: #000 !important; height: 1px; }
+    .card, .btn, .coord, .alert, .note, #map, .tag { border-radius: 0 !important; }
     h3 { font-size: 0.9rem; margin-bottom: 0.15rem; }
     p, ul, ol { margin-bottom: 0.3rem; }
     li { margin-bottom: 0.12rem; }
@@ -258,6 +283,13 @@
       <span class="tag">Primary</span>
       <h3>Upper 7601 Camp</h3>
       <code class="coord" id="c-upper">47.54021, -120.80243</code>
+      <figure>
+        <picture>
+          <source srcset="upper-camp-aerial.webp" type="image/webp">
+          <img src="upper-camp-aerial.jpg" width="800" height="600" loading="lazy" alt="Aerial view of Forest Road 7601 with a pin marking the upper dispersed site, on a short spur between the road and Eightmile Creek">
+        </picture>
+        <figcaption>The pullout sits off the south side of 7601, between the road and Eightmile Creek.</figcaption>
+      </figure>
       <p>Roughly <strong>2.4 mi</strong> up 7601 (estimated from the coordinates) — about 0.6 mi below Eightmile TH and about 1.5 mi drive from the Stuart/Colchuck TH.</p>
       <p>This is the well-known free “FS Road 7601 Dispersed” stretch: pull-offs with existing fire rings, creek access, no facilities of any kind. It sits <strong>outside</strong> the posted no-parking zone.</p>
       <div class="btns">
@@ -271,6 +303,13 @@
       <span class="tag">Backup</span>
       <h3>Lower 7601 Camp</h3>
       <code class="coord" id="c-lower">47.55733, -120.78066</code>
+      <figure>
+        <picture>
+          <source srcset="lower-camp-aerial.webp" type="image/webp">
+          <img src="lower-camp-aerial.jpg" width="800" height="600" loading="lazy" alt="Aerial view of Forest Road 7601 with a pin marking the lower dispersed site, in a clearing at the end of a short spur east of the road">
+        </picture>
+        <figcaption>A clearing at the end of a short spur east of 7601 — well off the road, but still inside the posted mile 0.00–1.03 stretch.</figcaption>
+      </figure>
       <p>Roughly <strong>0.5 mi</strong> up 7601 from Bridge Creek CG.</p>
       <p>⚠️ That places it <strong>inside</strong> the stretch covered by Forest Order 06-17-1991-221: no parking where signs are posted, from mile 0.00 to mile 1.03 (the junction with road 115).</p>
       <p>⚠️ WTA also states dispersed camping is <strong>not allowed</strong> between FR 7601 and Icicle Creek.</p>
@@ -342,18 +381,18 @@
     <p>Open fires are <strong>never</strong> permitted on the Colchuck and Stuart Lake trails or at Eightmile Lake / Lake Caroline, restrictions or not.</p>
   </div>
 
-  <h3>Little Giant Fire closure<span class="recheck">re-check</span></h3>
+  <h3 class="print-hide">Little Giant Fire closure<span class="recheck">re-check</span></h3>
   <p class="print-hide">Lightning-started July 15, 2026 in the Chiwawa River drainage, about 30 mi NW of Leavenworth, and <strong>mapped at roughly 171,000 acres</strong>. The closure order runs <strong>Sept 3 through Oct 31, 2026</strong> unless rescinded, covering Chiwawa River Road 6200, Phelps Creek Road 6211, Entiat River Road 5100, and a long list of campgrounds and trails in that area.</p>
   <p class="print-hide"><strong>It does not include Icicle Road or 7601</strong>, so it should not block this trip. But it is a big, active fire upwind of Leavenworth: expect the possibility of smoke, and re-check in case the closure area grows. A separate <strong>Pomas Fire</strong> closure and a <strong>storm-damaged roads</strong> closure are also active on the Wenatchee River district — worth a look before you drive out.</p>
 
-  <h3>Road 7601 seasonal closure<span class="recheck">re-check</span></h3>
-  <p>7601 closes to vehicles each winter to protect the roadbed, mid-fall through spring, with <strong>no fixed date</strong> — it closed Nov 4 in 2024. Mid-October is normally well inside the open season, but an early snow could change that. Confirm the week of the trip.</p>
+  <h3 class="print-hide">Road 7601 seasonal closure<span class="recheck">re-check</span></h3>
+  <p class="print-hide">7601 closes to vehicles each winter to protect the roadbed, mid-fall through spring, with <strong>no fixed date</strong> — it closed Nov 4 in 2024. Mid-October is normally well inside the open season, but an early snow could change that. Confirm the week of the trip.</p>
 
   <h3>Hunting season<span class="recheck">re-check</span></h3>
   <p>Washington's modern-firearm general deer season for 2026 looks like <strong>Oct 17–31</strong>, with black-tailed deer running Oct 10–30 on the west side. If those hold, <strong>Oct 13–16 falls just before the east-side modern-firearm opener</strong> — but dates vary by species and game management unit, and archery, muzzleloader, and high-buck seasons can overlap. Verify against WDFW, and wear blaze orange around camp and on the forest roads regardless.</p>
 
   <h3>Mid-October generally</h3>
-  <p>Cold nights, short days, and possible early snow at trailhead elevations of 3,300–3,400 ft. Water sources may be iced in the morning.</p>
+  <p class="print-hide">Cold nights, short days, and possible early snow at trailhead elevations of 3,300–3,400 ft. Water sources may be iced in the morning.</p>
   <div class="scroller">
     <table>
       <caption>Daylight, Leavenworth WA — approximate, PDT</caption>
@@ -402,6 +441,20 @@
     </table>
   </div>
   <p class="print-hide">Trip reports put Lake Stuart closer to 11 mi than the listed 9. Budget accordingly against 11 hours of daylight.</p>
+
+  <h3 id="forage">Chanterelles, if the rain has come</h3>
+  <div class="card forage">
+    <span class="tag">Half day &middot; 25&ndash;30 min from camp</span>
+    <p><strong>Where:</strong> stay on Icicle Road past the 7601 turn and carry on to the <strong>Chatter Creek (mile 16)</strong> and <strong>Rock Island (mile 17)</strong> campground stretch. Damp mixed conifer along the creek, old enough to have moss and deep duff. Roughly 10 minutes back down 7601, then 15 up Icicle.</p>
+    <p><strong>What you're after:</strong> on this side of the crest the local prize is the <strong>white chanterelle</strong> (<em>Cantharellus subalbidus</em>) rather than the golden one — orange chanterelles are mostly a west-side find. Look for blunt forking ridges running down the stem instead of thin blade-like gills, solid flesh that tears like string cheese, and a faint smell of apricot.</p>
+    <p class="print-hide"><strong>Timing:</strong> mid-October sits inside the fall window, but they need rain to fruit. After a dry autumn, treat it as a walk in the woods that might produce dinner.<span class="recheck">re-check</span></p>
+    <p><strong>Permit:</strong> a <strong>free Incidental Use Mushroom Information Sheet</strong> must be on you to pick for personal use. Collect one from the Leavenworth ranger station — closed Wednesdays. Personal use only; none of it may be sold.</p>
+    <p class="print-hide"><strong>Rules:</strong> no picking inside any closure area, and no driving off open roads to reach a patch.</p>
+    <div class="note">
+      <p><strong>Identification is on the picker.</strong> Do not eat anything you cannot positively confirm. A white chanterelle and a young white <em>Amanita</em> can look alike to an untrained eye, and that is not a mistake you get to make twice.</p>
+    </div>
+    <p class="print-hide"><strong>Take:</strong> a basket or mesh bag so the spores drop as you walk, a knife, and a brush.</p>
+  </div>
 </section>
 
 <section id="checklist">
@@ -416,6 +469,7 @@
     <li><label><input type="checkbox" id="ck7"><span>Arrange care for the dog if hiking the Enchantments trails</span></label></li>
     <li><label><input type="checkbox" id="ck8"><span>Fill out the self-issue day permit at the trailhead</span></label></li>
     <li><label><input type="checkbox" id="ck9"><span>Propane for the firepit and stove</span></label></li>
+    <li><label><input type="checkbox" id="ck10"><span>Free mushroom permit sheet from the ranger station (closed Weds)</span></label></li>
   </ul>
   <div class="check-tools">
     <button class="btn" type="button" id="resetChecks">Reset checklist</button>
@@ -446,6 +500,7 @@
     <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/recreation/trails/colchuck-lake-trail">Colchuck Lake Trail (USFS)</a></li>
     <li><a href="https://www.wta.org/go-hiking/hikes/eightmile-lake">WTA — Eightmile Lake</a></li>
     <li><a href="https://thedyrt.com/camping/washington/fs-road-7601">The Dyrt — FS Road 7601 Dispersed</a></li>
+    <li><a href="https://fs.usda.gov/r06/okanogan-wenatchee/permits/forest-product-permits">Forest product permits (mushrooms) — O-W NF</a></li>
     <li><a href="https://wdfw.wa.gov/hunting/regulations/summary-of-seasons">WDFW — Summary of hunting seasons</a></li>
   </ol>
 </section>
