@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>FS 7601 Basecamp — Enchantments Day Hikes</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  :root {
+    --bg: #f4f2ea; --panel: #fffdf7; --panel-2: #eceadf;
+    --line: #d5d1c2; --line-strong: #b9b4a2;
+    --ink: #1e211d; --ink-dim: #55594f;
+    --lichen: #6f5f14; --sage: #41523a; --flood: #1c545f; --rust: #8c4218;
+    --warn-bg: #fdf3e3; --warn-line: #c98a2e; --warn-ink: #5c3a05;
+    --stop-bg: #fdecea; --stop-line: #b5341f; --stop-ink: #6b1c0d;
+    --gut: 16px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1c1a; --panel: #22251f; --panel-2: #1f221c;
+      --line: #3a3f39; --line-strong: #4d534b;
+      --ink: #e8e4d8; --ink-dim: #b0ab9c;
+      --lichen: #c4b454; --sage: #8a9a7b; --flood: #6ba3b0; --rust: #d0784b;
+      --warn-bg: #2b2517; --warn-line: #a8862f; --warn-ink: #e8d7a8;
+      --stop-bg: #2e1c17; --stop-line: #b5623a; --stop-ink: #f0c6b4;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+    font-size: 17px; line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .mono { font-family: "SFMono-Regular", "Consolas", "Roboto Mono", monospace; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 var(--gut); }
+  a { color: var(--flood); }
+  a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+    outline: 3px solid var(--lichen); outline-offset: 2px;
+  }
+  .skip {
+    position: absolute; left: -9999px; top: 0; background: var(--panel);
+    color: var(--ink); padding: 10px 14px; z-index: 10000;
+  }
+  .skip:focus { left: 8px; top: 8px; }
+
+  h1, h2, h3 { line-height: 1.2; font-weight: 600; }
+  h1 { font-size: clamp(1.7rem, 6vw, 2.5rem); letter-spacing: -0.01em; }
+  h2 {
+    font-size: 1.32rem; margin: 0 0 0.6rem;
+    padding-bottom: 0.4rem; border-bottom: 2px solid var(--line-strong);
+  }
+  h3 { font-size: 1.06rem; margin: 0 0 0.35rem; color: var(--sage); }
+  p { margin: 0 0 0.8rem; }
+  ul, ol { margin: 0 0 0.8rem 1.15rem; }
+  li { margin-bottom: 0.35rem; }
+  section { margin: 2.2rem 0; }
+  .eyebrow {
+    font-family: "SFMono-Regular", monospace; font-size: 0.72rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim);
+    margin-bottom: 0.3rem;
+  }
+
+  /* banner + alerts */
+  .banner {
+    display: block; background: var(--warn-bg); border-bottom: 3px solid var(--warn-line);
+    color: var(--warn-ink); text-decoration: none; padding: 12px var(--gut);
+  }
+  .banner strong { display: block; font-size: 0.95rem; }
+  .banner span { font-size: 0.85rem; }
+  .alert {
+    border: 2px solid var(--stop-line); background: var(--stop-bg); color: var(--stop-ink);
+    padding: 14px 16px; margin: 1.1rem 0; border-radius: 3px;
+  }
+  .alert h3 { color: var(--stop-ink); margin-bottom: 0.4rem; }
+  .alert p:last-child, .note p:last-child { margin-bottom: 0; }
+  .note {
+    border-left: 4px solid var(--warn-line); background: var(--warn-bg); color: var(--warn-ink);
+    padding: 12px 14px; margin: 1rem 0;
+  }
+  .note h3 { color: var(--warn-ink); }
+  .recheck {
+    display: inline-block; font-family: "SFMono-Regular", monospace;
+    font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+    border: 1px solid var(--warn-line); color: var(--warn-line);
+    padding: 1px 6px; border-radius: 2px; margin-left: 6px; vertical-align: 2px;
+  }
+
+  /* header */
+  header.hero { padding: 1.8rem 0 0.4rem; }
+  .dates {
+    font-family: "SFMono-Regular", monospace; font-size: 0.95rem;
+    letter-spacing: 0.08em; color: var(--lichen); margin-top: 0.5rem;
+  }
+  .sub { color: var(--ink-dim); margin-top: 0.5rem; }
+
+  /* camp cards */
+  .cards { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .cards { grid-template-columns: 1fr 1fr; } }
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-top: 4px solid var(--sage); padding: 16px;
+  }
+  .card.backup { border-top-color: var(--warn-line); }
+  .tag {
+    display: inline-block; font-family: "SFMono-Regular", monospace;
+    font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+    background: var(--sage); color: var(--panel); padding: 2px 7px; margin-bottom: 0.5rem;
+  }
+  .card.backup .tag { background: var(--warn-line); }
+  .coord {
+    font-family: "SFMono-Regular", monospace; font-size: 0.95rem;
+    background: var(--panel-2); border: 1px solid var(--line);
+    padding: 7px 9px; margin: 0.5rem 0; display: block; word-break: break-all;
+  }
+  .btns { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 0.7rem; }
+  .btn {
+    display: inline-block; font-family: "SFMono-Regular", monospace;
+    font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 10px 12px; min-height: 44px; line-height: 24px;
+    border: 1px solid var(--line-strong); background: var(--panel-2);
+    color: var(--ink); text-decoration: none; cursor: pointer;
+  }
+  .btn:hover { background: var(--sage); color: var(--panel); border-color: var(--sage); }
+  .btn-primary { background: var(--sage); color: var(--panel); border-color: var(--sage); }
+  .btn-primary:hover { filter: brightness(1.15); }
+
+  /* map */
+  #map {
+    height: 62vh; min-height: 340px; max-height: 520px; width: 100%;
+    border: 1px solid var(--line-strong); background: var(--panel-2);
+  }
+  .leaflet-popup-content { font-family: "SFMono-Regular", monospace; font-size: 0.8rem; }
+  .leaflet-popup-content b { display: block; margin-bottom: 0.2rem; }
+  .map-note { font-size: 0.85rem; color: var(--ink-dim); margin-top: 0.5rem; }
+  .noscript-map {
+    border: 1px solid var(--line-strong); background: var(--panel-2);
+    padding: 14px; margin-bottom: 0.6rem;
+  }
+
+  /* tables */
+  .scroller { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 0.8rem; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+  caption {
+    text-align: left; font-family: "SFMono-Regular", monospace; font-size: 0.68rem;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-dim);
+    padding-bottom: 0.4rem;
+  }
+  th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--panel-2); font-weight: 600; }
+  td.num { font-family: "SFMono-Regular", monospace; white-space: nowrap; }
+
+  /* checklist */
+  .check { list-style: none; margin-left: 0; }
+  .check li { border-bottom: 1px solid var(--line); margin: 0; }
+  .check label {
+    display: flex; gap: 11px; align-items: flex-start;
+    padding: 12px 2px; cursor: pointer; min-height: 44px;
+  }
+  .check input { width: 21px; height: 21px; margin-top: 2px; flex: none; accent-color: var(--sage); }
+  .check input:checked + span { text-decoration: line-through; color: var(--ink-dim); }
+  .check-tools { display: flex; gap: 8px; align-items: center; margin-top: 0.7rem; flex-wrap: wrap; }
+  #checkStatus { font-size: 0.82rem; color: var(--ink-dim); }
+
+  /* misc */
+  .kv { font-size: 0.93rem; }
+  .kv dt { font-weight: 600; color: var(--sage); margin-top: 0.6rem; }
+  .kv dd { margin: 0 0 0.2rem; }
+  footer {
+    border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 0 2.5rem;
+    font-size: 0.85rem; color: var(--ink-dim);
+  }
+  .src { margin-left: 1.1rem; font-size: 0.87rem; }
+  .src li { margin-bottom: 0.5rem; word-break: break-word; }
+
+  @page { size: Letter; margin: 0.5in; }
+  @media print {
+    :root {
+      --bg: #fff; --panel: #fff; --panel-2: #fff; --line: #999; --line-strong: #333;
+      --ink: #000; --ink-dim: #333; --sage: #000; --lichen: #000; --flood: #000;
+      --warn-bg: #fff; --warn-ink: #000; --stop-bg: #fff; --stop-ink: #000;
+    }
+    body { font-size: 7.4pt; line-height: 1.19; widows: 2; orphans: 2; }
+    /* the paper copy is a trailhead reference: coordinates, rules, contacts.
+       the checklist is a pre-trip task done on the phone, and the source list
+       is unusable offline, so neither earns a page out here. */
+    .btns, .btn, #map, .map-note, .check-tools, .skip, .noscript-map, nav,
+    .print-hide, .recheck, #checklist, #sources { display: none !important; }
+    .banner { border-bottom: 2px solid #000; padding: 4px 0; }
+    .banner span { display: none; }
+    .hero { padding: 0.3rem 0 0 !important; }
+    .eyebrow { margin-bottom: 0.1rem; }
+    h1 { font-size: 1.25rem; }
+    .sub { display: none; }
+    section { margin: 0.36rem 0; }
+    .card, .alert, .note { page-break-inside: avoid; }
+    h3 { page-break-after: avoid; break-after: avoid; }
+    thead { display: table-header-group; }
+    h2 { font-size: 0.98rem; margin: 0.45rem 0 0.25rem; padding-bottom: 0.15rem; }
+    h3 { font-size: 0.9rem; margin-bottom: 0.15rem; }
+    p, ul, ol { margin-bottom: 0.3rem; }
+    li { margin-bottom: 0.12rem; }
+    th, td { padding: 2px 5px; }
+    .kv dt { margin-top: 0.25rem; }
+    caption { padding-bottom: 0.15rem; }
+    .card { border: 1px solid #000; padding: 8px; }
+    .cards { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .coord { border: 1px solid #000; padding: 3px 5px; font-size: 10pt; }
+    .alert, .note { border: 1.5px solid #000; padding: 7px; }
+    .check label { padding: 3px 0; min-height: 0; }
+    a { text-decoration: none; }
+    .src, footer { display: none !important; }
+    .print-only { display: block !important; }
+  }
+  .print-only { display: none; }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<a class="banner" href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts">
+  <strong>Info verified Sept 21, 2026 — re-check fire, closure, and road status the week of the trip.</strong>
+  <span>Tap for the Okanogan-Wenatchee alerts page.</span>
+</a>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">Dispersed basecamp · FS Road 7601 · Leavenworth, WA</p>
+  <h1>Eightmile Road Basecamp</h1>
+  <p class="dates">Tue Oct 13 – Fri Oct 16, 2026</p>
+  <p class="sub">Two dispersed camp spots on Forest Service Road 7601, used as a basecamp for Enchantments-area day hikes — Colchuck, Stuart, and Eightmile lakes.</p>
+</header>
+
+<main id="main">
+
+<div class="alert">
+  <h3>🔥 Campfires are currently prohibited at dispersed sites</h3>
+  <p><strong>Stage 1 fire restrictions were reinstated forest-wide on Sept 11, 2026.</strong> Under Stage 1 you may not build or maintain a fire — including charcoal and briquettes — outside a designated campground or recreation site with an established Forest Service fire ring or grill. A pull-off on 7601 is neither, so <strong>plan on no campfire</strong>, even though those sites have rings in them.</p>
+  <p>Pressurized or bottled liquid-fuel stoves, lanterns, and heating devices are still allowed, used on ground clear of flammable material within 3 ft and fitted with a shut-off valve. <strong>Bring a gas stove and plan meals around it.</strong></p>
+  <p class="print-hide">This may lift before mid-October — restrictions often come off after the first soaking autumn rain. <a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts">Check the alerts page the week of the trip.</a><span class="recheck">re-check</span></p>
+</div>
+
+<section id="overview">
+  <h2>1. Trip overview</h2>
+  <p><strong>The plan:</strong> dispersed car camping on FS 7601 as a basecamp for Enchantments-area day hikes. No permit lottery, no reservation, no fee for the camping itself.</p>
+  <p><strong>Dates:</strong> Tuesday Oct 13 through Friday Oct 16, 2026.</p>
+  <h3>Getting there</h3>
+  <p>From US-2 at the west end of Leavenworth, take Icicle Road about <strong>8.4 mi</strong> and turn left onto <strong>FR 7601</strong> at Bridge Creek Campground. Cross the Icicle Creek bridge and climb.</p>
+  <ul>
+    <li><strong>Eightmile Trailhead</strong> — about 3.1 mi up 7601.</li>
+    <li><strong>Stuart/Colchuck Trailhead</strong> — about 3.8–4 mi up 7601, roughly 0.7–0.9 mi past Eightmile.</li>
+  </ul>
+  <p>7601 is steep and badly washboarded. The Forest Service recommends high clearance, and engaging 4x4 if you have it. Take it slow; it beats up a low car.</p>
+</section>
+
+<section id="camps">
+  <h2>2. The two camp sites</h2>
+  <div class="cards">
+
+    <article class="card">
+      <span class="tag">Primary</span>
+      <h3>Upper 7601 Camp</h3>
+      <code class="coord" id="c-upper">47.54021, -120.80243</code>
+      <p>Roughly <strong>2.4 mi</strong> up 7601 (estimated from the coordinates) — about 0.6 mi below Eightmile TH and about 1.5 mi drive from the Stuart/Colchuck TH.</p>
+      <p>This is the well-known free “FS Road 7601 Dispersed” stretch: pull-offs with existing fire rings, creek access, no facilities of any kind. It sits <strong>outside</strong> the posted no-parking zone.</p>
+      <div class="btns">
+        <button class="btn" type="button" data-copy="47.54021, -120.80243">Copy coordinates</button>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=47.54021,-120.80243">Google Maps</a>
+        <a class="btn" href="https://maps.apple.com/?ll=47.54021,-120.80243&amp;q=Upper%207601%20Camp">Apple Maps</a>
+      </div>
+    </article>
+
+    <article class="card backup">
+      <span class="tag">Backup</span>
+      <h3>Lower 7601 Camp</h3>
+      <code class="coord" id="c-lower">47.55733, -120.78066</code>
+      <p>Roughly <strong>0.5 mi</strong> up 7601 from Bridge Creek CG.</p>
+      <p>⚠️ That places it <strong>inside</strong> the stretch covered by Forest Order 06-17-1991-221: no parking where signs are posted, from mile 0.00 to mile 1.03 (the junction with road 115).</p>
+      <p>⚠️ WTA also states dispersed camping is <strong>not allowed</strong> between FR 7601 and Icicle Creek.</p>
+      <p><strong>On arrival:</strong> if you see No Parking signs, or the spot is on the creek side of the road, move up-road past the road 115 junction. Treat this as a fallback, not a plan.</p>
+      <div class="btns">
+        <button class="btn" type="button" data-copy="47.55733, -120.78066">Copy coordinates</button>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=47.55733,-120.78066">Google Maps</a>
+        <a class="btn" href="https://maps.apple.com/?ll=47.55733,-120.78066&amp;q=Lower%207601%20Camp">Apple Maps</a>
+      </div>
+    </article>
+
+  </div>
+
+  <noscript>
+    <div class="noscript-map">
+      <p><strong>The interactive map needs JavaScript.</strong> Coordinates are listed on the cards above and in the KML file.</p>
+    </div>
+  </noscript>
+  <div id="map" role="img" aria-label="Topographic map of Forest Road 7601 showing the Upper 7601 Camp, the Lower 7601 Camp, and the Eightmile Trailhead"></div>
+  <p class="map-note">Eightmile Trailhead (47.53601, -120.81401) is shown for reference. There are no verified coordinates for the Stuart/Colchuck Trailhead, so it is deliberately left off the map rather than guessed — it is roughly 0.7–0.9 mi further up 7601 from Eightmile.</p>
+  <div class="btns">
+    <a class="btn btn-primary" href="https://www.google.com/maps/dir/47.55733,-120.78066/47.54021,-120.80243">Open both in Google Maps</a>
+    <a class="btn" href="fs7601-camps.kml" download>Download KML (Google My Maps)</a>
+  </div>
+</section>
+
+<section id="legal">
+  <h2>3. Is dispersed camping legal here?</h2>
+  <p><strong>Yes — camping on FS 7601 is allowed and free.</strong> The confusion comes from a nearby order that does not apply to this road.</p>
+  <p class="print-hide">The Icicle camping ban only prohibits camping <strong>between Icicle Creek and Icicle Road #7600</strong>, from Snow Lakes TH west to Rock Island CG, outside developed campgrounds. FR 7601 is a different road, up the other side of the creek, and is not covered.</p>
+  <div class="scroller">
+    <table>
+      <caption>Orders that actually apply</caption>
+      <thead>
+        <tr><th scope="col">Order</th><th scope="col">What it says</th><th scope="col">Source</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">06-17-1995-285</td>
+          <td>No camping between Icicle Creek and Icicle Road #7600, Snow Lakes TH to Rock Island CG, outside developed campgrounds. <strong>Does not cover 7601.</strong></td>
+          <td><a href="https://fs.usda.gov/r06/okanogan-wenatchee/alerts/icicle-road-camping-restriction-wenatchee-river-ranger-district">Icicle Road camping restriction</a></td>
+        </tr>
+        <tr>
+          <td class="num">06-17-1991-221</td>
+          <td>No parking where signs are posted on 7601, mile 0.00 to mile 1.03 (junction with road 115). Affects the Lower camp.</td>
+          <td><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts/eightmile-road-7601-parking-restriction-wenatchee-river-ranger">Eightmile Road 7601 parking restriction</a></td>
+        </tr>
+        <tr>
+          <td class="num">06-17-00-25-01</td>
+          <td>Forest-wide stay limit: 14 consecutive days at one location (5-mile radius), 28 days per year.</td>
+          <td><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts/occupancy-and-use-camping-restrictions-forestwide">Occupancy and use restrictions</a></td>
+        </tr>
+        <tr>
+          <td class="num">06-17-00-24-01</td>
+          <td>Forest-wide wildlife-safe food storage order in effect. Store food and scented items secured or hung.</td>
+          <td><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts/occupancy-and-use-camping-restrictions-forestwide">Occupancy and use restrictions</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="conditions">
+  <h2>4. Conditions <span class="recheck">as of Sept 21, 2026</span></h2>
+
+  <div class="note">
+    <h3>Fire restrictions — changed since planning<span class="recheck">re-check</span></h3>
+    <p>Stage 1 restrictions were <strong>reinstated Sept 11, 2026</strong> and are in effect now, so campfires at dispersed sites are out (see the red box at the top). Stage 2 restrictions ran from July 17 and were scheduled through Oct 30, 2026 unless rescinded earlier. Campfires are <strong>never</strong> permitted on the Colchuck and Stuart Lake trails or at Eightmile Lake / Lake Caroline, restrictions or not.</p>
+  </div>
+
+  <h3>Little Giant Fire closure<span class="recheck">re-check</span></h3>
+  <p class="print-hide">Lightning-started July 15, 2026 in the Chiwawa River drainage, about 30 mi NW of Leavenworth, and <strong>mapped at roughly 171,000 acres</strong>. The closure order runs <strong>Sept 3 through Oct 31, 2026</strong> unless rescinded, covering Chiwawa River Road 6200, Phelps Creek Road 6211, Entiat River Road 5100, and a long list of campgrounds and trails in that area.</p>
+  <p class="print-hide"><strong>It does not include Icicle Road or 7601</strong>, so it should not block this trip. But it is a big, active fire upwind of Leavenworth: expect the possibility of smoke, and re-check in case the closure area grows. A separate <strong>Pomas Fire</strong> closure and a <strong>storm-damaged roads</strong> closure are also active on the Wenatchee River district — worth a look before you drive out.</p>
+
+  <h3>Road 7601 seasonal closure<span class="recheck">re-check</span></h3>
+  <p>7601 closes to vehicles each winter to protect the roadbed, mid-fall through spring, with <strong>no fixed date</strong> — it closed Nov 4 in 2024. Mid-October is normally well inside the open season, but an early snow could change that. Confirm the week of the trip.</p>
+
+  <h3>Hunting season<span class="recheck">re-check</span></h3>
+  <p>Washington's modern-firearm general deer season for 2026 looks like <strong>Oct 17–31</strong>, with black-tailed deer running Oct 10–30 on the west side. If those hold, <strong>Oct 13–16 falls just before the east-side modern-firearm opener</strong> — but dates vary by species and game management unit, and archery, muzzleloader, and high-buck seasons can overlap. Verify against WDFW, and wear blaze orange around camp and on the forest roads regardless.</p>
+
+  <h3>Mid-October generally</h3>
+  <p>Cold nights, short days, and possible early snow at trailhead elevations of 3,300–3,400 ft. Water sources may be iced in the morning.</p>
+  <div class="scroller">
+    <table>
+      <caption>Daylight, Leavenworth WA — approximate, PDT</caption>
+      <thead>
+        <tr><th scope="col">Date</th><th scope="col">Sunrise</th><th scope="col">Sunset</th><th scope="col">Daylight</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tue Oct 13</td><td class="num">7:17 a.m.</td><td class="num">6:20 p.m.</td><td class="num">11.0 h</td></tr>
+        <tr><td>Wed Oct 14</td><td class="num">7:19 a.m.</td><td class="num">6:18 p.m.</td><td class="num">11.0 h</td></tr>
+        <tr><td>Thu Oct 15</td><td class="num">7:20 a.m.</td><td class="num">6:16 p.m.</td><td class="num">10.9 h</td></tr>
+        <tr><td>Fri Oct 16</td><td class="num">7:22 a.m.</td><td class="num">6:14 p.m.</td><td class="num">10.9 h</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="print-hide">Computed for the town, not the trailhead; ridges to the east and west will cut the usable light at both ends. A 12-mile day needs an early start.</p>
+</section>
+
+<section id="hikes">
+  <h2>5. Day-hike logistics</h2>
+  <dl class="kv">
+    <dt>Permits</dt>
+    <dd>Day-use wilderness permits are <strong>free and self-issued at the trailhead</strong>. Overnight Enchantments permits are required May 15 – Oct 31, but day hikes do not need one.</dd>
+    <dt>Parking fee</dt>
+    <dd>$5 per vehicle per day, or a Northwest Forest Pass / America the Beautiful pass, displayed at the trailhead.</dd>
+    <dt>Parking rule</dt>
+    <dd>Between Eightmile TH and Stuart/Colchuck TH, park <strong>only on the right side</strong> of FR 7601. The Stuart TH lot fills early, even on weekdays — and Oct 13–16 is midweek, which helps.</dd>
+    <dt>Group size</dt>
+    <dd>Limit of 8.</dd>
+  </dl>
+  <div class="alert">
+    <h3>🚫 No dogs on these trails</h3>
+    <p>Dogs are prohibited on the Colchuck and Stuart Lake trails, throughout the Enchantment Permit Area, and between the 7601 trailhead and Windy Pass (Eightmile/Caroline). This applies to all pets except qualifying service dogs. Arrange care before you go.</p>
+  </div>
+  <div class="scroller">
+    <table>
+      <caption>Hikes — AllTrails figures, approximate</caption>
+      <thead>
+        <tr><th scope="col">Hike</th><th scope="col">Distance RT</th><th scope="col">Gain</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Colchuck Lake</td><td class="num">~9.1 mi</td><td class="num">~2,350 ft</td></tr>
+        <tr><td>Lake Stuart</td><td class="num">~9 mi</td><td class="num">—</td></tr>
+        <tr><td>Stuart + Colchuck combined</td><td class="num">~12.3 mi</td><td class="num">~3,030 ft</td></tr>
+        <tr><td>Eightmile Lake</td><td class="num">~6.8 mi</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="print-hide">Trip reports put Lake Stuart closer to 11 mi than the listed 9. Budget accordingly against 11 hours of daylight.</p>
+</section>
+
+<section id="checklist">
+  <h2>6. Pre-trip checklist</h2>
+  <ul class="check" id="checklist-items">
+    <li><label><input type="checkbox" id="ck1"><span>Check the O-W NF alerts page for fire and closure changes</span></label></li>
+    <li><label><input type="checkbox" id="ck2"><span>Confirm 7601 is open</span></label></li>
+    <li><label><input type="checkbox" id="ck3"><span>Confirm WDFW deer season dates; pack blaze orange</span></label></li>
+    <li><label><input type="checkbox" id="ck4"><span>NW Forest Pass or America the Beautiful pass on the dash</span></label></li>
+    <li><label><input type="checkbox" id="ck5"><span>Download offline maps; don't count on cell service</span></label></li>
+    <li><label><input type="checkbox" id="ck6"><span>Wildlife-safe food storage</span></label></li>
+    <li><label><input type="checkbox" id="ck7"><span>Arrange care for the dog if hiking the Enchantments trails</span></label></li>
+    <li><label><input type="checkbox" id="ck8"><span>Fill out the self-issue day permit at the trailhead</span></label></li>
+    <li><label><input type="checkbox" id="ck9"><span>Gas stove + fuel, since campfires are currently banned</span></label></li>
+  </ul>
+  <div class="check-tools">
+    <button class="btn" type="button" id="resetChecks">Reset checklist</button>
+    <span id="checkStatus" role="status"></span>
+  </div>
+</section>
+
+<section id="contacts">
+  <h2>7. Contacts</h2>
+  <p><strong>Wenatchee River Ranger District</strong><br>
+  600 Sherbourne St, Leavenworth, WA<br>
+  <a href="tel:+15095482550" class="mono">(509) 548-2550</a></p>
+  <p>Open Mon, Tue, Thu, Fri, 9–12 and 1–3:30. Closed Wednesdays and federal holidays.</p>
+</section>
+
+<section id="sources">
+  <h2>8. Sources</h2>
+  <ol class="src">
+    <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts">Okanogan-Wenatchee NF — Alerts</a></li>
+    <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts/stage-2-fire-restrictions">Stage 2 Fire Restrictions</a></li>
+    <li><a href="https://fs.usda.gov/r06/okanogan-wenatchee/alerts/icicle-road-camping-restriction-wenatchee-river-ranger-district">Icicle Road Camping Restriction</a></li>
+    <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts/eightmile-road-7601-parking-restriction-wenatchee-river-ranger">Eightmile Road 7601 Parking Restriction</a></li>
+    <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts/occupancy-and-use-camping-restrictions-forestwide">Occupancy and Use / Camping Restrictions (forest-wide)</a></li>
+    <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts/little-giant-fire-closure-order-wenatchee-river-and-entiat-ranger">Little Giant Fire Closure Order</a></li>
+    <li><a href="https://inciweb.wildfire.gov/incident-information/waowf-little-giant-fire">Little Giant Fire — InciWeb</a></li>
+    <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/recreation/eightmile-trailhead">Eightmile Trailhead (USFS)</a></li>
+    <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/recreation/stuart-lake-trailhead">Stuart Lake Trailhead (USFS)</a></li>
+    <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/recreation/trails/colchuck-lake-trail">Colchuck Lake Trail (USFS)</a></li>
+    <li><a href="https://www.wta.org/go-hiking/hikes/eightmile-lake">WTA — Eightmile Lake</a></li>
+    <li><a href="https://thedyrt.com/camping/washington/fs-road-7601">The Dyrt — FS Road 7601 Dispersed</a></li>
+    <li><a href="https://wdfw.wa.gov/hunting/regulations/summary-of-seasons">WDFW — Summary of hunting seasons</a></li>
+  </ol>
+</section>
+
+</main>
+
+<footer>
+  <p>Distances and elevation figures are approximate. Coordinates are estimates from public sources — verify signage and conditions on arrival. Nothing here substitutes for the current Forest Service orders.</p>
+</footer>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- map ---------- */
+  var UPPER = [47.54021, -120.80243];
+  var LOWER = [47.55733, -120.78066];
+  var EIGHTMILE = [47.53601, -120.81401];
+
+  var mapEl = document.getElementById('map');
+  function mapFallback(msg) {
+    if (!mapEl) return;
+    mapEl.innerHTML = '<p style="padding:14px;margin:0">' + msg +
+      ' Coordinates: Upper 47.54021, -120.80243 &middot; Lower 47.55733, -120.78066 ' +
+      '&middot; Eightmile TH 47.53601, -120.81401</p>';
+  }
+  if (!window.L) {
+    mapFallback('Map library did not load \u2014 you may be offline.');
+  }
+  if (window.L && mapEl) {
+    try {
+      var map = L.map('map', { scrollWheelZoom: false });
+
+      var topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+      });
+      var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      });
+
+      topo.addTo(map);
+      L.control.layers({ 'Topo': topo, 'OSM standard': osm }, null, { collapsed: false }).addTo(map);
+
+      function dot(color, r) {
+        return { radius: r, color: color, weight: 2, fillColor: color, fillOpacity: 0.55 };
+      }
+
+      L.circleMarker(UPPER, dot('#2e7d32', 10)).addTo(map).bindPopup(
+        '<b>Upper 7601 Camp — primary</b>47.54021, -120.80243<br>~2.4 mi up 7601. Pull-offs, creek access, no facilities. Outside the no-parking zone.');
+
+      L.circleMarker(LOWER, dot('#c98a2e', 9)).addTo(map).bindPopup(
+        '<b>Lower 7601 Camp — backup</b>47.55733, -120.78066<br>~0.5 mi up 7601. Likely inside the posted no-parking stretch — verify signage, move up-road if in doubt.');
+
+      L.circleMarker(EIGHTMILE, dot('#6b6b6b', 6)).addTo(map).bindPopup(
+        '<b>Eightmile Trailhead</b>47.53601, -120.81401<br>Reference only. Self-issue day permits here.');
+
+      map.fitBounds(L.latLngBounds([UPPER, LOWER, EIGHTMILE]).pad(0.35));
+      map.on('click', function () { map.scrollWheelZoom.enable(); });
+    } catch (e) {
+      mapFallback('Map failed to load.');
+    }
+  }
+
+  /* ---------- copy coordinates ---------- */
+  document.addEventListener('click', function (ev) {
+    var b = ev.target.closest('[data-copy]');
+    if (!b) return;
+    var text = b.getAttribute('data-copy');
+    var done = function () {
+      var old = b.textContent;
+      b.textContent = 'Copied ✓';
+      setTimeout(function () { b.textContent = old; }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute'; ta.style.left = '-9999px';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+        done();
+      } catch (e) {
+        b.textContent = 'Copy failed';
+        setTimeout(function () { b.textContent = 'Copy coordinates'; }, 1600);
+      }
+    }
+  });
+
+  /* ---------- checklist, persisted where possible ---------- */
+  var KEY = 'fs7601-checklist-v1';
+  var boxes = Array.prototype.slice.call(
+    document.querySelectorAll('#checklist-items input[type=checkbox]'));
+  var status = document.getElementById('checkStatus');
+  var memory = {};
+
+  function store(obj) {
+    try { localStorage.setItem(KEY, JSON.stringify(obj)); }
+    catch (e) { memory = obj; }
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : memory;
+    } catch (e) { return memory; }
+  }
+  function report() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    if (status) {
+      status.textContent = n + ' of ' + boxes.length + ' done';
+    }
+  }
+
+  var saved = load() || {};
+  boxes.forEach(function (b) {
+    if (saved[b.id]) { b.checked = true; }
+    b.addEventListener('change', function () {
+      var obj = {};
+      boxes.forEach(function (x) { if (x.checked) { obj[x.id] = 1; } });
+      store(obj); report();
+    });
+  });
+  report();
+
+  var reset = document.getElementById('resetChecks');
+  if (reset) {
+    reset.addEventListener('click', function () {
+      boxes.forEach(function (b) { b.checked = false; });
+      store({}); memory = {}; report();
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
