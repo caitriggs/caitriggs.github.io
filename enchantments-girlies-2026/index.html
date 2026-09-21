@@ -128,6 +128,14 @@
     padding: 7px 9px; margin: 0.5rem 0; display: block; word-break: break-all;
     border-radius: 6px;
   }
+  .area-map { margin: 1.5rem auto 0; max-width: 460px; }
+  .area-map picture { display: block; }
+  .area-map img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--line-strong); border-radius: 10px;
+  }
+  .area-map figcaption { font-size: 0.82rem; color: var(--ink-dim); margin-top: 0.5rem; line-height: 1.5; }
+
   .card figure { margin: 0.7rem 0 0.2rem; }
   .card figure picture { display: block; }   /* <picture> is inline by default */
   .card figure img {
@@ -210,7 +218,7 @@
        the checklist is a pre-trip task done on the phone, and the source list
        is unusable offline, so neither earns a page out here. */
     .btns, .btn, #map, .map-note, .check-tools, .skip, .noscript-map, nav,
-    .print-hide, .recheck, #checklist, #sources, .card figure { display: none !important; }
+    .print-hide, .recheck, #checklist, #sources, .card figure, .area-map { display: none !important; }
     .banner { border-bottom: 2px solid #000; padding: 4px 0; }
     .banner span { display: none; }
     .hero { padding: 0.3rem 0 0 !important; }
@@ -261,6 +269,14 @@
 </header>
 
 <main id="main">
+
+<figure class="area-map">
+  <picture>
+    <source srcset="area-map.webp" type="image/webp">
+    <img src="area-map.jpg" width="800" height="1227" alt="Aerial map of Forest Road 7601 running southwest from Bridge Creek Campground on Icicle Road, past the Eightmile Trailhead, to the Stuart Lake Trailhead, with the Alpine Lakes Wilderness boundary at lower left">
+  </picture>
+  <figcaption>The whole road at a glance. Bridge Creek Campground and the Icicle Road junction sit top right; FS 7601 climbs southwest from there past the Eightmile Trailhead to the Stuart/Colchuck Trailhead. Both camp spots are along this stretch &mdash; the lower one about 0.5 mi up from Bridge Creek, the upper about 0.6 mi below Eightmile TH &mdash; and each is pinned on the interactive map further down.</figcaption>
+</figure>
 
 <section id="overview">
   <h2>1. Trip overview</h2>
