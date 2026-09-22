@@ -4,38 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="dark">
 <title>FS 7601 Basecamp — Enchantments Day Hikes</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   :root {
-    /* coral pink, chartreuse and evergreen. every pairing used on the page is
-       checked against WCAG AA: 4.5:1 for text, 3:1 for borders and focus. */
-    --bg: #FDF7F4; --panel: #FFFCFA; --panel-2: #F7E9E3;
-    --line: #EFD9CF; --line-strong: #B18676;
-    --ink: #241E1C; --ink-dim: #6A554E;
-    --evergreen: #1B4332; --coral: #B03A22; --coral-fill: #BF4426;
-    --chartreuse: #667A00; --chart-fill: #A8CC1A; --on-fill: #FFFCFA;
-    --focus: #B03A22;
-    --warn-bg: #FDF1E6; --warn-line: #C07A2C; --warn-ink: #5A3708;
-    --stop-bg: #FDECE8; --stop-line: #B5341F; --stop-ink: #6B1C0D;
+    color-scheme: dark;
+    /* one palette, dark only: coral pink, chartreuse and periwinkle contours on
+       an evergreen-black ground. every pairing is checked against WCAG AA:
+       4.5:1 for text, 3:1 for borders and the focus ring. */
+    --bg: #15201B; --panel: #1C2A23; --panel-2: #223028;
+    --line: #35483E; --line-strong: #5A7164;
+    --ink: #F3E7E1; --ink-dim: #BCA79E;
+    --accent: #FFAFA4; --coral: #FF9280; --coral-fill: #FF9280;
+    --chartreuse: #B8E04A; --chart-fill: #A8CC1A; --on-fill: #15201B;
+    --focus: #B8E04A;
+    --warn-bg: #2B2517; --warn-line: #C79A3A; --warn-ink: #F0DDAF;
+    --stop-bg: #2E1C17; --stop-line: #E0785A; --stop-ink: #F7CFC2;
     --gut: 16px;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #15201B; --panel: #1C2A23; --panel-2: #223028;
-      --line: #35483E; --line-strong: #5A7164;
-      --ink: #F3E7E1; --ink-dim: #BCA79E;
-      --evergreen: #8FD3A8; --coral: #FF9280; --coral-fill: #FF9280;
-      --chartreuse: #B8E04A; --chart-fill: #A8CC1A; --on-fill: #15201B;
-      --focus: #B8E04A;
-      --warn-bg: #2B2517; --warn-line: #C79A3A; --warn-ink: #F0DDAF;
-      --stop-bg: #2E1C17; --stop-line: #E0785A; --stop-ink: #F7CFC2;
-    }
-  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
-    background: var(--bg); color: var(--ink);
+    background-color: var(--bg);
+    background-image: url("topo.svg");        /* seamless periwinkle contours */
+    background-size: 520px 520px;
+    color: var(--ink);
     font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
     font-size: 17px; line-height: 1.6;
     overflow-x: hidden;
@@ -63,7 +58,7 @@
     border-radius: 2px;
     background: linear-gradient(90deg, var(--coral) 0%, var(--chart-fill) 100%);
   }
-  h3 { font-size: 1.06rem; margin: 0 0 0.35rem; color: var(--evergreen); }
+  h3 { font-size: 1.06rem; margin: 0 0 0.35rem; color: var(--accent); }
   p { margin: 0 0 0.8rem; }
   ul, ol { margin: 0 0 0.8rem 1.15rem; }
   li { margin-bottom: 0.35rem; }
@@ -112,7 +107,7 @@
   @media (min-width: 720px) { .cards { grid-template-columns: 1fr 1fr; } }
   .card {
     background: var(--panel); border: 1px solid var(--line);
-    border-top: 4px solid var(--evergreen); padding: 16px; border-radius: 10px;
+    border-top: 4px solid var(--chart-fill); padding: 16px; border-radius: 10px;
   }
   .card.backup { border-top-color: var(--coral); }
   .tag {
@@ -128,6 +123,14 @@
     padding: 7px 9px; margin: 0.5rem 0; display: block; word-break: break-all;
     border-radius: 6px;
   }
+  .area-map { margin: 1.5rem auto 0; max-width: 460px; }
+  .area-map picture { display: block; }
+  .area-map img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--line-strong); border-radius: 10px;
+  }
+  .area-map figcaption { font-size: 0.82rem; color: var(--ink-dim); margin-top: 0.5rem; line-height: 1.5; }
+
   .card figure { margin: 0.7rem 0 0.2rem; }
   .card figure picture { display: block; }   /* <picture> is inline by default */
   .card figure img {
@@ -145,7 +148,7 @@
     border: 1px solid var(--line-strong); background: var(--panel-2);
     color: var(--ink); text-decoration: none; cursor: pointer; border-radius: 8px;
   }
-  .btn:hover { background: var(--evergreen); color: var(--on-fill); border-color: var(--evergreen); }
+  .btn:hover { background: var(--accent); color: var(--on-fill); border-color: var(--accent); }
   .btn-primary { background: var(--coral-fill); color: var(--on-fill); border-color: var(--coral-fill); }
   .btn-primary:hover { filter: brightness(1.15); }
 
@@ -188,7 +191,7 @@
 
   /* misc */
   .kv { font-size: 0.93rem; }
-  .kv dt { font-weight: 600; color: var(--evergreen); margin-top: 0.6rem; }
+  .kv dt { font-weight: 600; color: var(--accent); margin-top: 0.6rem; }
   .kv dd { margin: 0 0 0.2rem; }
   footer {
     border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 0 2.5rem;
@@ -201,16 +204,17 @@
   @media print {
     :root {
       --bg: #fff; --panel: #fff; --panel-2: #fff; --line: #999; --line-strong: #333;
-      --ink: #000; --ink-dim: #333; --evergreen: #000; --coral: #000;
+      --ink: #000; --ink-dim: #333; --accent: #000; --coral: #000;
       --coral-fill: #fff; --chartreuse: #000; --chart-fill: #fff; --on-fill: #000;
       --warn-bg: #fff; --warn-ink: #000; --stop-bg: #fff; --stop-ink: #000;
     }
-    body { font-size: 7.4pt; line-height: 1.19; widows: 2; orphans: 2; }
+    body { font-size: 7.4pt; line-height: 1.19; widows: 2; orphans: 2;
+           background-image: none !important; }
     /* the paper copy is a trailhead reference: coordinates, rules, contacts.
        the checklist is a pre-trip task done on the phone, and the source list
        is unusable offline, so neither earns a page out here. */
     .btns, .btn, #map, .map-note, .check-tools, .skip, .noscript-map, nav,
-    .print-hide, .recheck, #checklist, #sources, .card figure { display: none !important; }
+    .print-hide, .recheck, #checklist, #sources, .card figure, .area-map { display: none !important; }
     .banner { border-bottom: 2px solid #000; padding: 4px 0; }
     .banner span { display: none; }
     .hero { padding: 0.3rem 0 0 !important; }
@@ -262,6 +266,14 @@
 
 <main id="main">
 
+<figure class="area-map">
+  <picture>
+    <source srcset="area-map.webp" type="image/webp">
+    <img src="area-map.jpg" width="800" height="1227" alt="Aerial map of Forest Road 7601 running southwest from Bridge Creek Campground on Icicle Road, past the Eightmile Trailhead, to the Stuart Lake Trailhead, with the Alpine Lakes Wilderness boundary at lower left">
+  </picture>
+  <figcaption>The whole road at a glance. Bridge Creek Campground and the Icicle Road junction sit top right; FS 7601 climbs southwest from there past the Eightmile Trailhead to the Stuart/Colchuck Trailhead. Both camp spots are along this stretch &mdash; the lower one about 0.5 mi up from Bridge Creek, the upper about 0.6 mi below Eightmile TH &mdash; and each is pinned on the interactive map further down.</figcaption>
+</figure>
+
 <section id="overview">
   <h2>1. Trip overview</h2>
   <p><strong>The plan:</strong> dispersed car camping on FS 7601 as a basecamp for Enchantments-area day hikes. No permit lottery, no reservation, no fee for the camping itself.</p>
@@ -312,8 +324,8 @@
       </figure>
       <p>Roughly <strong>0.5 mi</strong> up 7601 from Bridge Creek CG.</p>
       <p>⚠️ That places it <strong>inside</strong> the stretch covered by Forest Order 06-17-1991-221: no parking where signs are posted, from mile 0.00 to mile 1.03 (the junction with road 115).</p>
-      <p>⚠️ WTA also states dispersed camping is <strong>not allowed</strong> between FR 7601 and Icicle Creek.</p>
-      <p><strong>On arrival:</strong> if you see No Parking signs, or the spot is on the creek side of the road, move up-road past the road 115 junction. Treat this as a fallback, not a plan.</p>
+      <p class="print-hide">WTA's notice that dispersed camping is not allowed <em>between FR 7601 and Icicle Creek</em> describes the narrow strip where the road runs along the creek, up by the Icicle Road junction. This clearing sits south and east of that, off the road and away from the water, so on the map it <strong>appears to fall outside that notice</strong> &mdash; though that is a reading of the map, not a ruling.</p>
+      <p><strong>On arrival:</strong> the signs on the ground govern. Walk the pull-off and check for posted No Parking signs before you settle in. If any are up, move on past the road 115 junction.</p>
       <div class="btns">
         <button class="btn" type="button" data-copy="47.55733, -120.78066">Copy coordinates</button>
         <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=47.55733,-120.78066">Google Maps</a>
@@ -328,8 +340,8 @@
       <p><strong>The interactive map needs JavaScript.</strong> Coordinates are listed on the cards above and in the KML file.</p>
     </div>
   </noscript>
-  <div id="map" role="img" aria-label="Topographic map of Forest Road 7601 showing the Upper 7601 Camp, the Lower 7601 Camp, and the Eightmile Trailhead"></div>
-  <p class="map-note">Eightmile Trailhead (47.53601, -120.81401) is shown for reference. There are no verified coordinates for the Stuart/Colchuck Trailhead, so it is deliberately left off the map rather than guessed — it is roughly 0.7–0.9 mi further up 7601 from Eightmile.</p>
+  <div id="map" role="img" aria-label="Topographic map of Forest Road 7601 showing the Upper 7601 Camp, the Lower 7601 Camp, the Eightmile Trailhead and the Stuart Lake Trailhead"></div>
+  <p class="map-note">Both trailheads are on the map. Eightmile is 47.53601, -120.81401; Stuart Lake — where the Lake Stuart and Colchuck Lake trails both start — is 47.52831, -120.82056, decoded from plus code 84VXG5HH+8Q and within 75 m of the coordinate WTA lists, so two sources agree.</p>
   <div class="btns">
     <a class="btn btn-primary" href="https://www.google.com/maps/dir/47.55733,-120.78066/47.54021,-120.80243">Open both in Google Maps</a>
     <a class="btn" href="fs7601-camps.kml" download>Download KML (Google My Maps)</a>
@@ -428,19 +440,18 @@
   </div>
   <div class="scroller">
     <table>
-      <caption>Hikes — AllTrails figures, approximate</caption>
+      <caption>Hikes — WTA figures</caption>
       <thead>
-        <tr><th scope="col">Hike</th><th scope="col">Distance RT</th><th scope="col">Gain</th></tr>
+        <tr><th scope="col">Hike</th><th scope="col">Distance RT</th><th scope="col">Gain</th><th scope="col">High point</th></tr>
       </thead>
       <tbody>
-        <tr><td>Colchuck Lake</td><td class="num">~9.1 mi</td><td class="num">~2,350 ft</td></tr>
-        <tr><td>Lake Stuart</td><td class="num">~9 mi</td><td class="num">—</td></tr>
-        <tr><td>Stuart + Colchuck combined</td><td class="num">~12.3 mi</td><td class="num">~3,030 ft</td></tr>
-        <tr><td>Eightmile Lake</td><td class="num">~6.8 mi</td><td class="num">—</td></tr>
+        <tr><td><a href="https://www.wta.org/go-hiking/hikes/eightmile-lake">Eightmile Lake</a></td><td class="num">6.6 mi</td><td class="num">1,300 ft</td><td class="num">4,650 ft</td></tr>
+        <tr><td><a href="https://www.wta.org/go-hiking/hikes/lake-stuart">Lake Stuart</a></td><td class="num">9.0 mi</td><td class="num">1,665 ft</td><td class="num">5,065 ft</td></tr>
+        <tr><td><a href="https://www.wta.org/go-hiking/hikes/colchuck-lake">Colchuck Lake</a><span class="recheck">confirm</span></td><td class="num">~8 mi</td><td class="num">~2,300 ft</td><td class="num">5,580 ft</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="print-hide">Trip reports put Lake Stuart closer to 11 mi than the listed 9. Budget accordingly against 11 hours of daylight.</p>
+  <p class="print-hide">Eightmile and Lake Stuart come straight off the WTA listings. The Colchuck row is from secondary sources and wants confirming on WTA before you plan around it. Lake Stuart and Colchuck share the Stuart Lake Trailhead and the first couple of miles of trail, so the pair can be run together as one long day of roughly 12 mi — and trip reports put Lake Stuart nearer 11 mi than the listed 9. Budget against 11 hours of daylight. Tapping a hike opens its WTA page, photos and all.</p>
 
   <h3 id="forage">Chanterelles, if the rain has come</h3>
   <div class="card forage">
@@ -448,7 +459,7 @@
     <p><strong>Where:</strong> stay on Icicle Road past the 7601 turn and carry on to the <strong>Chatter Creek (mile 16)</strong> and <strong>Rock Island (mile 17)</strong> campground stretch. Damp mixed conifer along the creek, old enough to have moss and deep duff. Roughly 10 minutes back down 7601, then 15 up Icicle.</p>
     <p><strong>What you're after:</strong> on this side of the crest the local prize is the <strong>white chanterelle</strong> (<em>Cantharellus subalbidus</em>) rather than the golden one — orange chanterelles are mostly a west-side find. Look for blunt forking ridges running down the stem instead of thin blade-like gills, solid flesh that tears like string cheese, and a faint smell of apricot.</p>
     <p class="print-hide"><strong>Timing:</strong> mid-October sits inside the fall window, but they need rain to fruit. After a dry autumn, treat it as a walk in the woods that might produce dinner.<span class="recheck">re-check</span></p>
-    <p><strong>Permit:</strong> a <strong>free Incidental Use Mushroom Information Sheet</strong> must be on you to pick for personal use. Collect one from the Leavenworth ranger station — closed Wednesdays. Personal use only; none of it may be sold.</p>
+    <p><strong>Permit:</strong> a <strong>free Incidental Use Mushroom Information Sheet</strong> must be on you to pick for personal use. Print it from the forest's <a href="https://www.fs.usda.gov/media/240810">personal-use mushroom information sheet</a>, or collect one at the Leavenworth ranger station — closed Wednesdays. Rules and any changes are on the <a href="https://fs.usda.gov/r06/okanogan-wenatchee/permits/forest-product-permits">forest product permits</a> page. Personal use only; none of it may be sold.</p>
     <p class="print-hide"><strong>Rules:</strong> no picking inside any closure area, and no driving off open roads to reach a patch.</p>
     <div class="note">
       <p><strong>Identification is on the picker.</strong> Do not eat anything you cannot positively confirm. A white chanterelle and a young white <em>Amanita</em> can look alike to an untrained eye, and that is not a mistake you get to make twice.</p>
@@ -522,13 +533,15 @@
   var UPPER = [47.54021, -120.80243];
   var LOWER = [47.55733, -120.78066];
   var EIGHTMILE = [47.53601, -120.81401];
+  var STUART    = [47.52831, -120.82056];   // plus code 84VXG5HH+8Q
 
   var mapEl = document.getElementById('map');
   function mapFallback(msg) {
     if (!mapEl) return;
     mapEl.innerHTML = '<p style="padding:14px;margin:0">' + msg +
       ' Coordinates: Upper 47.54021, -120.80243 &middot; Lower 47.55733, -120.78066 ' +
-      '&middot; Eightmile TH 47.53601, -120.81401</p>';
+      '&middot; Eightmile TH 47.53601, -120.81401 ' +
+      '&middot; Stuart Lake TH 47.52831, -120.82056</p>';
   }
   if (!window.L) {
     mapFallback('Map library did not load \u2014 you may be offline.');
@@ -560,9 +573,12 @@
         '<b>Lower 7601 Camp — backup</b>47.55733, -120.78066<br>~0.5 mi up 7601. Likely inside the posted no-parking stretch — verify signage, move up-road if in doubt.');
 
       L.circleMarker(EIGHTMILE, dot('#6b6b6b', 6)).addTo(map).bindPopup(
-        '<b>Eightmile Trailhead</b>47.53601, -120.81401<br>Reference only. Self-issue day permits here.');
+        '<b>Eightmile Trailhead</b>47.53601, -120.81401<br>Eightmile Lake trail. Self-issue day permits here.');
 
-      map.fitBounds(L.latLngBounds([UPPER, LOWER, EIGHTMILE]).pad(0.35));
+      L.circleMarker(STUART, dot('#6b6b6b', 6)).addTo(map).bindPopup(
+        '<b>Stuart Lake Trailhead</b>47.52831, -120.82056<br>Lake Stuart and Colchuck Lake both start here. Fills early. Self-issue day permits.');
+
+      map.fitBounds(L.latLngBounds([UPPER, LOWER, EIGHTMILE, STUART]).pad(0.3));
       map.on('click', function () { map.scrollWheelZoom.enable(); });
     } catch (e) {
       mapFallback('Map failed to load.');
