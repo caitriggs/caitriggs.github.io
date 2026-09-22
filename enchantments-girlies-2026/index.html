@@ -193,6 +193,26 @@
   .kv { font-size: 0.93rem; }
   .kv dt { font-weight: 600; color: var(--accent); margin-top: 0.6rem; }
   .kv dd { margin: 0 0 0.2rem; }
+  /* collapsible Conditions */
+  #conditions details { border-top: 1px solid var(--line); padding-top: 1.1rem; }
+  #conditions summary {
+    display: block; cursor: pointer; list-style: none;
+    position: relative; padding-right: 32px;
+  }
+  #conditions summary::-webkit-details-marker { display: none; }
+  #conditions summary h2 { margin-bottom: 0.4rem; }
+  #conditions summary .more {
+    display: block; font-family: "SFMono-Regular", monospace;
+    font-size: 0.74rem; letter-spacing: 0.1em; color: var(--ink-dim);
+  }
+  #conditions summary::after {
+    content: "+"; position: absolute; right: 0; top: -2px;
+    font-family: "SFMono-Regular", monospace; font-size: 1.5rem; line-height: 1;
+    color: var(--accent);
+  }
+  #conditions details[open] summary::after { content: "\2212"; }
+  #conditions .details-body { padding-top: 0.9rem; }
+
   footer {
     border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 0 2.5rem;
     font-size: 0.85rem; color: var(--ink-dim);
@@ -224,6 +244,10 @@
     section { margin: 0.36rem 0; }
     .card, .alert, .note { page-break-inside: avoid; }
     h3 { page-break-after: avoid; break-after: avoid; }
+    /* the section is collapsed on screen but belongs on the field sheet */
+    #conditions details > *:not(summary) { display: block !important; }
+    #conditions details { border-top: 0; padding-top: 0; }
+    #conditions summary::after, #conditions summary .more { display: none !important; }
     thead { display: table-header-group; }
     h2 { font-size: 0.98rem; margin: 0.45rem 0 0.25rem; padding-bottom: 0.15rem; }
     h2::after { background: #000 !important; height: 1px; }
@@ -384,46 +408,9 @@
   </div>
 </section>
 
-<section id="conditions">
-  <h2>4. Conditions <span class="recheck">as of Sept 21, 2026</span></h2>
-
-  <div class="note">
-    <h3>Fire restrictions<span class="recheck">re-check</span></h3>
-    <p>Stage 1 restrictions were reinstated forest-wide on <strong>Sept 11, 2026</strong>. Under Stage 1, wood and charcoal fires are out at dispersed sites — but <strong>propane and other bottled-gas devices with a shut-off valve are still allowed</strong>, so the propane firepit and a gas stove are fine. Restrictions often come off after the first soaking autumn rain, so this may have lifted by mid-October anyway.</p>
-    <p>Open fires are <strong>never</strong> permitted on the Colchuck and Stuart Lake trails or at Eightmile Lake / Lake Caroline, restrictions or not.</p>
-  </div>
-
-  <h3 class="print-hide">Little Giant Fire closure<span class="recheck">re-check</span></h3>
-  <p class="print-hide">Lightning-started July 15, 2026 in the Chiwawa River drainage, about 30 mi NW of Leavenworth, and <strong>mapped at roughly 171,000 acres</strong>. The closure order runs <strong>Sept 3 through Oct 31, 2026</strong> unless rescinded, covering Chiwawa River Road 6200, Phelps Creek Road 6211, Entiat River Road 5100, and a long list of campgrounds and trails in that area.</p>
-  <p class="print-hide"><strong>It does not include Icicle Road or 7601</strong>, so it should not block this trip. But it is a big, active fire upwind of Leavenworth: expect the possibility of smoke, and re-check in case the closure area grows. A separate <strong>Pomas Fire</strong> closure and a <strong>storm-damaged roads</strong> closure are also active on the Wenatchee River district — worth a look before you drive out.</p>
-
-  <h3 class="print-hide">Road 7601 seasonal closure<span class="recheck">re-check</span></h3>
-  <p class="print-hide">7601 closes to vehicles each winter to protect the roadbed, mid-fall through spring, with <strong>no fixed date</strong> — it closed Nov 4 in 2024. Mid-October is normally well inside the open season, but an early snow could change that. Confirm the week of the trip.</p>
-
-  <h3>Hunting season<span class="recheck">re-check</span></h3>
-  <p>Washington's modern-firearm general deer season for 2026 looks like <strong>Oct 17–31</strong>, with black-tailed deer running Oct 10–30 on the west side. If those hold, <strong>Oct 13–16 falls just before the east-side modern-firearm opener</strong> — but dates vary by species and game management unit, and archery, muzzleloader, and high-buck seasons can overlap. Verify against WDFW, and wear blaze orange around camp and on the forest roads regardless.</p>
-
-  <h3>Mid-October generally</h3>
-  <p class="print-hide">Cold nights, short days, and possible early snow at trailhead elevations of 3,300–3,400 ft. Water sources may be iced in the morning.</p>
-  <div class="scroller">
-    <table>
-      <caption>Daylight, Leavenworth WA — approximate, PDT</caption>
-      <thead>
-        <tr><th scope="col">Date</th><th scope="col">Sunrise</th><th scope="col">Sunset</th><th scope="col">Daylight</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Tue Oct 13</td><td class="num">7:17 a.m.</td><td class="num">6:20 p.m.</td><td class="num">11.0 h</td></tr>
-        <tr><td>Wed Oct 14</td><td class="num">7:19 a.m.</td><td class="num">6:18 p.m.</td><td class="num">11.0 h</td></tr>
-        <tr><td>Thu Oct 15</td><td class="num">7:20 a.m.</td><td class="num">6:16 p.m.</td><td class="num">10.9 h</td></tr>
-        <tr><td>Fri Oct 16</td><td class="num">7:22 a.m.</td><td class="num">6:14 p.m.</td><td class="num">10.9 h</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p class="print-hide">Computed for the town, not the trailhead; ridges to the east and west will cut the usable light at both ends. A 12-mile day needs an early start.</p>
-</section>
 
 <section id="hikes">
-  <h2>5. Day-hike logistics</h2>
+  <h2>4. Day-hike logistics</h2>
   <dl class="kv">
     <dt>Permits</dt>
     <dd>Day-use wilderness permits are <strong>free and self-issued at the trailhead</strong>. Overnight Enchantments permits are required May 15 – Oct 31, but day hikes do not need one.</dd>
@@ -469,7 +456,7 @@
 </section>
 
 <section id="checklist">
-  <h2>6. Pre-trip checklist</h2>
+  <h2>5. Pre-trip checklist</h2>
   <ul class="check" id="checklist-items">
     <li><label><input type="checkbox" id="ck1"><span>Check the O-W NF alerts page for fire and closure changes</span></label></li>
     <li><label><input type="checkbox" id="ck2"><span>Confirm 7601 is open</span></label></li>
@@ -489,7 +476,7 @@
 </section>
 
 <section id="contacts">
-  <h2>7. Contacts</h2>
+  <h2>6. Contacts</h2>
   <p><strong>Wenatchee River Ranger District</strong><br>
   600 Sherbourne St, Leavenworth, WA<br>
   <a href="tel:+15095482550" class="mono">(509) 548-2550</a></p>
@@ -497,7 +484,7 @@
 </section>
 
 <section id="sources">
-  <h2>8. Sources</h2>
+  <h2>7. Sources</h2>
   <ol class="src">
     <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts">Okanogan-Wenatchee NF — Alerts</a></li>
     <li><a href="https://www.fs.usda.gov/r06/okanogan-wenatchee/alerts/stage-2-fire-restrictions">Stage 2 Fire Restrictions</a></li>
@@ -514,6 +501,48 @@
     <li><a href="https://fs.usda.gov/r06/okanogan-wenatchee/permits/forest-product-permits">Forest product permits (mushrooms) — O-W NF</a></li>
     <li><a href="https://wdfw.wa.gov/hunting/regulations/summary-of-seasons">WDFW — Summary of hunting seasons</a></li>
   </ol>
+</section>
+
+<section id="conditions">
+  <details>
+    <summary><h2>8. Conditions <span class="recheck">as of Sept 21, 2026</span></h2><span class="more">Fire, closures, road status, hunting and daylight</span></summary>
+    <div class="details-body">
+
+  <div class="note">
+    <h3>Fire restrictions<span class="recheck">re-check</span></h3>
+    <p>Stage 1 restrictions were reinstated forest-wide on <strong>Sept 11, 2026</strong>. Under Stage 1, wood and charcoal fires are out at dispersed sites — but <strong>propane and other bottled-gas devices with a shut-off valve are still allowed</strong>, so the propane firepit and a gas stove are fine. Restrictions often come off after the first soaking autumn rain, so this may have lifted by mid-October anyway.</p>
+    <p>Open fires are <strong>never</strong> permitted on the Colchuck and Stuart Lake trails or at Eightmile Lake / Lake Caroline, restrictions or not.</p>
+  </div>
+
+  <h3 class="print-hide">Little Giant Fire closure<span class="recheck">re-check</span></h3>
+  <p class="print-hide">Lightning-started July 15, 2026 in the Chiwawa River drainage, about 30 mi NW of Leavenworth, and <strong>mapped at roughly 171,000 acres</strong>. The closure order runs <strong>Sept 3 through Oct 31, 2026</strong> unless rescinded, covering Chiwawa River Road 6200, Phelps Creek Road 6211, Entiat River Road 5100, and a long list of campgrounds and trails in that area.</p>
+  <p class="print-hide"><strong>It does not include Icicle Road or 7601</strong>, so it should not block this trip. But it is a big, active fire upwind of Leavenworth: expect the possibility of smoke, and re-check in case the closure area grows. A separate <strong>Pomas Fire</strong> closure and a <strong>storm-damaged roads</strong> closure are also active on the Wenatchee River district — worth a look before you drive out.</p>
+
+  <h3 class="print-hide">Road 7601 seasonal closure<span class="recheck">re-check</span></h3>
+  <p class="print-hide">7601 closes to vehicles each winter to protect the roadbed, mid-fall through spring, with <strong>no fixed date</strong> — it closed Nov 4 in 2024. Mid-October is normally well inside the open season, but an early snow could change that. Confirm the week of the trip.</p>
+
+  <h3>Hunting season<span class="recheck">re-check</span></h3>
+  <p>Washington's modern-firearm general deer season for 2026 looks like <strong>Oct 17–31</strong>, with black-tailed deer running Oct 10–30 on the west side. If those hold, <strong>Oct 13–16 falls just before the east-side modern-firearm opener</strong> — but dates vary by species and game management unit, and archery, muzzleloader, and high-buck seasons can overlap. Verify against WDFW, and wear blaze orange around camp and on the forest roads regardless.</p>
+
+  <h3>Mid-October generally</h3>
+  <p class="print-hide">Cold nights, short days, and possible early snow at trailhead elevations of 3,300–3,400 ft. Water sources may be iced in the morning.</p>
+  <div class="scroller">
+    <table>
+      <caption>Daylight, Leavenworth WA — approximate, PDT</caption>
+      <thead>
+        <tr><th scope="col">Date</th><th scope="col">Sunrise</th><th scope="col">Sunset</th><th scope="col">Daylight</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tue Oct 13</td><td class="num">7:17 a.m.</td><td class="num">6:20 p.m.</td><td class="num">11.0 h</td></tr>
+        <tr><td>Wed Oct 14</td><td class="num">7:19 a.m.</td><td class="num">6:18 p.m.</td><td class="num">11.0 h</td></tr>
+        <tr><td>Thu Oct 15</td><td class="num">7:20 a.m.</td><td class="num">6:16 p.m.</td><td class="num">10.9 h</td></tr>
+        <tr><td>Fri Oct 16</td><td class="num">7:22 a.m.</td><td class="num">6:14 p.m.</td><td class="num">10.9 h</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="print-hide">Computed for the town, not the trailhead; ridges to the east and west will cut the usable light at both ends. A 12-mile day needs an early start.</p>
+    </div>
+  </details>
 </section>
 
 </main>
@@ -612,6 +641,28 @@
       }
     }
   });
+
+  /* ---------- expand Conditions for printing ----------
+     It is collapsed on screen, but the printed sheet is a field reference and
+     the fire rule and daylight table belong on it. Chrome hides a closed
+     <details> in a way CSS alone cannot reliably undo, so open it for the
+     duration of the print job and put it back afterwards. */
+  var condDetails = document.querySelector('#conditions details');
+  if (condDetails) {
+    var wasOpen = condDetails.open;
+    var openForPrint = function () { wasOpen = condDetails.open; condDetails.open = true; };
+    var restoreAfterPrint = function () { condDetails.open = wasOpen; };
+    window.addEventListener('beforeprint', openForPrint);
+    window.addEventListener('afterprint', restoreAfterPrint);
+    if (window.matchMedia) {
+      try {
+        var printMq = window.matchMedia('print');
+        var onMq = function (e) { e.matches ? openForPrint() : restoreAfterPrint(); };
+        if (printMq.addEventListener) { printMq.addEventListener('change', onMq); }
+        else if (printMq.addListener) { printMq.addListener(onMq); }
+      } catch (e) { /* matchMedia('print') unsupported; the listeners above cover it */ }
+    }
+  }
 
   /* ---------- checklist, persisted where possible ---------- */
   var KEY = 'fs7601-checklist-v1';
