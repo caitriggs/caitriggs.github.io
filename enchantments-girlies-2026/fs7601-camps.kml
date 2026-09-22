@@ -37,8 +37,15 @@
     <Placemark>
       <name>Eightmile Trailhead (reference)</name>
       <styleUrl>#trailhead</styleUrl>
-      <description>USFS coordinates. About 3.1 mi up FR 7601. Self-issue day-use wilderness permits here. Parking is $5/vehicle/day or a Northwest Forest Pass / America the Beautiful pass. The Stuart/Colchuck Trailhead is a further 0.7-0.9 mi up the road; no verified coordinates for it, so it is deliberately left off this file rather than guessed.</description>
+      <description>USFS coordinates. About 3.1 mi up FR 7601. Self-issue day-use wilderness permits here. Parking is $5/vehicle/day or a Northwest Forest Pass / America the Beautiful pass. The Stuart Lake Trailhead is a further 0.7-0.9 mi up the road and is included below.</description>
       <Point><coordinates>-120.81401,47.53601,0</coordinates></Point>
+    </Placemark>
+
+    <Placemark>
+      <name>Stuart Lake Trailhead</name>
+      <styleUrl>#trailhead</styleUrl>
+      <description>Start of both the Lake Stuart trail and the Colchuck Lake trail, about 3.8-4 mi up FR 7601. Coordinates 47.52831, -120.82056, decoded from plus code 84VXG5HH+8Q and within 75 m of the coordinate WTA lists. Self-issue day-use wilderness permits here; parking is $5/vehicle/day or a Northwest Forest Pass / America the Beautiful pass. The lot fills early, even midweek. No dogs on either trail.</description>
+      <Point><coordinates>-120.82056,47.52831,0</coordinates></Point>
     </Placemark>
   </Document>
 </kml>

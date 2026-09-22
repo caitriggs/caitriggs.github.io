@@ -340,8 +340,8 @@
       <p><strong>The interactive map needs JavaScript.</strong> Coordinates are listed on the cards above and in the KML file.</p>
     </div>
   </noscript>
-  <div id="map" role="img" aria-label="Topographic map of Forest Road 7601 showing the Upper 7601 Camp, the Lower 7601 Camp, and the Eightmile Trailhead"></div>
-  <p class="map-note">Eightmile Trailhead (47.53601, -120.81401) is shown for reference. There are no verified coordinates for the Stuart/Colchuck Trailhead, so it is deliberately left off the map rather than guessed — it is roughly 0.7–0.9 mi further up 7601 from Eightmile.</p>
+  <div id="map" role="img" aria-label="Topographic map of Forest Road 7601 showing the Upper 7601 Camp, the Lower 7601 Camp, the Eightmile Trailhead and the Stuart Lake Trailhead"></div>
+  <p class="map-note">Both trailheads are on the map. Eightmile is 47.53601, -120.81401; Stuart Lake — where the Lake Stuart and Colchuck Lake trails both start — is 47.52831, -120.82056, decoded from plus code 84VXG5HH+8Q and within 75 m of the coordinate WTA lists, so two sources agree.</p>
   <div class="btns">
     <a class="btn btn-primary" href="https://www.google.com/maps/dir/47.55733,-120.78066/47.54021,-120.80243">Open both in Google Maps</a>
     <a class="btn" href="fs7601-camps.kml" download>Download KML (Google My Maps)</a>
@@ -440,19 +440,18 @@
   </div>
   <div class="scroller">
     <table>
-      <caption>Hikes — AllTrails figures, approximate</caption>
+      <caption>Hikes — WTA figures</caption>
       <thead>
-        <tr><th scope="col">Hike</th><th scope="col">Distance RT</th><th scope="col">Gain</th></tr>
+        <tr><th scope="col">Hike</th><th scope="col">Distance RT</th><th scope="col">Gain</th><th scope="col">High point</th></tr>
       </thead>
       <tbody>
-        <tr><td>Colchuck Lake</td><td class="num">~9.1 mi</td><td class="num">~2,350 ft</td></tr>
-        <tr><td>Lake Stuart</td><td class="num">~9 mi</td><td class="num">—</td></tr>
-        <tr><td>Stuart + Colchuck combined</td><td class="num">~12.3 mi</td><td class="num">~3,030 ft</td></tr>
-        <tr><td>Eightmile Lake</td><td class="num">~6.8 mi</td><td class="num">—</td></tr>
+        <tr><td><a href="https://www.wta.org/go-hiking/hikes/eightmile-lake">Eightmile Lake</a></td><td class="num">6.6 mi</td><td class="num">1,300 ft</td><td class="num">4,650 ft</td></tr>
+        <tr><td><a href="https://www.wta.org/go-hiking/hikes/lake-stuart">Lake Stuart</a></td><td class="num">9.0 mi</td><td class="num">1,665 ft</td><td class="num">5,065 ft</td></tr>
+        <tr><td><a href="https://www.wta.org/go-hiking/hikes/colchuck-lake">Colchuck Lake</a><span class="recheck">confirm</span></td><td class="num">~8 mi</td><td class="num">~2,300 ft</td><td class="num">5,580 ft</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="print-hide">Trip reports put Lake Stuart closer to 11 mi than the listed 9. Budget accordingly against 11 hours of daylight.</p>
+  <p class="print-hide">Eightmile and Lake Stuart come straight off the WTA listings. The Colchuck row is from secondary sources and wants confirming on WTA before you plan around it. Lake Stuart and Colchuck share the Stuart Lake Trailhead and the first couple of miles of trail, so the pair can be run together as one long day of roughly 12 mi — and trip reports put Lake Stuart nearer 11 mi than the listed 9. Budget against 11 hours of daylight. Tapping a hike opens its WTA page, photos and all.</p>
 
   <h3 id="forage">Chanterelles, if the rain has come</h3>
   <div class="card forage">
@@ -460,7 +459,7 @@
     <p><strong>Where:</strong> stay on Icicle Road past the 7601 turn and carry on to the <strong>Chatter Creek (mile 16)</strong> and <strong>Rock Island (mile 17)</strong> campground stretch. Damp mixed conifer along the creek, old enough to have moss and deep duff. Roughly 10 minutes back down 7601, then 15 up Icicle.</p>
     <p><strong>What you're after:</strong> on this side of the crest the local prize is the <strong>white chanterelle</strong> (<em>Cantharellus subalbidus</em>) rather than the golden one — orange chanterelles are mostly a west-side find. Look for blunt forking ridges running down the stem instead of thin blade-like gills, solid flesh that tears like string cheese, and a faint smell of apricot.</p>
     <p class="print-hide"><strong>Timing:</strong> mid-October sits inside the fall window, but they need rain to fruit. After a dry autumn, treat it as a walk in the woods that might produce dinner.<span class="recheck">re-check</span></p>
-    <p><strong>Permit:</strong> a <strong>free Incidental Use Mushroom Information Sheet</strong> must be on you to pick for personal use. Collect one from the Leavenworth ranger station — closed Wednesdays. Personal use only; none of it may be sold.</p>
+    <p><strong>Permit:</strong> a <strong>free Incidental Use Mushroom Information Sheet</strong> must be on you to pick for personal use. Print it from the forest's <a href="https://www.fs.usda.gov/media/240810">personal-use mushroom information sheet</a>, or collect one at the Leavenworth ranger station — closed Wednesdays. Rules and any changes are on the <a href="https://fs.usda.gov/r06/okanogan-wenatchee/permits/forest-product-permits">forest product permits</a> page. Personal use only; none of it may be sold.</p>
     <p class="print-hide"><strong>Rules:</strong> no picking inside any closure area, and no driving off open roads to reach a patch.</p>
     <div class="note">
       <p><strong>Identification is on the picker.</strong> Do not eat anything you cannot positively confirm. A white chanterelle and a young white <em>Amanita</em> can look alike to an untrained eye, and that is not a mistake you get to make twice.</p>
@@ -534,13 +533,15 @@
   var UPPER = [47.54021, -120.80243];
   var LOWER = [47.55733, -120.78066];
   var EIGHTMILE = [47.53601, -120.81401];
+  var STUART    = [47.52831, -120.82056];   // plus code 84VXG5HH+8Q
 
   var mapEl = document.getElementById('map');
   function mapFallback(msg) {
     if (!mapEl) return;
     mapEl.innerHTML = '<p style="padding:14px;margin:0">' + msg +
       ' Coordinates: Upper 47.54021, -120.80243 &middot; Lower 47.55733, -120.78066 ' +
-      '&middot; Eightmile TH 47.53601, -120.81401</p>';
+      '&middot; Eightmile TH 47.53601, -120.81401 ' +
+      '&middot; Stuart Lake TH 47.52831, -120.82056</p>';
   }
   if (!window.L) {
     mapFallback('Map library did not load \u2014 you may be offline.');
@@ -572,9 +573,12 @@
         '<b>Lower 7601 Camp — backup</b>47.55733, -120.78066<br>~0.5 mi up 7601. Likely inside the posted no-parking stretch — verify signage, move up-road if in doubt.');
 
       L.circleMarker(EIGHTMILE, dot('#6b6b6b', 6)).addTo(map).bindPopup(
-        '<b>Eightmile Trailhead</b>47.53601, -120.81401<br>Reference only. Self-issue day permits here.');
+        '<b>Eightmile Trailhead</b>47.53601, -120.81401<br>Eightmile Lake trail. Self-issue day permits here.');
 
-      map.fitBounds(L.latLngBounds([UPPER, LOWER, EIGHTMILE]).pad(0.35));
+      L.circleMarker(STUART, dot('#6b6b6b', 6)).addTo(map).bindPopup(
+        '<b>Stuart Lake Trailhead</b>47.52831, -120.82056<br>Lake Stuart and Colchuck Lake both start here. Fills early. Self-issue day permits.');
+
+      map.fitBounds(L.latLngBounds([UPPER, LOWER, EIGHTMILE, STUART]).pad(0.3));
       map.on('click', function () { map.scrollWheelZoom.enable(); });
     } catch (e) {
       mapFallback('Map failed to load.');
