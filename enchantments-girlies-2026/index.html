@@ -4,40 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="dark">
 <title>FS 7601 Basecamp — Enchantments Day Hikes</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   :root {
-    /* coral pink, chartreuse and evergreen. --accent carries headings: deep
-       evergreen on the light ground, coral pink on the dark one, where a light
-       enough green reads as mint. every pairing used on the page is checked
-       against WCAG AA: 4.5:1 for text, 3:1 for borders and focus. */
-    --bg: #FDF7F4; --panel: #FFFCFA; --panel-2: #F7E9E3;
-    --line: #EFD9CF; --line-strong: #B18676;
-    --ink: #241E1C; --ink-dim: #6A554E;
-    --accent: #1B4332; --coral: #B03A22; --coral-fill: #BF4426;
-    --chartreuse: #667A00; --chart-fill: #A8CC1A; --on-fill: #FFFCFA;
-    --focus: #B03A22;
-    --warn-bg: #FDF1E6; --warn-line: #C07A2C; --warn-ink: #5A3708;
-    --stop-bg: #FDECE8; --stop-line: #B5341F; --stop-ink: #6B1C0D;
+    color-scheme: dark;
+    /* one palette, dark only: coral pink, chartreuse and periwinkle contours on
+       an evergreen-black ground. every pairing is checked against WCAG AA:
+       4.5:1 for text, 3:1 for borders and the focus ring. */
+    --bg: #15201B; --panel: #1C2A23; --panel-2: #223028;
+    --line: #35483E; --line-strong: #5A7164;
+    --ink: #F3E7E1; --ink-dim: #BCA79E;
+    --accent: #FFAFA4; --coral: #FF9280; --coral-fill: #FF9280;
+    --chartreuse: #B8E04A; --chart-fill: #A8CC1A; --on-fill: #15201B;
+    --focus: #B8E04A;
+    --warn-bg: #2B2517; --warn-line: #C79A3A; --warn-ink: #F0DDAF;
+    --stop-bg: #2E1C17; --stop-line: #E0785A; --stop-ink: #F7CFC2;
     --gut: 16px;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #15201B; --panel: #1C2A23; --panel-2: #223028;
-      --line: #35483E; --line-strong: #5A7164;
-      --ink: #F3E7E1; --ink-dim: #BCA79E;
-      --accent: #FFAFA4; --coral: #FF9280; --coral-fill: #FF9280;
-      --chartreuse: #B8E04A; --chart-fill: #A8CC1A; --on-fill: #15201B;
-      --focus: #B8E04A;
-      --warn-bg: #2B2517; --warn-line: #C79A3A; --warn-ink: #F0DDAF;
-      --stop-bg: #2E1C17; --stop-line: #E0785A; --stop-ink: #F7CFC2;
-    }
-  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
-    background: var(--bg); color: var(--ink);
+    background-color: var(--bg);
+    background-image: url("topo.svg");        /* seamless periwinkle contours */
+    background-size: 520px 520px;
+    color: var(--ink);
     font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
     font-size: 17px; line-height: 1.6;
     overflow-x: hidden;
@@ -215,7 +208,8 @@
       --coral-fill: #fff; --chartreuse: #000; --chart-fill: #fff; --on-fill: #000;
       --warn-bg: #fff; --warn-ink: #000; --stop-bg: #fff; --stop-ink: #000;
     }
-    body { font-size: 7.4pt; line-height: 1.19; widows: 2; orphans: 2; }
+    body { font-size: 7.4pt; line-height: 1.19; widows: 2; orphans: 2;
+           background-image: none !important; }
     /* the paper copy is a trailhead reference: coordinates, rules, contacts.
        the checklist is a pre-trip task done on the phone, and the source list
        is unusable offline, so neither earns a page out here. */
