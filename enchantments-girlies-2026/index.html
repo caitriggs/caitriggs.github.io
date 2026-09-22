@@ -8,12 +8,14 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   :root {
-    /* coral pink, chartreuse and evergreen. every pairing used on the page is
-       checked against WCAG AA: 4.5:1 for text, 3:1 for borders and focus. */
+    /* coral pink, chartreuse and evergreen. --accent carries headings: deep
+       evergreen on the light ground, coral pink on the dark one, where a light
+       enough green reads as mint. every pairing used on the page is checked
+       against WCAG AA: 4.5:1 for text, 3:1 for borders and focus. */
     --bg: #FDF7F4; --panel: #FFFCFA; --panel-2: #F7E9E3;
     --line: #EFD9CF; --line-strong: #B18676;
     --ink: #241E1C; --ink-dim: #6A554E;
-    --evergreen: #1B4332; --coral: #B03A22; --coral-fill: #BF4426;
+    --accent: #1B4332; --coral: #B03A22; --coral-fill: #BF4426;
     --chartreuse: #667A00; --chart-fill: #A8CC1A; --on-fill: #FFFCFA;
     --focus: #B03A22;
     --warn-bg: #FDF1E6; --warn-line: #C07A2C; --warn-ink: #5A3708;
@@ -25,7 +27,7 @@
       --bg: #15201B; --panel: #1C2A23; --panel-2: #223028;
       --line: #35483E; --line-strong: #5A7164;
       --ink: #F3E7E1; --ink-dim: #BCA79E;
-      --evergreen: #8FD3A8; --coral: #FF9280; --coral-fill: #FF9280;
+      --accent: #FFAFA4; --coral: #FF9280; --coral-fill: #FF9280;
       --chartreuse: #B8E04A; --chart-fill: #A8CC1A; --on-fill: #15201B;
       --focus: #B8E04A;
       --warn-bg: #2B2517; --warn-line: #C79A3A; --warn-ink: #F0DDAF;
@@ -63,7 +65,7 @@
     border-radius: 2px;
     background: linear-gradient(90deg, var(--coral) 0%, var(--chart-fill) 100%);
   }
-  h3 { font-size: 1.06rem; margin: 0 0 0.35rem; color: var(--evergreen); }
+  h3 { font-size: 1.06rem; margin: 0 0 0.35rem; color: var(--accent); }
   p { margin: 0 0 0.8rem; }
   ul, ol { margin: 0 0 0.8rem 1.15rem; }
   li { margin-bottom: 0.35rem; }
@@ -112,7 +114,7 @@
   @media (min-width: 720px) { .cards { grid-template-columns: 1fr 1fr; } }
   .card {
     background: var(--panel); border: 1px solid var(--line);
-    border-top: 4px solid var(--evergreen); padding: 16px; border-radius: 10px;
+    border-top: 4px solid var(--chart-fill); padding: 16px; border-radius: 10px;
   }
   .card.backup { border-top-color: var(--coral); }
   .tag {
@@ -153,7 +155,7 @@
     border: 1px solid var(--line-strong); background: var(--panel-2);
     color: var(--ink); text-decoration: none; cursor: pointer; border-radius: 8px;
   }
-  .btn:hover { background: var(--evergreen); color: var(--on-fill); border-color: var(--evergreen); }
+  .btn:hover { background: var(--accent); color: var(--on-fill); border-color: var(--accent); }
   .btn-primary { background: var(--coral-fill); color: var(--on-fill); border-color: var(--coral-fill); }
   .btn-primary:hover { filter: brightness(1.15); }
 
@@ -196,7 +198,7 @@
 
   /* misc */
   .kv { font-size: 0.93rem; }
-  .kv dt { font-weight: 600; color: var(--evergreen); margin-top: 0.6rem; }
+  .kv dt { font-weight: 600; color: var(--accent); margin-top: 0.6rem; }
   .kv dd { margin: 0 0 0.2rem; }
   footer {
     border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 0 2.5rem;
@@ -209,7 +211,7 @@
   @media print {
     :root {
       --bg: #fff; --panel: #fff; --panel-2: #fff; --line: #999; --line-strong: #333;
-      --ink: #000; --ink-dim: #333; --evergreen: #000; --coral: #000;
+      --ink: #000; --ink-dim: #333; --accent: #000; --coral: #000;
       --coral-fill: #fff; --chartreuse: #000; --chart-fill: #fff; --on-fill: #000;
       --warn-bg: #fff; --warn-ink: #000; --stop-bg: #fff; --stop-ink: #000;
     }
