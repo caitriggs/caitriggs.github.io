@@ -47,7 +47,7 @@
   }
   .skip:focus { left: 8px; top: 8px; }
 
-  h1, h2, h3 { line-height: 1.2; font-weight: 600; }
+  h1, h2, h3, h4 { line-height: 1.2; font-weight: 600; }
   h1 { font-size: clamp(1.7rem, 6vw, 2.5rem); letter-spacing: -0.01em; }
   h2 {
     font-size: 1.32rem; margin: 0 0 0.6rem;
@@ -193,25 +193,38 @@
   .kv { font-size: 0.93rem; }
   .kv dt { font-weight: 600; color: var(--accent); margin-top: 0.6rem; }
   .kv dd { margin: 0 0 0.2rem; }
-  /* collapsible Conditions */
-  #conditions details { border-top: 1px solid var(--line); padding-top: 1.1rem; }
-  #conditions summary {
-    display: block; cursor: pointer; list-style: none;
-    position: relative; padding-right: 32px;
-  }
-  #conditions summary::-webkit-details-marker { display: none; }
-  #conditions summary h2 { margin-bottom: 0.4rem; }
-  #conditions summary .more {
+  /* collapsible sections (Conditions, the recipe) */
+  .collapsible details { border-top: 1px solid var(--line); padding-top: 1.1rem; }
+  .collapsible summary { display: block; cursor: pointer; list-style: none; }
+  .collapsible summary::-webkit-details-marker { display: none; }
+  .collapsible summary h2 { margin-bottom: 0.4rem; }
+  .collapsible .summary-head { position: relative; padding-right: 32px; }
+  .collapsible .summary-head .more {
     display: block; font-family: "SFMono-Regular", monospace;
     font-size: 0.74rem; letter-spacing: 0.1em; color: var(--ink-dim);
   }
-  #conditions summary::after {
+  .collapsible .summary-head::after {
     content: "+"; position: absolute; right: 0; top: -2px;
     font-family: "SFMono-Regular", monospace; font-size: 1.5rem; line-height: 1;
     color: var(--accent);
   }
-  #conditions details[open] summary::after { content: "\2212"; }
-  #conditions .details-body { padding-top: 0.9rem; }
+  .collapsible details[open] .summary-head::after { content: "\2212"; }
+  .collapsible .details-body { padding-top: 0.9rem; }
+  /* recipe */
+  .recipe-hero { margin: 0 0 0.9rem; }
+  .recipe-hero picture { display: block; }
+  .recipe-hero img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--line-strong); border-radius: 10px;
+  }
+  h4 { font-size: 0.88rem; font-weight: 600; letter-spacing: 0.08em;
+       text-transform: uppercase; color: var(--chartreuse); margin: 1rem 0 0.3rem; }
+  .recipe-body > h3 { margin-top: 1.4rem; }
+  .recipe-meta {
+    font-family: "SFMono-Regular", monospace; font-size: 0.78rem;
+    letter-spacing: 0.06em; color: var(--ink-dim); margin-bottom: 1rem;
+  }
+  .recipe-body ol > li { margin-bottom: 0.55rem; }
 
   footer {
     border-top: 1px solid var(--line); margin-top: 2.5rem; padding: 1.2rem 0 2.5rem;
@@ -245,9 +258,11 @@
     .card, .alert, .note { page-break-inside: avoid; }
     h3 { page-break-after: avoid; break-after: avoid; }
     /* the section is collapsed on screen but belongs on the field sheet */
-    #conditions details > *:not(summary) { display: block !important; }
-    #conditions details { border-top: 0; padding-top: 0; }
-    #conditions summary::after, #conditions summary .more { display: none !important; }
+    .collapsible details > *:not(summary) { display: block !important; }
+    .collapsible details { border-top: 0; padding-top: 0; }
+    .collapsible .summary-head::after, .collapsible .summary-head .more { display: none !important; }
+    .recipe-hero { display: none !important; }
+    .recipe-body ol > li { margin-bottom: 0.2rem; }
     thead { display: table-header-group; }
     h2 { font-size: 0.98rem; margin: 0.45rem 0 0.25rem; padding-bottom: 0.15rem; }
     h2::after { background: #000 !important; height: 1px; }
@@ -476,6 +491,7 @@
   <h2>5. Pre-trip checklist</h2>
   <ul class="check" id="checklist-items">
     <li><label><input type="checkbox" id="ck11"><span>Snow level and WTA trip reports — make the plan A / plan B call</span></label></li>
+    <li><label><input type="checkbox" id="ck12"><span>Braise the bourguignon; cool it and pack it in the cooler</span></label></li>
     <li><label><input type="checkbox" id="ck1"><span>Check the O-W NF alerts page for fire and closure changes</span></label></li>
     <li><label><input type="checkbox" id="ck2"><span>Confirm 7601 is open</span></label></li>
     <li><label><input type="checkbox" id="ck3"><span>Confirm WDFW deer season dates; pack blaze orange</span></label></li>
@@ -501,9 +517,14 @@
   <p>Open Mon, Tue, Thu, Fri, 9–12 and 1–3:30. Closed Wednesdays and federal holidays.</p>
 </section>
 
-<section id="conditions">
+<section id="conditions" class="collapsible">
   <details>
-    <summary><h2>7. Conditions <span class="recheck">as of Sept 21, 2026</span></h2><span class="more">Fire, closures, road status, hunting and daylight</span></summary>
+    <summary>
+      <div class="summary-head">
+        <h2>7. Conditions <span class="recheck">as of Sept 21, 2026</span></h2>
+        <span class="more">Fire, closures, road status, hunting and daylight</span>
+      </div>
+    </summary>
     <div class="details-body">
 
   <div class="note">
@@ -577,6 +598,205 @@
     <li><a href="https://fs.usda.gov/r06/okanogan-wenatchee/permits/forest-product-permits">Forest product permits (mushrooms) — O-W NF</a></li>
     <li><a href="https://wdfw.wa.gov/hunting/regulations/summary-of-seasons">WDFW — Summary of hunting seasons</a></li>
   </ol>
+</section>
+
+<section id="bourguignon" class="collapsible">
+  <details>
+    <summary>
+      <figure class="recipe-hero">
+        <picture>
+          <source srcset="bourguignon.webp" type="image/webp">
+          <img src="bourguignon.jpg" width="730" height="487" loading="lazy" alt="A wide white Dutch oven of beef bourguignon: chunks of braised beef in a glossy dark red sauce with pearl onions, quartered mushrooms, carrot and chopped parsley">
+        </picture>
+      </figure>
+      <div class="summary-head">
+        <h2>9. First Night Dinner: Beef Bourguignon</h2>
+        <span class="more">Braised at home &middot; gluten-free, dairy-free &middot; serves 6</span>
+      </div>
+    </summary>
+    <div class="details-body recipe-body">
+
+      <p><strong>This one gets braised at home and finished at camp on night one.</strong> The two-hour braise happens in a kitchen, days ahead; what happens at the campsite is reheating it and browning the garnish. A braise is better on day two anyway, so cooking it in advance is the point rather than a compromise.</p>
+      <p>Adapted from <a href="https://www.thekitchn.com/beef-bourguignon-recipe-23603515">Kelli Foster&rsquo;s Beef Bourguignon at The Kitchn</a> &mdash; follow the method there. The only change is the thickener: sweet rice flour (mochiko) replaces all-purpose flour 1:1, and it behaves the same way through a long acidic braise.</p>
+      <p class="recipe-meta">Serves 6 &middot; 2&frac12;&ndash;3 hr at home, ~20 min at camp &middot; <strong>&asymp;850 kcal</strong> per serving</p>
+
+      <h3>Braised at home, finished at camp</h3>
+      <ul>
+        <li><strong>At home, days ahead:</strong> everything through the braise &mdash; bacon, sear, base, wine, two hours in the oven. Cool it completely and pack it in a sealed container in the cooler.</li>
+        <li><strong>At camp, Tue Oct 13:</strong> reheat the pot gently over the propane burner. Brown the pearl onions and mushrooms in a skillet while it comes up, stir them in, fish out the bay leaves and thyme stems, and correct the salt.</li>
+        <li><strong>So pack:</strong> the braise, the garnish ingredients unprepped, a skillet, and whatever you are serving it over. Propane is fine under Stage 1 restrictions &mdash; see Conditions.</li>
+      </ul>
+
+      <h3>Dietary notes</h3>
+      <ul>
+        <li><strong>Sweet rice flour (mochiko)</strong> is the swap, 1:1 by volume. It is glutinous rice flour, not regular rice flour &mdash; look for the Koda Farms box, or an Asian grocery. Regular white rice flour will go gritty here.</li>
+        <li><strong>Beef broth is the hidden gluten.</strong> Many brands use wheat as a flavor carrier. Buy one labeled gluten-free.</li>
+        <li><strong>Check the bacon cure</strong> for malt or wheat. Most thick-cut bacon is fine.</li>
+        <li><strong>Dairy:</strong> the original browns the garnish in butter. Olive oil, or the bacon fat already in the pot, does the same job and keeps the whole pot dairy-free.</li>
+        <li>Wine, tomato paste and the aromatics are all clear on both counts.</li>
+        <li><strong>Serve it over mashed potatoes</strong> or GF egg noodles &mdash; instant mash travels well and takes olive oil and stock instead of butter and milk. Skip the crusty bread unless it&rsquo;s a GF loaf.</li>
+      </ul>
+
+      <h3>Ingredients</h3>
+      <h4>The braise</h4>
+      <ul>
+        <li>8 oz thick-cut bacon (5&ndash;6 slices), cut crosswise into &frac12;-inch pieces</li>
+        <li>3 lb boneless beef chuck roast, trimmed, cut into 2-inch cubes</li>
+        <li>3 tsp kosher salt, divided, plus more to finish</li>
+        <li>&frac34; tsp freshly ground black pepper, divided, plus more to finish</li>
+        <li>1 large yellow onion, diced (about 2 cups)</li>
+        <li>1 medium carrot, cut into &frac12;-inch rounds (about &#8531; cup)</li>
+        <li>3 cloves garlic, minced</li>
+        <li>1 Tbsp tomato paste</li>
+        <li><strong>3 Tbsp sweet rice flour (mochiko)</strong> &mdash; replaces 3 Tbsp all-purpose flour</li>
+        <li>1 (750 ml) bottle dry red wine &mdash; pinot noir, merlot or cabernet</li>
+        <li>1 cup low-sodium beef broth, <strong>certified gluten-free</strong></li>
+        <li>5 sprigs fresh thyme</li>
+        <li>2 dried bay leaves</li>
+      </ul>
+      <h4>The garnish</h4>
+      <ul>
+        <li>3 Tbsp olive oil, or the reserved bacon fat</li>
+        <li>8 oz pearl onions (about 25), trimmed and peeled; frozen is fine, don&rsquo;t thaw</li>
+        <li>8 oz cremini mushrooms, quartered</li>
+        <li>Chopped fresh parsley, optional</li>
+      </ul>
+
+      <h3>Storage</h3>
+      <p>Refrigerate in an airtight container up to 4 days. It is better on day two. Reheat gently on the stove; the sauce will not break or thin the way a cornstarch-thickened one does.</p>
+
+    </div>
+  </details>
+</section>
+
+<section id="taco-bowls" class="collapsible">
+  <details>
+    <summary>
+      <figure class="recipe-hero">
+        <picture>
+          <source srcset="taco-bowls.webp" type="image/webp">
+          <img src="taco-bowls.jpg" width="600" height="700" loading="lazy" alt="A white bowl of taco-bowl components arranged in wedges: shredded pulled pork, grated cheese, diced avocado, tomato, corn, black beans, sour cream, lettuce and cilantro">
+        </picture>
+      </figure>
+      <div class="summary-head">
+        <h2>10. Second Night Dinner: Taco Bowls</h2>
+        <span class="more">Gluten-free &middot; dairy on the side &middot; serves 6</span>
+      </div>
+    </summary>
+    <div class="details-body recipe-body">
+
+      <p>Yellow rice in the bottom, both meats on top, everything else laid out so people build their own. The pork and the mole can be made at home and reheated at camp; the rest is chopping.</p>
+      <p class="recipe-meta">Serves 6 &middot; <strong>&asymp;1,500 kcal</strong> per fully loaded serving</p>
+
+      <div class="note">
+        <h3>Gluten-free, dairy on the side</h3>
+        <p>Built that way on purpose: the mole thickens with sweet rice flour instead of the 2 Tbsp all-purpose it normally calls for, and the only dairy is the crema and the cheese, which both sit in their own bowls.</p>
+        <p><strong>Two things to buy right:</strong> the stock and the tortilla strips. Both come in wheat-containing versions, so check for a gluten-free label on each.</p>
+      </div>
+
+      <h3>Allergens and swaps</h3>
+      <ul>
+        <li><strong>Tree nuts:</strong> the mole has <strong>almond butter</strong>. Sunflower seed butter swaps in 1:1 if anyone is nut-free.</li>
+        <li><strong>Gluten:</strong> none by design &mdash; sweet rice flour in the mole, and nothing else in the meal carries wheat. Buy certified gluten-free stock and tortilla strips and it stays that way.</li>
+        <li><strong>Dairy:</strong> only the crema and the shredded cheese, and both are side bowls &mdash; a dairy-free plate is just two bowls skipped. Nothing is cooked in butter.</li>
+        <li><strong>Pork:</strong> the ground turkey covers anyone not eating pork, and vice versa.</li>
+        <li><strong>Vegetarian:</strong> rice, beans and every topping work without either meat. Use vegetable stock in the rice; the mole is already meat-free.</li>
+      </ul>
+
+      <h3>What goes in the bowl</h3>
+      <ul>
+        <li><strong>Base:</strong> yellow rice</li>
+        <li><strong>Meats:</strong> pulled pork, ground turkey taco meat</li>
+        <li><strong>Toppings:</strong> cilantro lime crema, shredded lettuce, diced tomato, shredded cheese, black beans, avocado, tortilla strips</li>
+        <li><strong>Sauce:</strong> mole hot sauce</li>
+      </ul>
+
+      <h3>Ingredients</h3>
+
+      <h4>Yellow rice</h4>
+      <ul>
+        <li>2 cups long-grain white rice</li>
+        <li>3 Tbsp olive oil</li>
+        <li>1 small yellow onion, diced</li>
+        <li>2 cloves garlic, minced</li>
+        <li>1 tsp ground turmeric</li>
+        <li>1 tsp ground cumin</li>
+        <li>3&frac12; cups chicken or vegetable stock, <strong>certified gluten-free</strong></li>
+        <li>1&frac12; tsp kosher salt</li>
+        <li>Juice of &frac12; lime</li>
+      </ul>
+
+      <h4>Pulled pork</h4>
+      <ul>
+        <li>2 lb boneless pork shoulder</li>
+        <li>1 Tbsp kosher salt</li>
+        <li>2 tsp chili powder</li>
+        <li>1 tsp smoked paprika</li>
+        <li>1 tsp ground cumin</li>
+        <li>&frac12; tsp garlic powder</li>
+        <li>&frac12; tsp black pepper</li>
+        <li>1 cup chicken stock, <strong>certified gluten-free</strong></li>
+        <li>1 chipotle in adobo, minced (optional)</li>
+      </ul>
+
+      <h4>Ground turkey taco meat</h4>
+      <ul>
+        <li>1&frac12; lb ground turkey (93/7)</li>
+        <li>1 Tbsp oil</li>
+        <li>1 small white onion, diced</li>
+        <li>2 cloves garlic, minced</li>
+        <li>2 Tbsp chili powder</li>
+        <li>1 tsp ground cumin</li>
+        <li>1 tsp dried oregano</li>
+        <li>&frac12; tsp smoked paprika</li>
+        <li>1 tsp kosher salt</li>
+        <li>&frac12; cup water, or certified gluten-free stock</li>
+      </ul>
+
+      <h4>Cilantro lime crema</h4>
+      <ul>
+        <li>1 cup sour cream or Mexican crema</li>
+        <li>&frac12; cup packed fresh cilantro, chopped</li>
+        <li>Zest and juice of 1 lime</li>
+        <li>1 clove garlic, minced</li>
+        <li>&frac14; tsp kosher salt</li>
+        <li>Water, to thin to a drizzle</li>
+      </ul>
+
+      <h4>Mole hot sauce</h4>
+      <ul>
+        <li>2 Tbsp oil</li>
+        <li>1 cup diced white onion</li>
+        <li>4 cloves garlic, peeled and minced</li>
+        <li>1 jalape&ntilde;o, cored and diced (optional)</li>
+        <li>&frac14; cup chili powder</li>
+        <li><strong>2 Tbsp sweet rice flour (mochiko)</strong> &mdash; replaces 2 Tbsp all-purpose flour</li>
+        <li>1 tsp ground cinnamon</li>
+        <li>1 tsp ground cumin</li>
+        <li>&frac12; tsp dried oregano</li>
+        <li>2&frac12; cups vegetable stock, <strong>certified gluten-free</strong></li>
+        <li>2 Tbsp smooth almond butter (or your preferred nut or seed butter)</li>
+        <li>1 Tbsp tomato paste</li>
+        <li>1 Tbsp unsweetened cocoa powder</li>
+        <li>1 tsp sea salt</li>
+      </ul>
+
+      <h4>Bowl toppings</h4>
+      <ul>
+        <li>1 head romaine or 2 hearts, shredded</li>
+        <li>3 medium tomatoes, diced, or 2 cups pico de gallo</li>
+        <li>8 oz Monterey Jack or Mexican-blend cheese, shredded</li>
+        <li>2 (15 oz) cans black beans, drained and rinsed</li>
+        <li>3 avocados, diced</li>
+        <li>4 oz corn tortilla strips, <strong>certified gluten-free</strong></li>
+        <li>Fresh cilantro and lime wedges</li>
+      </ul>
+
+      <h3>Storage</h3>
+      <p>The pork, the turkey and the mole all keep 3 to 4 days refrigerated and reheat well. Cut the avocado and dress the crema the day you eat them.</p>
+
+    </div>
+  </details>
 </section>
 
 </main>
@@ -681,11 +901,16 @@
      the fire rule and daylight table belong on it. Chrome hides a closed
      <details> in a way CSS alone cannot reliably undo, so open it for the
      duration of the print job and put it back afterwards. */
-  var condDetails = document.querySelector('#conditions details');
-  if (condDetails) {
-    var wasOpen = condDetails.open;
-    var openForPrint = function () { wasOpen = condDetails.open; condDetails.open = true; };
-    var restoreAfterPrint = function () { condDetails.open = wasOpen; };
+  var collapsibles = [].slice.call(document.querySelectorAll('.collapsible details'));
+  if (collapsibles.length) {
+    var wasOpen = [];
+    var openForPrint = function () {
+      wasOpen = collapsibles.map(function (d) { return d.open; });
+      collapsibles.forEach(function (d) { d.open = true; });
+    };
+    var restoreAfterPrint = function () {
+      collapsibles.forEach(function (d, i) { d.open = !!wasOpen[i]; });
+    };
     window.addEventListener('beforeprint', openForPrint);
     window.addEventListener('afterprint', restoreAfterPrint);
     if (window.matchMedia) {
@@ -697,6 +922,25 @@
       } catch (e) { /* matchMedia('print') unsupported; the listeners above cover it */ }
     }
   }
+
+  /* A link to #bourguignon or #taco-bowls (or to anything inside them)
+     should land on an open section, not a closed one. Same for #conditions. */
+  var openTargetedCollapsible = function () {
+    var id = location.hash.slice(1);
+    if (!id) { return; }
+    var el = null;
+    try { el = document.getElementById(decodeURIComponent(id)); } catch (e) { el = null; }
+    if (!el) { return; }
+    var host = el.closest ? el.closest('.collapsible') : null;
+    if (!host) { return; }
+    var d = host.querySelector('details');
+    if (d && !d.open) {
+      d.open = true;
+      el.scrollIntoView();
+    }
+  };
+  window.addEventListener('hashchange', openTargetedCollapsible);
+  openTargetedCollapsible();
 
   /* ---------- checklist, persisted where possible ---------- */
   var KEY = 'fs7601-checklist-v1';
