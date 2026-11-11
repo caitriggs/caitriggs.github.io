@@ -1,5 +1,636 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow">
-<meta http-equiv="refresh" content="0; url=/congressletters/ice/">
-<link rel="canonical" href="/congressletters/ice/"><title>Moved</title></head>
-<body><p>This kit moved to <a href="/congressletters/ice/">caitriggs.github.io/congressletters/ice/</a>.</p></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ICE Accountability Letter Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a civic mail-merge desk. Summary strip on top, then three numbered steps; letter preview set like real paper. */
+:root{
+  --ink:#16233a;
+  --paper:#f6f7f9;
+  --card:#ffffff;
+  --rule:#d7dce4;
+  --muted:#5b6678;
+  --accent:#1f5fae;
+  --accent-ink:#ffffff;
+  --sen:#7a3e9d;
+  --house:#1f7a5c;
+  --warn:#9a5b00;
+  --display:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --letter:"Source Serif 4", Georgia, "Times New Roman", serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#e6ebf3; --paper:#0f1520; --card:#18202d; --rule:#2c3646; --muted:#9aa6b8;
+    --accent:#6ea8ef; --accent-ink:#0b1220; --sen:#c39be0; --house:#6fd0ad; --warn:#e3b25a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#e6ebf3; --paper:#0f1520; --card:#18202d; --rule:#2c3646; --muted:#9aa6b8;
+  --accent:#6ea8ef; --accent-ink:#0b1220; --sen:#c39be0; --house:#6fd0ad; --warn:#e3b25a;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto;padding:24px 16px 64px;display:grid;gap:24px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:800;letter-spacing:-.01em}
+h2{font-size:1.2rem;font-weight:700;display:flex;gap:10px;align-items:baseline}
+h2 .n{font-variant-numeric:tabular-nums;color:var(--accent);font-weight:800}
+.lede{color:var(--muted);max-width:65ch;margin:6px 0 0}
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:18px;display:grid;gap:14px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:14px 16px}
+.tile .v{font-size:1.9rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.tile .k{color:var(--muted);font-size:.85rem}
+.tile.primary{border-color:var(--accent);box-shadow:inset 4px 0 0 var(--accent)}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+label{display:grid;gap:4px;font-size:.85rem;font-weight:600}
+input[type=text],input[type=email]{font:inherit;font-weight:400;padding:9px 10px;border:1px solid var(--rule);border-radius:7px;background:var(--paper);color:var(--ink)}
+input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.note{color:var(--muted);font-size:.85rem;margin:0}
+.groups{display:grid;gap:18px}
+.grouphead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.grouphead h3{font-size:1rem}
+.chip{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.chip.d{color:var(--accent)}
+.chip.r{color:#b23a3a}
+:root[data-theme="dark"] .chip.r{color:#ef8a8a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .chip.r{color:#ef8a8a}}
+.chip.pend{color:var(--warn)}
+.chip.yes{color:var(--muted)}
+.list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+.rec{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:12px;border:1px solid var(--rule);border-radius:8px;background:var(--paper);cursor:pointer}
+.rec input{margin-top:4px;width:18px;height:18px;accent-color:var(--accent)}
+.rec.off{opacity:.55}
+.rec .nm{font-weight:700;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.rec .role{font-size:.88rem}
+.rec .why{font-size:.82rem;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+button{font:inherit;font-weight:600;padding:9px 14px;border-radius:7px;border:1px solid var(--rule);background:var(--card);color:var(--ink);cursor:pointer}
+button.go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+a.btnlink{display:inline-block;font-weight:700;padding:9px 16px;border-radius:7px;text-decoration:none;background:var(--accent);color:var(--accent-ink);border:1px solid var(--accent)}
+a.btnlink[aria-disabled=true]{opacity:.5;pointer-events:none}
+button:disabled{opacity:.5;cursor:not-allowed}
+.status{font-size:.88rem;min-height:1.3em;margin:0}
+.toggle{display:flex;gap:8px;align-items:center;font-weight:600;font-size:.9rem}
+.toggle input{width:18px;height:18px;accent-color:var(--accent)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+td.num{font-variant-numeric:tabular-nums}
+.addr{white-space:pre-line}
+.preview{display:grid;gap:10px}
+.sheet{background:#fff;color:#111;font-family:var(--letter);font-size:14px;line-height:1.5;padding:40px 46px;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.18);max-width:760px;width:100%;justify-self:center}
+.sheet h4{font-family:var(--letter);font-size:20px;margin:0 0 14px;font-weight:600}
+.sheet p{margin:0 0 10px}
+.sheet ul,.sheet ol{margin:0 0 10px;padding-left:22px}
+.sheet .blk{white-space:pre-line}
+.sheet .hdr{display:flex;justify-content:space-between;gap:24px;margin-bottom:14px;flex-wrap:wrap}
+.sheet .ret{text-align:right}
+.sheet .sig{margin-top:10px}
+.sheet .foot{font-size:12px;color:#555}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.opt{border:1px solid var(--rule);border-radius:8px;padding:14px;background:var(--paper);display:grid;gap:10px;align-content:start}
+.opt h3{font-size:1rem}
+.opt ol,.opt ul{margin:0;padding-left:20px;font-size:.92rem}
+.opt p{margin:0;font-size:.92rem}
+.acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.acts button,.acts a{font-size:.82rem;padding:5px 9px;border-radius:6px;border:1px solid var(--rule);background:var(--card);color:var(--ink);text-decoration:none;font-weight:600;white-space:nowrap}
+.acts a:hover,.acts button:hover{border-color:var(--accent)}
+textarea{font:inherit;font-size:.85rem;width:100%;padding:8px;border:1px solid var(--rule);border-radius:7px;background:var(--paper);color:var(--ink)}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.seg button{border:0;border-radius:0;background:var(--card);font-size:.88rem;padding:7px 12px}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.ppstage{display:grid;gap:18px;justify-items:center;background:var(--rule);border-radius:8px;padding:18px 10px}
+.pp{display:grid;gap:6px;justify-items:center}
+.pp .lbl{font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:flex;gap:8px;align-items:center}
+.pp .lbl .warn{color:#b23a3a;text-transform:none;letter-spacing:0}
+.ppbox{position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.25);background:#fff}
+.paper{position:absolute;top:0;left:0;width:8.5in;height:11in;transform-origin:0 0;background:#fff;color:#111;box-sizing:border-box;padding:0.5in 0.75in;overflow:hidden;font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.4;text-align:left}
+.paper.over{box-shadow:inset 0 -6px 0 #b23a3a}
+.paper h4{font-size:13.5pt;margin:4pt 0 8pt;font-weight:700;font-family:inherit}
+.paper p{margin:0 0 6.5pt}
+.paper ol{margin:0 0 6.5pt;padding-left:18pt}
+.paper li{margin-bottom:2pt}
+.paper .hdr{display:flex;justify-content:space-between;gap:24pt;margin-bottom:8pt}
+.paper .blk{white-space:pre-line}
+.paper .ret{text-align:right}
+.paper .sig{margin-top:8pt}
+.paper .foot{font-size:8.5pt;color:#555;margin-top:6pt}
+.paper table{border-collapse:collapse;width:100%;font-size:9pt}
+.paper th,.paper td{border:1px solid #999;padding:3pt 5pt;text-align:left;vertical-align:top}
+.paper .url{font-size:7.5pt;color:#444;word-break:break-all}
+.paper > :last-child{margin-bottom:0}
+.paper .env{display:grid;grid-template-columns:1fr 1fr;gap:18pt}.paper .env div{white-space:pre-line;border:1px dashed #999;padding:10pt;font-size:12pt;break-inside:avoid}.paper .tip{font-family:Arial,sans-serif;font-size:10pt;color:#333}
+.paper th{font-size:9pt;text-transform:none;letter-spacing:0;color:#111;font-weight:700}
+.pick{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+select{font:inherit;padding:7px 9px;border-radius:7px;border:1px solid var(--rule);background:var(--paper);color:var(--ink)}
+.sources{font-size:.85rem;color:var(--muted)}
+.sources a{color:var(--accent)}
+.sources ul{margin:6px 0 0;padding-left:18px;columns:2;column-gap:28px}
+@media (max-width:640px){.sources ul{columns:1}.sheet{padding:24px 20px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+#printDoc{display:none}
+</style>
+<style id="printCss" media="print"></style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>ICE Accountability Letter Kit</h1>
+    <p class="lede">Fill in your details, pick who to write to, and download one print-ready file with a ready-to-sign letter for each member, an envelope address sheet, and your postage count. Republicans come first: most of them voted for the $70 billion ICE package, and their votes decide whether limits pass. Democrats listed are the ones expected to lead the committees that write ICE's budget and rules.</p>
+  </header>
+
+  <section class="summary" aria-label="Mailing summary">
+    <div class="tile primary"><div class="v" id="tLetters">0</div><div class="k">letters selected</div></div>
+    <div class="tile"><div class="v">1</div><div class="k">Forever stamp per envelope</div></div>
+  </section>
+
+  <section class="panel" aria-labelledby="s1">
+    <h2 id="s1"><span class="n">1</span> Your return address</h2>
+    <div class="fields">
+      <label for="fName">Full name<input type="text" id="fName" autocomplete="name" placeholder="Jane Q. Public"></label>
+      <label for="fStreet">Street address<input type="text" id="fStreet" autocomplete="street-address" placeholder="123 Main St"></label>
+      <label for="fCity">City<input type="text" id="fCity" autocomplete="address-level2" placeholder="Seattle"></label>
+      <label for="fState">State<input type="text" id="fState" autocomplete="address-level1" placeholder="WA"></label>
+      <label for="fZip">ZIP<input type="text" id="fZip" autocomplete="postal-code" placeholder="98116"></label>
+      <label for="fEmail">Email (optional)<input type="email" id="fEmail" autocomplete="email" placeholder="you@example.com"></label>
+    </div>
+    <p class="note">Your details stay in this browser. They go only into the file you download.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="s2">
+    <h2 id="s2"><span class="n">2</span> Pick who gets a letter</h2>
+    <div class="groups" id="groups"></div>
+    <p class="note">Committee roles for January 2027 are expected, not final. Committees vote on leaders when the new Congress starts. List as of Nov. 11, 2026.</p>
+  </section>
+
+  <section class="panel preview" aria-labelledby="s5">
+    <div class="grouphead">
+      <h2 id="s5">Letter preview</h2>
+      <div class="pick">
+        <div class="seg" role="group" aria-label="Preview mode">
+          <button type="button" id="mPrint" aria-pressed="true">Print preview</button>
+          <button type="button" id="mRead" aria-pressed="false">Reading mode</button>
+        </div>
+        <label for="pv" style="display:flex;gap:8px;align-items:center">Show letter to <select id="pv"></select></label>
+      </div>
+    </div>
+    <div class="ppstage" id="ppStage"></div>
+    <div class="sheet" id="sheet" hidden></div>
+  </section>
+
+  <section class="panel" aria-labelledby="s3">
+    <h2 id="s3"><span class="n">3</span> Print or email</h2>
+    <label class="toggle" for="incSources"><input type="checkbox" id="incSources" checked> Include the sources with each letter</label>
+    <div class="opts">
+      <div class="opt">
+        <h3>Option A: Print and mail</h3>
+        <p>Every letter prints with your name and address filled in: one page each, with its sources on the back, plus a page of envelope addresses.</p>
+        <div class="btns">
+          <button class="go" id="bPrint" type="button">Print my letters</button>
+          <button id="bPdf" type="button">Download PDF</button>
+          <button id="bDoc" type="button">Download Word file</button>
+        </div>
+        <div class="btns"><button id="copyAddr" type="button">Copy envelope addresses</button></div>
+        <p class="note">Print double-sided (flip on long edge) so each letter's sources land on the back. Sign each one and mail it with 1 Forever stamp per envelope.</p>
+      </div>
+      <div class="opt">
+        <h3>Option B: Email</h3>
+        <p>Members of Congress don't publish email addresses. Their offices take messages through a contact form on each member's website, and many forms only accept people who live in that state or district.</p>
+        <p>Use the buttons next to each name under <strong>Your letters</strong> to:</p>
+        <ul>
+          <li><strong>Copy letter</strong> and paste it into the member's contact form.</li>
+          <li><strong>Gmail, Outlook or Email app</strong> to open a draft with the letter filled in. Send it to a friend who lives in that member's state or district so they can send it in, or to yourself to print later.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <div id="manual" hidden>
+      <p class="note">Your browser didn't allow copying here. Select all the text below and copy it yourself.</p>
+      <textarea id="manualTxt" rows="8" readonly aria-label="Text to copy"></textarea>
+    </div>
+    <p class="note">Mail to Capitol Hill is security-screened and can take a few weeks to arrive.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="s4">
+    <h2 id="s4">Your letters</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Envelope address</th><th>Send it</th></tr></thead>
+      <tbody id="addrBody"></tbody>
+    </table></div>
+  </section>
+
+  <footer class="panel sources">
+    <strong>Why these members (sources)</strong>
+    <ul>
+      <li><a href="https://www.washington.edu/federalrelations/?p=12908">UW Federal Relations: Murray expected Appropriations chair; Jayapal expected immigration subcommittee chair</a></li>
+      <li><a href="https://news.bloombergtax.com/bloomberg-government-news/democrats-to-use-committees-as-trump-counter-in-five-key-areas">Bloomberg Government: Collins lost; Murkowski next in line as top Appropriations Republican</a></li>
+      <li><a href="https://www.juneauindependent.com/post/murkowski-only-gop-no-vote-as-senate-oks-70b-for-immigration-enforcement-with-no-limits-on-ice">Juneau Independent: Murkowski only GOP "no" on the $70B ICE package; Moran among Republicans voting with Democrats on amendments</a></li>
+      <li><a href="https://www.britt.senate.gov/news/press-releases/u-s-senator-katie-britt-to-chair-homeland-security-subcommittee-on-appropriations">Sen. Britt: chair, Homeland Security Appropriations Subcommittee; Murphy ranking member</a></li>
+      <li><a href="https://www.jenner.com/print/v2/content/103758/democrats-flip-the-senate-incoming-committee-chairs-and-oversight-priorities.pdf">Jenner &amp; Block: Hassan expected HSGAC chair, Paul top Republican; Whitehouse expected Judiciary chair</a></li>
+      <li><a href="https://www.wusf.org/2026-02-12/top-immigration-officials-are-questioned-about-enforcement-as-a-shutdown-at-dhs-looms">NPR: Rand Paul's ICE oversight hearing</a></li>
+      <li><a href="https://www.ajc.com/news/2026/10/democrats-eye-return-to-power-with-many-of-the-same-faces-crafting-their-agenda/">AP: Thompson and Raskin in line for Homeland Security and Judiciary</a></li>
+      <li><a href="https://www.wlox.com/2026/11/04/incumbent-bennie-thompson-wins-2nd-congressional-district-race/">WLBT: Thompson re-elected</a></li>
+      <li><a href="https://www.kuow.org/npr-news/2026-11-03/democrats-win-full-control-of-congress-ushering-in-a-new-era-of-divided-government">NPR: Robert Garcia expected Oversight chair</a></li>
+      <li><a href="https://news.bloomberglaw.com/tech-and-telecom-law/democrats-target-five-big-priorities-for-their-2027-to-do-list">Bloomberg Law: DeLauro, top Appropriations Democrat</a></li>
+      <li><a href="https://garbarino.house.gov/media/in-the-news/moderate-republican-willing-break-party-set-lead-ice-hearing">Garbarino led the House ICE oversight hearing</a></li>
+      <li><a href="https://www.latintimes.com/salazar-miami-race-recount-gop-immigration-economy-600911">Latin Times: Salazar recount; "course-correct" on immigration</a></li>
+      <li><a href="https://www.mondaq.com/unitedstates/work-visas/1805230/congress-passes-%2470-billion-immigration-enforcement-funding-law">Mondaq: Secure America Act passed the Senate 52&ndash;47 and the House 214&ndash;212 along party lines</a></li>
+      <li><a href="https://www.dakotanewsnow.com/2026/11/05/thune-plans-lead-senate-republicans-next-congress/?outputType=amp">Dakota News Now: Thune plans to lead Senate Republicans</a></li>
+      <li><a href="https://www.newsfromthestates.com/node/436947">States Newsroom: Capito re-elected</a></li>
+      <li><a href="https://bdnews24.com/world/4857e9baf147">Reuters via bdnews24: Capito supports independent ICE/CBP oversight</a></li>
+      <li><a href="https://www.washingtonexaminer.com/?p=4441455">Washington Examiner: Kennedy open to body cameras and de-escalation training</a></li>
+      <li><a href="https://www.govinfo.gov/link/crec/172/s/1708">Congressional Record: Senate Homeland Security Appropriations Subcommittee roster</a></li>
+      <li><a href="https://globalcommunityweekly.substack.com/p/senate-republican-backs-requiring">The Hill via repost: Ron Johnson not opposed to body cameras</a></li>
+      <li><a href="https://floridaphoenix.com/?p=245386">Florida Phoenix: Moody re-elected; Salazar narrowly ahead</a></li>
+      <li><a href="https://www.okcfox.com/news/local/what-change-in-power-in-us-house-senate-means-for-oklahoma-delegation">OKC Fox 25: Cole likely next Appropriations ranking member</a></li>
+      <li><a href="https://mississippitoday.org/2026/11/03/mississippi-us-house-incumbents-all-reelected/">Mississippi Today: Guest re-elected; Homeland Security and Appropriations</a></li>
+      <li><a href="https://www.wlrn.org/government-politics/2026-11-04/fl-26-mario-diaz-balart-nicole-locklin-elections">WLRN: D&iacute;az-Balart claims victory; challenger says race isn't over</a></li>
+      <li><a href="https://voz.us/en/politics/261104/1000300/republican-victory-in-florida-byron-donalds-makes-history-while-salazar-diaz-balart-and-gi.html">Voz: Gimenez re-elected</a></li>
+      <li><a href="https://messengerpapers.com/?p=15289">Messenger Papers: LaLota and Garbarino re-elected</a></li>
+      <li><a href="https://www.senate.gov/senators/senators-contact.htm">Senate.gov: official mailing address format</a></li>
+    </ul>
+  </footer>
+</div>
+<div id="printDoc" aria-hidden="true"></div>
+
+<script>
+(function(){
+"use strict";
+var TARGETS = [
+ {id:"thune", ch:"S", first:"John", last:"Thune", party:"R", st:"SD", role:"Running to lead Senate Republicans in 2027", why:"Decides whether Republicans filibuster ICE limits.", yes:1},
+ {id:"capito", ch:"S", first:"Shelley Moore", last:"Capito", party:"R", st:"WV", role:"Appropriations; Homeland Security spending subcommittee", why:"Re-elected. Has said she supports independent oversight of ICE and CBP.", yes:1},
+ {id:"kennedy", ch:"S", first:"John", last:"Kennedy", party:"R", st:"LA", role:"Appropriations; Homeland Security spending subcommittee", why:"Open to building on body cameras and de-escalation training.", yes:1},
+ {id:"britt", ch:"S", first:"Katie", last:"Britt", party:"R", st:"AL", role:"Chair, Homeland Security Appropriations Subcommittee", why:"Likely the subcommittee's top Republican in 2027.", yes:1},
+ {id:"paul", ch:"S", first:"Rand", last:"Paul", party:"R", st:"KY", role:"Chair now, expected top Republican, Homeland Security and Governmental Affairs", why:"Held the Senate's ICE use-of-force hearing and said public trust has been lost.", yes:1},
+ {id:"lee", ch:"S", first:"Mike", last:"Lee", party:"R", st:"UT", role:"Likely top Republican, Senate Judiciary", why:"Judiciary handles immigration law and any right to sue federal officers.", yes:1},
+ {id:"johnson", ch:"S", first:"Ron", last:"Johnson", party:"R", st:"WI", role:"Homeland Security and Governmental Affairs", why:"Said he doesn't oppose requiring body cameras for immigration officers.", yes:1},
+ {id:"moody", ch:"S", first:"Ashley", last:"Moody", party:"R", st:"FL", role:"Re-elected in Florida", why:"Large Latino electorate at home; crossed over on ICE amendments.", yes:1},
+ {id:"moran", ch:"S", first:"Jerry", last:"Moran", party:"R", st:"KS", role:"Senior Appropriations Republican", why:"Crossed over on ICE amendments.", yes:1},
+ {id:"murkowski", ch:"S", first:"Lisa", last:"Murkowski", party:"R", st:"AK", role:"Next in line as top Republican on Appropriations", why:"Only Republican to vote against the $70B ICE package; called for an independent investigation and oversight hearings."},
+ {id:"murray", ch:"S", first:"Patty", last:"Murray", party:"D", st:"WA", role:"Expected chair, Senate Appropriations Committee", why:"Writes the spending bills that would carry ICE limits."},
+ {id:"murphy", ch:"S", first:"Christopher", last:"Murphy", party:"D", st:"CT", role:"Top Democrat, Homeland Security Appropriations Subcommittee", why:"The subcommittee that writes ICE's budget."},
+ {id:"hassan", ch:"S", first:"Maggie", last:"Hassan", party:"D", st:"NH", role:"Expected chair, Homeland Security and Governmental Affairs", why:"Runs the Senate's main DHS oversight committee."},
+ {id:"whitehouse", ch:"S", first:"Sheldon", last:"Whitehouse", party:"D", st:"RI", role:"Expected chair, Senate Judiciary", why:"Judiciary covers immigration law and a right to sue federal officers."},
+ {id:"cole", ch:"H", first:"Tom", last:"Cole", party:"R", st:"OK-4", role:"Chair now, likely top Republican, House Appropriations", why:"Known for cross-aisle deals with DeLauro.", yes:1},
+ {id:"garbarino", ch:"H", first:"Andrew", last:"Garbarino", party:"R", st:"NY-2", role:"Chair now, House Homeland Security", why:"Led the House ICE oversight hearing; likely the committee's top Republican in 2027.", yes:1},
+ {id:"guest", ch:"H", first:"Michael", last:"Guest", party:"R", st:"MS-3", role:"Homeland Security and Appropriations committees", why:"Sits on both panels that shape ICE. Re-elected.", yes:1},
+ {id:"diazbalart", ch:"H", first:"Mario", last:"D\u00edaz-Balart", party:"R", st:"FL-26", role:"Senior appropriator, Miami-area district", why:"Heavily Latino district that swung hard toward Democrats.", yes:1, pending:"Close race"},
+ {id:"gimenez", ch:"H", first:"Carlos", last:"Gimenez", party:"R", st:"FL-28", role:"Homeland Security Committee, Miami-area district", why:"Re-elected in a heavily Latino district.", yes:1},
+ {id:"salazar", ch:"H", first:"Mar\u00eda Elvira", last:"Salazar", party:"R", st:"FL-27", role:"Member, Miami district", why:"Told supporters her party needs to course-correct on immigration.", yes:1, pending:"Recount"},
+ {id:"lalota", ch:"H", first:"Nick", last:"LaLota", party:"R", st:"NY-1", role:"Appropriations Committee, Long Island swing seat", why:"Re-elected in a competitive suburban seat.", yes:1},
+ {id:"delauro", ch:"H", first:"Rosa", last:"DeLauro", party:"D", st:"CT-3", role:"Top Democrat, House Appropriations", why:"In line to chair the committee that writes every spending bill."},
+ {id:"raskin", ch:"H", first:"Jamie", last:"Raskin", party:"D", st:"MD-8", role:"Expected chair, House Judiciary", why:"Immigration law and oversight; has pressed DHS on body cameras."},
+ {id:"thompson", ch:"H", first:"Bennie", last:"Thompson", party:"D", st:"MS-2", role:"Expected chair, House Homeland Security", why:"Re-elected; leads ICE oversight hearings in 2027."},
+ {id:"garcia", ch:"H", first:"Robert", last:"Garcia", party:"D", st:"CA-42", role:"Expected chair, House Oversight", why:"Has listed ICE among his top oversight priorities."},
+ {id:"jayapal", ch:"H", first:"Pramila", last:"Jayapal", party:"D", st:"WA-7", role:"Expected chair, Judiciary immigration subcommittee", why:"The subcommittee that writes immigration enforcement rules."}
+];
+var TITLE = "Americans Want Results, Not a Bickering Congress 🙏";
+var sel = {};
+TARGETS.forEach(function(t){ sel[t.id] = true; });
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+
+var FIELDS = ["fName","fStreet","fCity","fState","fZip","fEmail"];
+try{
+  var saved = JSON.parse(localStorage.getItem("iceLetterKit") || "{}");
+  FIELDS.forEach(function(f){ if(saved[f]) $(f).value = saved[f]; });
+  if(saved.sel){ Object.keys(saved.sel).forEach(function(k){ if(k in sel) sel[k] = !!saved.sel[k]; }); }
+  if(saved.inc === false) $("incSources").checked = false;
+}catch(e){}
+function persist(){
+  try{
+    var o = {sel:sel, inc:$("incSources").checked};
+    FIELDS.forEach(function(f){ o[f] = $(f).value; });
+    localStorage.setItem("iceLetterKit", JSON.stringify(o));
+  }catch(e){}
+}
+function me(){
+  var v = function(id,ph){ var x = $(id).value.trim(); return x || ph; };
+  return {name:v("fName","[YOUR FULL NAME]"), street:v("fStreet","[STREET ADDRESS]"), city:v("fCity","[CITY]"), state:v("fState","[STATE]"), zip:v("fZip","[ZIP]"), email:$("fEmail").value.trim()};
+}
+function honor(t){ return "The Honorable " + t.first + " " + t.last; }
+function envelope(t){
+  return t.ch === "S" ? honor(t) + "\nUnited States Senate\nWashington, DC 20510"
+                      : honor(t) + "\nU.S. House of Representatives\nWashington, DC 20515";
+}
+function chosen(){ return TARGETS.filter(function(t){ return sel[t.id]; }); }
+
+function dateStr(){
+  return new Date().toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+}
+
+/* Letter body: one-page version for any member. Sources print on the back. */
+function letterHTML(t){
+  var m = me();
+  var sal = t.ch === "S" ? "Dear Senator " + t.last + "," : "Dear Representative " + t.last + ",";
+  var ret = esc(m.name) + "\n" + esc(m.street) + "\n" + esc(m.city) + ", " + esc(m.state) + " " + esc(m.zip) + (m.email ? "\n" + esc(m.email) : "");
+  return ""
+   + '<div class="hdr"><div class="blk">' + esc(envelope(t)) + '</div><div class="blk ret">' + ret + '\n\n' + esc(dateStr()) + '</div></div>'
+   + '<h4>Americans Want Results, Not a Bickering Congress 🙏</h4>'
+   + '<p>' + esc(sal) + '</p>'
+   + '<p>I’m writing from ' + esc(m.city) + ', ' + esc(m.state) + ' because the next Congress has a rare chance to pass something most Americans in both parties already agree on: basic accountability for Immigration and Customs Enforcement (ICE). This isn’t about defunding ICE or opening the border. It’s about holding federal agents to the same rules local police already follow.</p>'
+   + '<p><strong>Voters in both parties agree.</strong> 94% of voters, including 90% of Republicans, support body cameras for ICE agents. 69% support requiring a judge’s warrant before agents force their way into a home. In this month’s exit polls, 57% said immigration enforcement has gone too far.</p>'
+   + '<p><strong>Leaders in both parties have said it.</strong> President Trump once said ICE could use “a little bit of a softer touch.” Hold him to his words. Sen. Thom Tillis (R-N.C.) has said the deportation campaign has gone too far and risks catching innocent people, and Rep. María Elvira Salazar (R-Fla.) told the President that “some of your immigration enforcement efforts have gone too far.”</p>'
+   + '<p><strong>The problem is documented.</strong> A federal court found that ICE “materially violated” a court order and federal law by making warrantless arrests in Colorado. An internal ICE memo, confirmed by the Associated Press, authorizes agents to force entry into homes without a judge’s warrant. Immigration agents have shot at least 22 people since January 2025, eight fatally, and fired at 15 more without hitting anyone; in the prior year, ICE’s review board examined just three cases of officers using a firearm. 37 people died in ICE custody in fiscal 2026, a record. ProPublica has documented 500+ U.S. citizens held by immigration agents, 100+ after agents questioned their citizenship. And Congress has given ICE $110 billion+ extra through 2029 with few guardrails: after years near $10 billion a year, its funding is up 400%+ since its 2003 creation, adjusted for inflation.</p>'
+   + '<p><strong>What would make a difference, with votes from both parties:</strong></p>'
+   + '<ol><li>Body cameras, visible identification, judicial warrants for home entry, and documented flight-risk findings before warrantless arrests, attached to all ICE funding.</li>'
+   + '<li>A right to sue federal officers who violate constitutional rights, matching what already applies to local police.</li>'
+   + '<li>Bipartisan oversight hearings with ICE leadership under oath. With great power comes great responsibility, and greater oversight.</li></ol>'
+   + '<p>Then let’s get back to what families feel most: 89% of midterm voters called the cost of living a crucial or major factor, and the CBO projects 5.3 million more uninsured by 2034 as Medicaid work requirements start January 1.</p>'
+   + '<p>Voters are tired of a Congress that fights more than it fixes. PLEASE, the People have spoken in this midterm cycle: Use your checks &amp; balances, Congress! This is a place to start.</p>'
+   + '<div class="blk sig">Respectfully,\n\n\n' + esc(m.name) + '</div>'
+   + '<p class="foot">Sources on the back.</p>';
+}
+var SOURCES = [
+ ["94% back body cameras, incl. 90% of Republicans","Change Research","https://changeresearch.com/public-divides-over-ice-mirror-washington-standoff-as-dhs-shuts-down/"],
+ ["69% back judicial warrants to force entry into homes","Economist/YouGov","https://yougov.com/en-us/articles/54023-support-immigration-rising-majority-americans-say-alex-pretti-shooting-not-justified-january-30-february-2-2026-economist-yougov-poll"],
+ ["Exit polls: 57% “gone too far,” 89% cost of living crucial or major","Newsweek","https://newsweek.com/how-ice-quietly-escaped-the-midterms-heat-12662094"],
+ ["Trump: “a little bit of a softer touch”","The National News Desk","https://cbsaustin.com/news/nation-world/trump-says-ice-must-be-tough-but-also-signals-softer-touch-to-immigration-enforcement"],
+ ["Sen. Tillis: deportations have gone too far","Political.org","https://political.org/2026/10/12/as-mass-deportations-reshape-daily-life-immigration-splits-voters-ahead-of-2026-midterms-trump-has-gone-too-far/"],
+ ["Rep. Salazar: enforcement “gone too far”","NPR via WABE","https://www.wabe.org/?p=988125"],
+ ["Court: ICE “materially violated” order and federal law","AP via WTOP","https://wtop.com/national/2026/05/federal-judge-rules-ice-in-colorado-violated-order-limiting-warrantless-arrests/"],
+ ["ICE memo on forced home entry without a judge’s warrant","AP via Spectrum News","https://spectrumlocalnews.com/us/snplus/politics/2026/01/22/ice-administrative-warrant-forced-entry-memo"],
+ ["21 shot (8 fatally) and 15 more shootings with no one hit, through Sept. 2026","ABC News","https://abc7news.com/post/federal-immigration-agents-have-shot-least-21-people-during-trumps-2nd-term/19865250/"],
+ ["22nd: man shot by an ICE agent in the Bronx, Oct. 8, 2026","AP via Your Valley","https://www.yourvalley.net/stories/ice-officer-shoots-a-man-while-making-an-arrest-in-new-york-officials-say,727041"],
+ ["ICE review board: 3 officer firearm-use cases in the 12 months to Sept. 2024","ICE annual report via The Independent","https://www.aol.com/news/immigration-agents-shot-more-dozen-185315731.html"],
+ ["37 deaths in ICE custody in FY2026, deadliest on record","Bloomberg Government","https://news.bgov.com/immigration/immigrant-deaths-in-ice-custody-nearly-double-as-oversight-wanes"],
+ ["500+ U.S. citizens held; 100+ after agents questioned citizenship","ProPublica via Mediaite","https://mediaite.com/media/news/more-than-500-u-s-citizens-have-been-detained-by-ice-including-about-a-dozen-deported-report"],
+ ["$110B+ extra through 2029; funding up 400%+ since 2003 (inflation-adjusted)","American Immigration Council","https://www.americanimmigrationcouncil.org/wp-content/uploads/2013/09/Cost-of-Enforcement-Factsheet.pdf"],
+ ["Budget hovered around $10B a year; ICE created in 2003","NPR","https://www.npr.org/2026/01/21/nx-s1-5674887/ice-budget-funding-congress-trump"],
+ ["Medicaid work requirements; CBO 5.3M uninsured by 2034","KFF","https://www.kff.org/medicaid/a-closer-look-at-the-work-requirement-provisions-in-the-2025-federal-budget-reconciliation-law/"]
+];
+function sourcesHTML(){
+  var rows = SOURCES.map(function(s){ return "<tr><td>" + esc(s[0]) + "</td><td>" + esc(s[1]) + "<br><span class=\"url\">" + esc(s[2]) + "</span></td></tr>"; }).join("");
+  return '<h4>Sources</h4><table class="src"><tr><th>Claim</th><th>Source</th></tr>' + rows + '</table>';
+}
+function sheetsPer(){ return 1; }
+function stampsFor(){ return sheetsPer() <= 4 ? 1 : 2; }
+
+function renderGroups(){
+  var g = $("groups"); g.innerHTML = "";
+  [["S","R","Senate Republicans"],["S","D","Senate Democrats"],["H","R","House Republicans"],["H","D","House Democrats"]].forEach(function(grp){
+    var list = TARGETS.filter(function(t){ return t.ch === grp[0] && t.party === grp[1]; });
+    grp = [grp[0], grp[2]];
+    var box = document.createElement("div");
+    var head = document.createElement("div"); head.className = "grouphead";
+    head.innerHTML = "<h3>" + grp[1] + " (" + list.length + ")</h3>";
+    var b = document.createElement("div"); b.className = "btns";
+    var all = document.createElement("button"); all.type = "button"; all.textContent = "Select all";
+    var none = document.createElement("button"); none.type = "button"; none.textContent = "Clear";
+    all.onclick = function(){ list.forEach(function(t){ sel[t.id] = true; }); update(); };
+    none.onclick = function(){ list.forEach(function(t){ sel[t.id] = false; }); update(); };
+    b.appendChild(all); b.appendChild(none); head.appendChild(b); box.appendChild(head);
+    var l = document.createElement("div"); l.className = "list";
+    list.forEach(function(t){
+      var lab = document.createElement("label"); lab.className = "rec" + (sel[t.id] ? "" : " off"); lab.setAttribute("for","cb-" + t.id);
+      lab.innerHTML = '<input type="checkbox" id="cb-' + t.id + '"' + (sel[t.id] ? " checked" : "") + '>'
+        + '<span><span class="nm">' + esc((t.ch==="S"?"Sen. ":"Rep. ") + t.first + " " + t.last)
+        + ' <span class="chip ' + (t.party==="D"?"d":"r") + '">' + t.party + "-" + esc(t.st) + '</span>'
+        + (t.pending ? ' <span class="chip pend">' + esc(t.pending) + '</span>' : '')
+        + (t.yes ? ' <span class="chip yes">Voted yes on ICE $</span>' : '')
+        + '</span><span class="role">' + esc(t.role) + '</span><br><span class="why">' + esc(t.why) + '</span></span>';
+      lab.querySelector("input").addEventListener("change", function(e){ sel[t.id] = e.target.checked; update(); });
+      l.appendChild(lab);
+    });
+    box.appendChild(l); g.appendChild(box);
+  });
+}
+function contactURL(t){ return t.ch === "S" ? "https://www.senate.gov/senators/senators-contact.htm" : "https://www.house.gov/representatives"; }
+function enc(x){ return encodeURIComponent(x); }
+function renderAddr(){
+  var c = chosen(), body = $("addrBody");
+  body.innerHTML = c.length ? c.map(function(t,i){
+    var subj = emailSubject(t), txt = letterText(t, true);
+    return "<tr><td class=\"num\">" + (i+1) + "</td><td class=\"addr\">" + esc(envelope(t)) + "</td><td><div class=\"acts\">"
+      + "<button type=\"button\" data-copy=\"" + t.id + "\">Copy letter</button>"
+      + "<a href=\"https://mail.google.com/mail/?view=cm&fs=1&su=" + enc(subj) + "&body=" + enc(txt) + "\" target=\"_blank\" rel=\"noopener\">Gmail</a>"
+      + "<a href=\"https://outlook.live.com/mail/0/deeplink/compose?subject=" + enc(subj) + "&body=" + enc(txt) + "\" target=\"_blank\" rel=\"noopener\">Outlook</a>"
+      + "<a href=\"mailto:?subject=" + enc(subj) + "&body=" + enc(txt) + "\">Email app</a>"
+      + "<a href=\"" + contactURL(t) + "\" target=\"_blank\" rel=\"noopener\">Find contact form</a>"
+      + "</div></td></tr>";
+  }).join("") : '<tr><td colspan="3">No one selected yet. Pick at least one member in step 2.</td></tr>';
+}
+var MODE = "print";
+try{ if(localStorage.getItem("letterKitMode") === "read") MODE = "read"; }catch(e){}
+function setMode(m){
+  MODE = m;
+  try{ localStorage.setItem("letterKitMode", m); }catch(e){}
+  $("mPrint").setAttribute("aria-pressed", m === "print" ? "true" : "false");
+  $("mRead").setAttribute("aria-pressed", m === "read" ? "true" : "false");
+  $("ppStage").hidden = m !== "print"; $("sheet").hidden = m !== "read";
+  if(m === "print") fitPages();
+}
+var PAGE_W = 816, PAGE_H = 1056; /* 8.5 x 11 in at 96 px per inch */
+function fitPages(){
+  var st = $("ppStage"); if(st.hidden) return;
+  var avail = st.clientWidth - 20, sc = Math.min(1, avail / PAGE_W);
+  [].forEach.call(st.querySelectorAll(".pp"), function(pp){
+    var box = pp.querySelector(".ppbox"), pa = pp.querySelector(".paper");
+    box.style.width = Math.round(PAGE_W * sc) + "px"; box.style.height = Math.round(PAGE_H * sc) + "px";
+    pa.style.transform = "scale(" + sc + ")";
+    var over = pa.scrollHeight > pa.clientHeight + 1;
+    pa.classList.toggle("over", over);
+    pp.querySelector(".warn").textContent = over ? "Runs past one page" : "";
+  });
+}
+function renderPreview(){
+  var pv = $("pv"), cur = pv.value, c = chosen();
+  var pool = c.length ? c : TARGETS;
+  pv.innerHTML = pool.map(function(t){ return '<option value="' + t.id + '">' + esc((t.ch==="S"?"Sen. ":"Rep. ") + t.first + " " + t.last) + "</option>"; }).join("");
+  if(pool.some(function(t){ return t.id === cur; })) pv.value = cur;
+  var t = TARGETS.filter(function(x){ return x.id === pv.value; })[0] || pool[0];
+  var html = letterHTML(t), inc = $("incSources").checked;
+  $("sheet").innerHTML = html;
+  var front = inc ? html : html.replace('<p class="foot">Sources on the back.</p>','');
+  var pages = [["Front: letter", front]];
+  if(inc) pages.push(["Back: sources", sourcesHTML()]);
+  $("ppStage").innerHTML = pages.map(function(pg){
+    return '<div class="pp"><div class="lbl">' + pg[0] + ' <span class="warn"></span></div><div class="ppbox"><div class="paper">' + pg[1] + '</div></div></div>';
+  }).join("");
+  fitPages();
+}
+function renderTiles(){
+  var n = chosen().length;
+  $("tLetters").textContent = n;
+  $("copyAddr").disabled = !n; $("bPrint").disabled = !n; $("bPdf").disabled = !n; $("bDoc").disabled = !n;
+}
+function update(){ persist(); renderGroups(); renderAddr(); renderPreview(); renderTiles(); }
+
+function printPayload(){
+  var c = chosen(), inc = $("incSources").checked;
+  var css = "@page{size:letter;margin:0.5in 0.75in}body{font-family:Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.4;color:#111;margin:0}"
+   + ".letter{page-break-after:always}.letter:last-child{page-break-after:auto}h4{font-size:13.5pt;margin:4pt 0 8pt}p{margin:0 0 6.5pt}ol{margin:0 0 6.5pt;padding-left:18pt}li{margin-bottom:2pt}"
+   + ".hdr{display:flex;justify-content:space-between;gap:24pt;margin-bottom:8pt}.blk{white-space:pre-line}.ret{text-align:right}.sig{margin-top:8pt}.foot{font-size:8.5pt;color:#555;margin-top:6pt}"
+   + "table{border-collapse:collapse;width:100%;font-size:9pt}th,td{border:1px solid #999;padding:3pt 5pt;text-align:left;vertical-align:top}"
+   + ".url{font-size:7.5pt;color:#444;word-break:break-all}.env{display:grid;grid-template-columns:1fr 1fr;gap:18pt}.env div{white-space:pre-line;border:1px dashed #999;padding:10pt;font-size:12pt;break-inside:avoid;page-break-inside:avoid}"
+   + ".tip{font-family:Arial,sans-serif;font-size:10pt;color:#333}@media screen{body{background:#eee}.letter{background:#fff;max-width:7.5in;margin:20px auto;padding:0.6in;box-shadow:0 1px 4px rgba(0,0,0,.2)}}";
+  function tpl(ch){
+    var body = letterHTML({id:"x", ch:ch, first:"%%FIRST%%", last:"%%LAST%%", party:"", st:""});
+    return inc ? body : body.replace('<p class="foot">Sources on the back.</p>','');
+  }
+  var m = me();
+  return {v:2, title:"ICE accountability letters", file:"ice-accountability-letters", who:(m.name.charAt(0) === "[" ? "" : m.name), css:css,
+    tpl:{S:tpl("S"), H:tpl("H")}, src:(inc ? sourcesHTML() : ""),
+    people:c.map(function(t){ return {ch:t.ch, f:t.first, l:t.last, e:envelope(t)}; })};
+}
+function textLines(html, forEmail){
+  var d = document.createElement("div"); d.innerHTML = html; var out = [];
+  [].forEach.call(d.children, function(n){
+    if(n.classList.contains("hdr")){ if(!forEmail){ var b = n.querySelectorAll(".blk"); out.push(b[0].textContent); out.push(b[1].textContent); } }
+    else if(n.tagName === "OL"){ out.push([].map.call(n.children, function(li,i){ return (i+1) + ". " + li.textContent; }).join("\n")); }
+    else if(n.classList.contains("foot")){ }
+    else if(n.classList.contains("sig")){ out.push(n.textContent.replace(/\n\n\n/,"\n")); }
+    else out.push(n.textContent);
+  });
+  return out.join("\n\n");
+}
+function sourcesText(){ return "Sources:\n" + SOURCES.map(function(x){ return "- " + x[0] + " (" + x[1] + "): " + x[2]; }).join("\n"); }
+function letterText(t, forEmail){
+  var m = me(), body = textLines(letterHTML(t), forEmail);
+  if(forEmail){ body += "\n" + m.city + ", " + m.state + " " + m.zip + (m.email ? "\n" + m.email : ""); }
+  return body + ($("incSources").checked ? "\n\n" + sourcesText() : "");
+}
+function emailSubject(t){ return (t.ch === "S" ? "To Sen. " : "To Rep. ") + t.first + " " + t.last + ": " + TITLE; }
+function showManual(txt, label){
+  $("manualTxt").value = txt; $("manual").hidden = false; $("manualTxt").focus(); $("manualTxt").select();
+  say("Copying was blocked here. Select the text in the box below and copy it" + (label ? " (" + label + ")." : "."));
+}
+function copyPlain(txt, okMsg){
+  $("manual").hidden = true;
+  try{
+    navigator.clipboard.writeText(txt).then(function(){ say(okMsg); }, function(){ showManual(txt); });
+  }catch(e){ showManual(txt); }
+}
+function say(msg){ $("status").textContent = msg; }
+
+$("copyAddr").addEventListener("click", function(){ copyPlain(chosen().map(envelope).join("\n\n"), "Copied " + chosen().length + " envelope addresses."); });
+$("addrBody").addEventListener("click", function(e){
+  var b = e.target.closest ? e.target.closest("button[data-copy]") : null; if(!b) return;
+  var t = TARGETS.filter(function(x){ return x.id === b.getAttribute("data-copy"); })[0];
+  copyPlain(letterText(t, true), "Copied the letter to " + (t.ch==="S"?"Sen. ":"Rep. ") + t.last + ". Paste it into their contact form or an email.");
+});
+/* ---- Print, PDF and Word, built from the same template as the preview ---- */
+function assemble(d){
+  var parts = d.people.map(function(p){
+    var t = (d.tpl[p.ch] || "").split("%%FIRST%%").join(esc(p.f)).split("%%LAST%%").join(esc(p.l));
+    return '<section class="letter" data-kind="letter">' + t + '</section>' + (d.src ? '<section class="letter" data-kind="sources">' + d.src + '</section>' : "");
+  });
+  var env = '<section class="letter" data-kind="env"><h4>Envelope addresses (' + d.people.length + ')</h4><p class="tip">Use 1 Forever stamp per envelope. Put your return address in the top-left corner.</p><div class="env">'
+    + d.people.map(function(p){ return "<div>" + esc(p.e) + "</div>"; }).join("") + "</div></section>";
+  return parts.join("") + env;
+}
+function needPick(){ if(chosen().length) return false; say("Pick at least one member in step 2 first."); return true; }
+$("bPrint").addEventListener("click", function(){
+  if(needPick()) return;
+  var d = printPayload();
+  $("printCss").textContent = d.css + "body>.wrap{display:none!important}#printDoc{display:block!important}#printDoc th{text-transform:none;letter-spacing:0;color:#111;font-size:9pt}";
+  $("printDoc").innerHTML = assemble(d);
+  say("Opening the print dialog. Print double-sided (flip on long edge).");
+  window.print();
+});
+function saveBlob(blob, name){
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+}
+$("bDoc").addEventListener("click", function(){
+  if(needPick()) return;
+  var data = printPayload(), d = document.createElement("div");
+  d.innerHTML = assemble(data);
+  [].forEach.call(d.querySelectorAll(".hdr"), function(h){
+    var b = h.querySelectorAll(".blk"), t = document.createElement("table");
+    t.setAttribute("style","width:100%;border-collapse:collapse;border:none");
+    t.innerHTML = '<tr><td style="vertical-align:top;border:none;padding:0">' + b[0].innerHTML.replace(/\n/g,"<br>") + '</td><td style="vertical-align:top;text-align:right;border:none;padding:0">' + b[1].innerHTML.replace(/\n/g,"<br>") + '</td></tr>';
+    h.parentNode.replaceChild(t, h);
+  });
+  [].forEach.call(d.querySelectorAll(".blk"), function(b){ b.innerHTML = b.innerHTML.replace(/\n/g,"<br>"); });
+  [].forEach.call(d.querySelectorAll("table.src"), function(t){
+    t.setAttribute("width","100%"); t.setAttribute("style","table-layout:fixed;width:100%");
+    [].forEach.call(t.querySelectorAll("tr"), function(r){ var c = r.children; if(c[0]){ c[0].setAttribute("width","40%"); } if(c[1]){ c[1].setAttribute("width","60%"); } });
+  });
+  [].forEach.call(d.querySelectorAll(".url"), function(u){ u.innerHTML = u.textContent.replace(/([\/.?&=_-])/g, "$1​"); });
+  [].forEach.call(d.querySelectorAll(".env"), function(e){
+    e.outerHTML = [].map.call(e.children, function(c){ return '<p style="border:1px dashed #999;padding:10pt;margin:0 0 10pt">' + c.innerHTML.replace(/\n/g,"<br>") + "</p>"; }).join("");
+  });
+  var html = [].map.call(d.querySelectorAll(".letter"), function(sec, i){
+    return (i ? '<br clear="all" style="page-break-before:always">' : "") + "<div>" + sec.innerHTML + "</div>";
+  }).join("");
+  var css = "@page WordSection1{size:8.5in 11.0in;margin:0.5in 0.75in 0.5in 0.75in}div.WordSection1{page:WordSection1}"
+    + "body{font-family:Georgia,'Times New Roman',serif;font-size:10pt;line-height:1.2;color:#111}"
+    + "h4{font-size:12.5pt;margin:2pt 0 6pt}p{margin:0 0 5pt}ol{margin:0 0 5pt}li{margin:0 0 1pt}"
+    + "table.src{border-collapse:collapse;width:100%;font-size:7.5pt}table.src th,table.src td{border:1px solid #999;padding:1pt 3pt;text-align:left;vertical-align:top}"
+    + ".url{font-size:6pt;color:#444}.foot{font-size:8pt;color:#555}.tip{font-family:Arial,sans-serif;font-size:10pt;color:#333}";
+  var doc = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>' + esc(data.title) + '</title><style>' + css + '</style></head><body><div class="WordSection1">' + html + "</div></body></html>";
+  saveBlob(new Blob(["﻿", doc], {type:"application/msword"}), data.file + ".doc");
+  say("Word file downloaded. Open it in Word or upload it to Google Docs, then print.");
+});
+var pdfLib = null;
+function loadPdfLib(){
+  if(pdfLib) return pdfLib;
+  pdfLib = new Promise(function(res, rej){
+    var sc = document.createElement("script");
+    sc.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+    sc.onload = function(){ res(window.html2pdf); }; sc.onerror = function(){ pdfLib = null; rej(); };
+    document.head.appendChild(sc);
+  });
+  return pdfLib;
+}
+$("bPdf").addEventListener("click", function(){
+  if(needPick()) return;
+  var btn = $("bPdf"), data = printPayload();
+  btn.disabled = true; say("Building your PDF. This can take a few seconds…");
+  loadPdfLib().then(function(h2p){
+    var tmp = document.createElement("div"); tmp.innerHTML = assemble(data);
+    /* One page at a time, each laid out exactly like the print preview. */
+    var pages = [].map.call(tmp.querySelectorAll(".letter"), function(sec){
+      var pg = document.createElement("div");
+      pg.className = "paper";
+      pg.setAttribute("style","position:static;transform:none;" + (sec.getAttribute("data-kind") === "env" ? "height:auto" : "height:10.9in"));
+      pg.innerHTML = sec.innerHTML;
+      return pg;
+    });
+    var opt = { margin:0, filename:data.file + ".pdf", image:{type:"jpeg", quality:0.92},
+      html2canvas:{scale:2, backgroundColor:"#ffffff", scrollX:0, scrollY:0}, jsPDF:{unit:"in", format:"letter", orientation:"portrait"},
+      pagebreak:{mode:["avoid-all"]} };
+    var w = h2p().set(opt).from(pages[0]).toPdf();
+    pages.slice(1).forEach(function(pg, i){
+      w = w.get("pdf").then(function(pdf){ pdf.addPage(); say("Building your PDF… page " + (i + 2) + " of " + pages.length); })
+           .from(pg).toContainer().toCanvas().toPdf();
+    });
+    return w.save();
+  }).then(function(){ say("PDF downloaded. Open it and print double-sided."); })
+    .catch(function(){ say("The PDF didn't build here. Use Print my letters (choose Save as PDF) or Download Word file instead."); })
+    .then(function(){ btn.disabled = false; });
+});
+
+FIELDS.forEach(function(f){ $(f).addEventListener("input", function(){ persist(); renderPreview(); renderAddr(); }); });
+$("incSources").addEventListener("change", update);
+$("pv").addEventListener("change", renderPreview);
+$("mPrint").addEventListener("click", function(){ setMode("print"); });
+$("mRead").addEventListener("click", function(){ setMode("read"); });
+window.addEventListener("resize", fitPages);
+try{ new ResizeObserver(fitPages).observe($("ppStage")); }catch(e){}
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(fitPages); }
+update();
+setMode(MODE);
+
+})();
+</script>
+</body>
+</html>
