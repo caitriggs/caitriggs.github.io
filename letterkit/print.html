@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Your letters to Congress, ready to print</title>
+<style id="bar-css">
+.bar{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#16233a;color:#fff;padding:18px 20px;line-height:1.45}
+.bar .in{max-width:900px;margin:0 auto;display:grid;gap:10px}
+.bar h1{font-size:22px;margin:0;font-weight:800}
+.bar p{margin:0;font-size:15px;color:#d8e0ec}
+.bar .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.bar button{font:inherit;font-size:16px;font-weight:700;padding:11px 16px;border-radius:8px;border:2px solid #fff;background:#fff;color:#16233a;cursor:pointer}
+.bar button.alt{background:transparent;color:#fff}
+.bar button:disabled{opacity:.6;cursor:wait}
+.bar button:focus-visible{outline:3px solid #6ea8ef;outline-offset:2px}
+.bar .status{min-height:1.4em;font-weight:600;color:#fff}
+.bar ul{margin:0;padding-left:20px;font-size:14px;color:#d8e0ec}
+.err{font-family:Arial,sans-serif;max-width:640px;margin:40px auto;padding:0 20px;font-size:17px;line-height:1.5}
+.pdfmode .letter{box-shadow:none!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important}
+@media print{.bar{display:none!important}}
+</style>
+<style id="letters-css"></style>
+</head>
+<body>
+<div class="bar" id="bar" hidden>
+  <div class="in">
+    <h1>Your letters are ready</h1>
+    <p id="count"></p>
+    <div class="btns">
+      <button type="button" id="bPrint">Print (or save as PDF)</button>
+      <button type="button" class="alt" id="bPdf">Download PDF</button>
+      <button type="button" class="alt" id="bDoc">Download Word file</button>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+    <ul>
+      <li>Print double-sided (flip on long edge) so each letter's sources land on the back.</li>
+      <li>Sign each letter. Use 1 Forever stamp per envelope; the envelope addresses are on the last page.</li>
+      <li>Your name and address live only in this page's link and your browser. They aren't sent to any server.</li>
+    </ul>
+  </div>
+</div>
+<div id="doc"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+<script>
+(function(){
+"use strict";
+var data = null;
+function $(id){ return document.getElementById(id); }
+function say(m){ $("status").textContent = m; }
+function fail(){
+  $("doc").innerHTML = '<div class="err"><h1>This link is missing your letters</h1><p>Go back to the letter kit, fill in your details, and tap <strong>Get my letters</strong> again.</p></div>';
+}
+try{
+  var h = location.hash.slice(1);
+  if(h && window.LZString){ data = JSON.parse(LZString.decompressFromEncodedURIComponent(h)); }
+}catch(e){ data = null; }
+function esc(x){ return String(x).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function assemble(d){
+  if(d.body) return d.body;
+  if(!d.tpl || !d.people || !d.people.length) return "";
+  var parts = d.people.map(function(p){
+    var t = (d.tpl[p.ch] || "").split("%%FIRST%%").join(esc(p.f)).split("%%LAST%%").join(esc(p.l));
+    return '<section class="letter" data-kind="letter">' + t + '</section>' + (d.src ? '<section class="letter" data-kind="sources">' + d.src + '</section>' : "");
+  });
+  var env = '<section class="letter" data-kind="env"><h4>Envelope addresses (' + d.people.length + ')</h4><p class="tip">Use 1 Forever stamp per envelope. Put your return address in the top-left corner.</p><div class="env">'
+    + d.people.map(function(p){ return "<div>" + esc(p.e) + "</div>"; }).join("") + "</div></section>";
+  return parts.join("") + env;
+}
+var body = data ? assemble(data) : "";
+if(!body){ fail(); return; }
+
+document.title = data.title || document.title;
+$("letters-css").textContent = data.css || "";
+$("doc").innerHTML = body;
+var n = document.querySelectorAll("#doc .letter[data-kind=letter]").length;
+$("count").textContent = n + " letter" + (n === 1 ? "" : "s") + " for " + (data.who || "you") + ". Choose how you want them:";
+$("bar").hidden = false;
+
+$("bPrint").addEventListener("click", function(){ window.print(); });
+
+function saveBlob(blob, name){
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+}
+
+/* Word: Word and Google Docs both open an HTML file saved as .doc. Flex layouts become tables. */
+$("bDoc").addEventListener("click", function(){
+  var d = $("doc").cloneNode(true);
+  [].forEach.call(d.querySelectorAll(".hdr"), function(h){
+    var b = h.querySelectorAll(".blk");
+    var t = document.createElement("table");
+    t.setAttribute("style","width:100%;border-collapse:collapse;border:none");
+    t.innerHTML = '<tr><td style="vertical-align:top;border:none;padding:0">' + b[0].innerHTML.replace(/\n/g,"<br>") + '</td><td style="vertical-align:top;text-align:right;border:none;padding:0">' + b[1].innerHTML.replace(/\n/g,"<br>") + '</td></tr>';
+    h.parentNode.replaceChild(t, h);
+  });
+  [].forEach.call(d.querySelectorAll(".blk"), function(b){ b.innerHTML = b.innerHTML.replace(/\n/g,"<br>"); });
+  [].forEach.call(d.querySelectorAll("table.src"), function(t){
+    t.setAttribute("width","100%"); t.setAttribute("style","table-layout:fixed;width:100%");
+    var hs = t.querySelectorAll("tr:first-child th");
+    if(hs[0]){ hs[0].setAttribute("width","40%"); } if(hs[1]){ hs[1].setAttribute("width","60%"); }
+    [].forEach.call(t.querySelectorAll("tr"), function(r){ var c = r.children; if(c[0]){ c[0].setAttribute("width","40%"); } if(c[1]){ c[1].setAttribute("width","60%"); } });
+  });
+  /* Let long links wrap in Word and Google Docs. */
+  [].forEach.call(d.querySelectorAll(".url"), function(u){ u.innerHTML = u.textContent.replace(/([\/.?&=_-])/g, "$1​"); });
+  var envs = d.querySelectorAll(".env");
+  [].forEach.call(envs, function(e){
+    e.outerHTML = [].map.call(e.children, function(c){ return '<p style="border:1px dashed #999;padding:10pt;margin:0 0 10pt">' + c.innerHTML.replace(/\n/g,"<br>") + "</p>"; }).join("");
+  });
+  var secs = d.querySelectorAll(".letter");
+  var html = [].map.call(secs, function(s, i){
+    return (i ? '<br clear="all" style="page-break-before:always">' : "") + "<div>" + s.innerHTML + "</div>";
+  }).join("");
+  var css = "@page WordSection1{size:8.5in 11.0in;margin:0.5in 0.75in 0.5in 0.75in}div.WordSection1{page:WordSection1}"
+    + "body{font-family:Georgia,'Times New Roman',serif;font-size:10pt;line-height:1.2;color:#111}"
+    + "h4{font-size:12.5pt;margin:2pt 0 6pt}p{margin:0 0 5pt}ol{margin:0 0 5pt}li{margin:0 0 1pt}"
+    + "table.src{border-collapse:collapse;width:100%;font-size:7.5pt}table.src th,table.src td{border:1px solid #999;padding:1pt 3pt;text-align:left;vertical-align:top}"
+    + ".url{font-size:6pt;color:#444}.foot{font-size:8pt;color:#555}.tip{font-family:Arial,sans-serif;font-size:10pt;color:#333}";
+  var doc = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>' + (data.title || "Letters") + '</title><style>' + css + '</style></head><body><div class="WordSection1">' + html + "</div></body></html>";
+  saveBlob(new Blob(["﻿", doc], {type:"application/msword"}), (data.file || "letters") + ".doc");
+  say("Word file downloaded. Open it in Word or upload it to Google Docs, then print.");
+});
+
+/* PDF: built in the browser with html2pdf, loaded only when asked for. */
+var pdfLib = null;
+function loadPdfLib(){
+  if(pdfLib) return pdfLib;
+  pdfLib = new Promise(function(res, rej){
+    var s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js";
+    s.onload = function(){ res(window.html2pdf); }; s.onerror = function(){ pdfLib = null; rej(); };
+    document.head.appendChild(s);
+  });
+  return pdfLib;
+}
+$("bPdf").addEventListener("click", function(){
+  var btn = $("bPdf"); btn.disabled = true; say("Building your PDF. This can take a few seconds…");
+  loadPdfLib().then(function(h2p){
+    /* One section at a time: a single canvas for dozens of pages exceeds browser limits and comes out blank. */
+    var secs = [].map.call(document.querySelectorAll("#doc .letter"), function(s){
+      var c = s.cloneNode(true);
+      c.setAttribute("style","box-shadow:none;margin:0;padding:0;max-width:none;width:7in;background:#fff");
+      return c;
+    });
+    var opt = {
+      margin:[0.4,0.75,0.35,0.75],
+      filename:(data.file || "letters") + ".pdf",
+      image:{type:"jpeg", quality:0.92},
+      html2canvas:{scale:2, backgroundColor:"#ffffff"},
+      jsPDF:{unit:"in", format:"letter", orientation:"portrait"},
+      pagebreak:{mode:["avoid-all"]}
+    };
+    var w = h2p().set(opt).from(secs[0]).toPdf();
+    secs.slice(1).forEach(function(sec, i){
+      w = w.get("pdf").then(function(pdf){ pdf.addPage(); say("Building your PDF… page " + (i + 2) + " of " + secs.length); })
+           .from(sec).toContainer().toCanvas().toPdf();
+    });
+    return w.save();
+  }).then(function(){ say("PDF downloaded. Open it and print double-sided."); })
+    .catch(function(){ say("The PDF didn't build here. Use Print (choose Save as PDF) or Download Word file instead."); })
+    .then(function(){ btn.disabled = false; });
+});
+})();
+</script>
+</body>
+</html>
