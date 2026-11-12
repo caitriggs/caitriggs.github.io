@@ -118,23 +118,23 @@ textarea{font:inherit;font-size:.85rem;width:100%;padding:8px;border:1px solid v
 .pp .lbl{font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:flex;gap:8px;align-items:center}
 .pp .lbl .warn{color:#b23a3a;text-transform:none;letter-spacing:0}
 .ppbox{position:relative;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.25);background:#fff}
-.paper{position:absolute;top:0;left:0;width:8.5in;height:11in;transform-origin:0 0;background:#fff;color:#111;box-sizing:border-box;padding:0.45in 0.6in;overflow:hidden;font-family:"Source Serif 4",Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.3;text-align:left}
+.paper{position:absolute;top:0;left:0;width:8.5in;height:11in;transform-origin:0 0;background:#fff;color:#111;box-sizing:border-box;padding:0.45in 0.6in;overflow:hidden;font-family:"Source Serif 4",Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.25;text-align:left}
 .paper.over{box-shadow:inset 0 -6px 0 #b23a3a}
 .paper h4{font-size:12.5pt;margin:4pt 0 8pt;font-weight:700;font-family:inherit}
-.paper p{margin:0 0 5pt}
-.paper ol{margin:0 0 5pt;padding-left:18pt}
+.paper p{margin:0 0 4pt}
+.paper ol{margin:0 0 4pt;padding-left:18pt}
 .paper li{margin-bottom:2pt}
 .paper .hdr{display:flex;justify-content:space-between;gap:24pt;margin-bottom:8pt}
 .paper .blk{white-space:pre-line}
 .paper .ret{text-align:right}
 .paper .sig{margin-top:8pt}
 .paper .foot{font-size:8.5pt;color:#555;margin-top:6pt}
-.paper table{border-collapse:collapse;width:100%;font-size:9pt}
-.paper th,.paper td{border:1px solid #999;padding:3pt 5pt;text-align:left;vertical-align:top}
-.paper .url{font-size:7.5pt;color:#444;word-break:break-all}
+.paper table{border-collapse:collapse;width:100%;font-size:8.5pt;line-height:1.2}
+.paper th,.paper td{border:1px solid #999;padding:2pt 4pt;text-align:left;vertical-align:top}
+.paper .url{font-size:7pt;color:#444;word-break:break-all}
 .paper > :last-child{margin-bottom:0}
 .paper .env{display:grid;grid-template-columns:1fr 1fr;gap:18pt}.paper .env div{white-space:pre-line;border:1px dashed #999;padding:10pt;font-size:12pt;break-inside:avoid}.paper .tip{font-family:Arial,sans-serif;font-size:10pt;color:#333}
-.paper th{font-size:9pt;text-transform:none;letter-spacing:0;color:#111;font-weight:700}
+.paper th{font-size:8.5pt;text-transform:none;letter-spacing:0;color:#111;font-weight:700}
 .pick{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 select{font:inherit;padding:7px 9px;border-radius:7px;border:1px solid var(--rule);background:var(--paper);color:var(--ink)}
 .sources{font-size:.85rem;color:var(--muted)}
@@ -451,11 +451,11 @@ function update(){ persist(); renderGroups(); renderAddr(); renderPreview(); ren
 
 function printPayload(){
   var c = chosen(), inc = $("incSources").checked;
-  var css = "@page{size:letter;margin:0.45in 0.6in}body{font-family:\"Source Serif 4\",Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.3;color:#111;margin:0}"
-   + ".letter{page-break-after:always}.letter:last-child{page-break-after:auto}h4{font-size:12.5pt;margin:4pt 0 8pt}p{margin:0 0 5pt}ol{margin:0 0 5pt;padding-left:18pt}li{margin-bottom:2pt}"
+  var css = "@page{size:letter;margin:0.45in 0.6in}body{font-family:\"Source Serif 4\",Georgia,'Times New Roman',serif;font-size:11pt;line-height:1.25;color:#111;margin:0}"
+   + ".letter{page-break-after:always}.letter:last-child{page-break-after:auto}h4{font-size:12.5pt;margin:4pt 0 8pt}p{margin:0 0 4pt}ol{margin:0 0 4pt;padding-left:18pt}li{margin-bottom:2pt}"
    + ".hdr{display:flex;justify-content:space-between;gap:24pt;margin-bottom:8pt}.blk{white-space:pre-line}.ret{text-align:right}.sig{margin-top:8pt}.foot{font-size:8.5pt;color:#555;margin-top:6pt}"
-   + "table{border-collapse:collapse;width:100%;font-size:9pt}th,td{border:1px solid #999;padding:3pt 5pt;text-align:left;vertical-align:top}"
-   + ".url{font-size:7.5pt;color:#444;word-break:break-all}.env{display:grid;grid-template-columns:1fr 1fr;gap:18pt}.env div{white-space:pre-line;border:1px dashed #999;padding:10pt;font-size:12pt;break-inside:avoid;page-break-inside:avoid}"
+   + "table{border-collapse:collapse;width:100%;font-size:8.5pt;line-height:1.2}th,td{border:1px solid #999;padding:2pt 4pt;text-align:left;vertical-align:top}"
+   + ".url{font-size:7pt;color:#444;word-break:break-all}.env{display:grid;grid-template-columns:1fr 1fr;gap:18pt}.env div{white-space:pre-line;border:1px dashed #999;padding:10pt;font-size:12pt;break-inside:avoid;page-break-inside:avoid}"
    + ".tip{font-family:Arial,sans-serif;font-size:10pt;color:#333}@media screen{body{background:#eee}.letter{background:#fff;max-width:7.5in;margin:20px auto;padding:0.6in;box-shadow:0 1px 4px rgba(0,0,0,.2)}}";
   function tpl(ch){
     var body = letterHTML({id:"x", ch:ch, first:"%%FIRST%%", last:"%%LAST%%", party:"", st:""});
